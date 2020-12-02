@@ -106,6 +106,7 @@ public class ForumController {
 		return "test";
 	}
 	
+	/* 로그아웃 */
 	@GetMapping("/signout")
 	public String ForumSignoutPost(Model model, HttpSession session) {
 		session.removeAttribute("ForumUserSession");
@@ -114,9 +115,9 @@ public class ForumController {
 	}
 	
 	/* 마이 페이지 */
-	@GetMapping("/mypage")
+	@GetMapping("/mypage/profile")
 	public String ForumMypagePage(Model model, HttpSession session) {
-		return "test";
+		return "/mypage/profile";
 	}
 	
 	/* 나의 포럼 */
@@ -128,8 +129,16 @@ public class ForumController {
 	/* 정보수정 페이지 비밀번호 */
 	@GetMapping("/mypage/editinfo_password")
 	public String ForumEditinfoPasswordPage() {
-		
-		return "test";
+		return "/mypage/password";
+	}
+	@PostMapping("/mypage/editinfo_password")
+	public String ForumEditinfoPasswordPost(@RequestParam(value="password") String password, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		if(forumService.validateUserPassword(user, password)) {
+			return "redirect:/mypage/editinfo";
+		} else {
+			return 
+		}
 	}
 	
 	/* 정보수정 페이지 */

@@ -19,7 +19,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		ForumUserDTO user = (ForumUserDTO) httpSession.getAttribute("ForumUser");
 		
 		if(user == null) {
-			// 로그인 페이지~
+			// TODO 로그인 페이지
+			//response.sendRedirect("/forum/signin");
 			//throw new Exception("로그인 필요!");
 		}
 		

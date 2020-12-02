@@ -14,6 +14,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new LoginInterceptor())
 			.addPathPatterns("/**")
 			.excludePathPatterns("/vendors/**","/src/**","/dist/**") // static 폴더
-			.excludePathPatterns("/forum/signup","/forum/signin"); // rest api
+			.excludePathPatterns("/forum","/forum/board","/forum/signup","/forum/signin"); // rest api
 	}
 }

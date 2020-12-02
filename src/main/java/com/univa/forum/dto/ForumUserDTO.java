@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ForumUserDTO {
+	private int idx;
 	private String username;
 	private String password;
 	private String nickname;
@@ -75,5 +76,11 @@ public class ForumUserDTO {
 	}
 	public void setDate(LocalDateTime date) {
 		this.date = date;
+	}
+	public int getIdx() {
+		return idx;
+	}
+	public void setIdx(int idx) {
+		this.idx = idx;
 	}
 }

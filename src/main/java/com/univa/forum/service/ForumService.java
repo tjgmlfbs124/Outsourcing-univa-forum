@@ -66,7 +66,9 @@ public class ForumService {
 		if(foundUser.isPresent()) {
 			ForumUser user = foundUser.get();
 			ForumUserDTO returnUserDto = new ForumUserDTO();
+			returnUserDto.setIdx(user.getIdx());
 			returnUserDto.setUsername(user.getUsername());
+			//returnUserDto.setPassword(user.getPassword());
 			returnUserDto.setNickname(user.getNickname());
 			returnUserDto.setEmail(user.getEmail());
 			returnUserDto.setImage_url(user.getImage_url());
@@ -77,6 +79,20 @@ public class ForumService {
 			return Optional.ofNullable(returnUserDto);
 		} else {
 			return Optional.empty();
+		}
+	}
+	
+	public Boolean validateUserPassword(ForumUserDTO userDto, String password) {
+		int userIdx = userDto.getIdx();
+		Optional<ForumUser> forumUser = forumRepository.findByIdx(userIdx); 
+		if(forumUser.isPresent()) {
+			if(forumUser.get().getPassword().equals(password)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
 		}
 	}
 	
