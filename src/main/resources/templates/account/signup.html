@@ -123,15 +123,22 @@
 
       	function submit(){
       	    var formData = new FormData();
+      	    var object ={
+      	    		"username" : null,
+      	    		"password" : null,
+      	    		"nickname" : null,
+      	    		"email" : null,
+      	    		"nation" : null,
+      	    		"file" : null
+      	    };
       	    var image_url = document.getElementById('profile-upload').files[0];
-            console.log("image : " , image_url);
-      	    formData.append("file", image_url);
       	    formData.append("username", $("input[name=username]").val());
       	    formData.append("password", $("input[name=password]").val());
       	    formData.append("nickname", $("input[name=nickname]").val());
       	    formData.append("email", $("input[name=email]").val());
       	    formData.append("nation", $("input[name=nation]").val());
-      		postAPI("/forum/signup",JSON.stringify(formData), function(result){
+        	formData.append("file", image_url);
+      		postAPI("/forum/signup",formData, function(result){
       			console.log("result : " ,result);
       		})
       	}
