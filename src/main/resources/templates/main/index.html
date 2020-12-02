@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+   <head th:replace="widget/head :: head"></head>
+   <body data-spy="scroll" data-target=".navbar" data-offset="60">
+      <!-- Preloader -->
+      <div class="preloader-it">
+         <div class="loader-pendulums"></div>
+      </div>
+      <!-- /Preloader -->
+      <!-- HK Wrapper -->
+      <div class="hk-wrapper hk-alt-nav hk-landing"> 
+         <!-- Header -->
+      	<div th:replace="widget/menu :: menu"></div>
+         
+         <!-- Main Content -->
+         <div class="hk-pg-wrapper pt-0 px-0">
+            <!-- Row -->
+            <div class="row">
+               <div class="col-xl-12">
+                  <!-- Preview Sec -->
+                  <section id="preview_sec" class="bg-white hk-landing-sec pb-30">
+                     <div class="row" style="margin-right:auto; margin-left:auto; width:50%; margin-top:60px;">
+                         <div class="col-sm">
+                             <div class="form-group">
+                                 <div class="input-group">
+                                     <div class="input-group-prepend">
+                                         <button class="btn btn-outline-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">포럼</button>
+                                         <div class="dropdown-menu">
+                                             <a class="dropdown-item">전체</a>
+                                             <a class="dropdown-item">과목명</a>
+                                             <a class="dropdown-item">질문 내용</a>
+                                         </div>
+                                     </div>
+                                     <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                            		 <button type="button" class="btn btn-outline-primary" style="margin-left:20px; margin-right:20px;">검색</button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                  </section>
+                  
+                  <div class="hk-row">
+	                  <!-- /Preview Sec -->
+	                  <section id="apps_sec" class="hk-landing-sec bg-white col-lg-12" style="padding-bottom:0px;">
+	                     <div class="container" style="max-width:1400px;">
+	                        <h2 class="text-center" style="margin-bottom:100px;">Apps are designed considering 
+	                        	<span class="text-warning">UX</span> in mind.
+	                        </h2>
+                              <div class="accordion accordion-type-2 accordion-flush" id="accordion_2">
+                                  <div class="card">
+                                      <div class="card-header d-flex justify-content-between">
+                                          <a role="button" data-toggle="collapse" href="#collapse_1i" aria-expanded="false" class="collapsed">
+                                          	태그 검색
+		                                        
+                                          </a>
+                                      </div>
+                                      <div id="collapse_1i" class="collapse" data-parent="#accordion_2" role="tabpanel">
+                                          <div class="card-body pa-15">
+                                    		<i class="glyphicon glyphicon-search" style="margin-left:5px; margin-right:5px;"></i>
+                                   			검색결과 내 검색
+	                                        <input class="form-control" placeholder="닉네임" type="text" name="nickname" style="max-width:300px;">
+                                          </div>
+                                      </div>
+                                      <div id="collapse_1i" class="collapse" data-parent="#accordion_2" role="tabpanel" >
+                                          <div class="card-body pa-15">
+                                    		<i class="glyphicon glyphicon-search" style="margin-left:5px; margin-right:5px;"></i>
+                                   			태그 검색
+	                                        <input class="form-control" placeholder="닉네임" type="text" name="123" style="max-width:300px;">
+                                        </div>
+                                      </div>
+                                  </div>
+                                  
+                              </div>
+	                        <div class="card">
+								<div class="card-body pa-0">
+									<div class="table-wrap">
+										<div class="table-responsive">
+											<table class="table table-sm table-hover mb-0">
+												<thead>
+													<tr>
+														<th>Logo</th>
+														<th>태그명</th>
+														<th>총 질문횟수</th>
+														<th>총 답변횟수</th>
+														<th>총 좋아요</th>
+														<th>최신 글</th>
+														<th class="w-20">Status</th>
+														<th>Deadline</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td><img class="img-fluid rounded" th:src="@{/dist/img/logo1.jpg}" alt="icon"></td>
+														<td>Branding</td>
+														<td>Pineapple Inc</td>
+														<td>13 Nov 2018</td>
+														<td><span class="badge badge-soft-success">Completed</span></td>
+														<td><span class="d-flex align-items-center"><i class="zmdi zmdi-time-restore font-25 mr-10 text-light-40"></i><span>0</span></span></td>
+														<td>
+															<div class="progress-wrap lb-side-left mnw-125p">
+																<div class="progress-lb-wrap">
+																	<label class="progress-label mnw-25p">95%</label>
+																	<div class="progress progress-bar-xs">
+																		<div class="progress-bar bg-success w-95" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+																	</div>
+																</div>
+															</div>
+														</td>
+														<td>10 Nov 2018</td>
+													</tr>
+													<tr>
+														<td><img class="img-fluid rounded" th:src="@{/dist/img/logo2.jpg}" alt="icon"></td>
+														<td>Website</td>
+														<td>Gooole co.</td>
+														<td>30 Nov 2018</td>
+														<td><span class="badge badge-soft-primary">In Process</span></td>
+														<td><span class="d-flex align-items-center"><i class="zmdi zmdi-time-restore font-25 mr-10 text-light-40"></i><span>3</span></span></td>
+														<td>
+															<div class="progress-wrap lb-side-left mnw-125p">
+																<div class="progress-lb-wrap">
+																	<label class="progress-label mnw-25p">70%</label>
+																	<div class="progress progress-bar-xs">
+																		<div class="progress-bar bg-primary w-70" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+																	</div>
+																</div>
+															</div>
+														</td>
+														<td>13 Dec 2018</td>
+													</tr>
+													<tr>
+														<td><img class="img-fluid rounded" th:src="@{/dist/img/logo3.jpg}" alt="icon"></td>
+														<td>Collaterals</td>
+														<td>Big Energy</td>
+														<td>12 Nov 2018</td>
+														<td><span class="badge badge-soft-danger">Behind</span></td>
+														<td><span class="d-flex align-items-center"><i class="zmdi zmdi-time-restore font-25 mr-10 text-light-40"></i><span>14</span></span></td>
+														<td>
+															<div class="progress-wrap lb-side-left mnw-125p">
+																<div class="progress-lb-wrap">
+																	<label class="progress-label mnw-25p">35%</label>
+																	<div class="progress progress-bar-xs">
+																		<div class="progress-bar bg-danger w-35" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+																	</div>
+																</div>
+															</div>
+														</td>
+														<td>21 Oct 2018</td>
+													</tr>
+													<tr>
+														<td><img class="img-fluid rounded" th:src="@{/dist/img/logo4.jpg}" alt="icon"></td>
+														<td>Branding, Print</td>
+														<td>Novotel</td>
+														<td>10 Nov 2018</td>
+														<td><span class="badge badge-soft-primary">In process</span></td>
+														<td><span class="d-flex align-items-center"><i class="zmdi zmdi-time-restore font-25 mr-10 text-light-40"></i><span>6</span></span></td>
+														<td>
+															<div class="progress-wrap lb-side-left mnw-125p">
+																<div class="progress-lb-wrap">
+																	<label class="progress-label mnw-25p">85%</label>
+																	<div class="progress progress-bar-xs">
+																		<div class="progress-bar bg-primary w-85" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+																	</div>
+																</div>
+															</div>
+														</td>
+														<td>14 Nov 2018</td>
+													</tr>
+													<tr>
+														<td><img class="img-fluid rounded" th:src="@{/dist/img/logo5.jpg}" alt="icon"></td>
+														<td>Web Application</td>
+														<td>Folkswagan</td>
+														<td>12 Nov 2018</td>
+														<td><span class="badge badge-soft-danger">Behind</span></td>
+														<td><span class="d-flex align-items-center"><i class="zmdi zmdi-time-restore font-25 mr-10 text-light-40"></i><span>9</span></span></td>
+														<td>
+															<div class="progress-wrap lb-side-left">
+																<div class="progress-lb-wrap">
+																	<label class="progress-label mnw-25p">30%</label>
+																	<div class="progress progress-bar-xs">
+																		<div class="progress-bar bg-danger w-30" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+																	</div>
+																</div>
+															</div>
+														</td>
+														<td>15 Oct 2018</td>
+													</tr>
+												</tbody>
+											</table>
+               								<button type="button" class="btn btn-success" style="margin-bottom:50px; float:right;">질문 등록하기</button>
+               								<button type="button" class="btn btn-success" style="margin-bottom:50px; margin-right:30px; float:right;">나의 질문</button>
+										</div>
+									</div>
+								</div>
+							</div>		
+	                     </div>
+	                  </section>
+                  </div>
+                  
+               </div>
+            </div>
+            <!-- /Row -->
+            <!-- Footer -->
+            <div class="hk-footer-wrap container px-15">
+               <footer class="footer">
+                  <div class="row">
+                     <div class="col-md-6 col-sm-12">
+                        <p>Pampered by<a href="https://hencework.com/" class="text-dark" target="_blank">Hencework</a> © 2019</p>
+                     </div>
+                     <div class="col-md-6 col-sm-12">
+                        <p class="d-inline-block">Follow us</p>
+                        <a href="#" class="d-inline-block btn btn-icon btn-icon-only btn-indigo btn-icon-style-4"><span class="btn-icon-wrap"><i class="fa fa-facebook"></i></span></a>
+                        <a href="#" class="d-inline-block btn btn-icon btn-icon-only btn-indigo btn-icon-style-4"><span class="btn-icon-wrap"><i class="fa fa-twitter"></i></span></a>
+                        <a href="#" class="d-inline-block btn btn-icon btn-icon-only btn-indigo btn-icon-style-4"><span class="btn-icon-wrap"><i class="fa fa-google-plus"></i></span></a>
+                     </div>
+                  </div>
+               </footer>
+            </div>
+            <!-- /Footer -->
+         </div>
+         <!-- /Main Content -->
+      </div>
+      <!-- /HK Wrapper -->
+      <!-- jQuery -->
+      <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+      <!-- Bootstrap Core JavaScript -->
+      <script th:src="@{/vendors/popper.js/dist/umd/popper.min.js}"></script>
+      <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+      <!-- Owl JavaScript -->
+      <script th:src="@{/vendors/owl.carousel/dist/owl.carousel.min.js}"></script>
+      <!-- FeatherIcons JavaScript -->
+      <script th:src="@{/dist/js/feather.min.js}"></script>
+      <!-- Gallery JavaScript -->
+      <script th:src="@{/vendors/lightgallery/dist/js/lightgallery-all.min.js}"></script>
+      <script th:src="@{/dist/js/froogaloop2.min.js}"></script>
+      <!-- Init JavaScript -->
+      <script th:src="@{/dist/js/lightgallery-all.js}"></script>
+      <script th:src="@{/dist/js/landing-data.js}"></script>
+      <script th:src="@{/dist/js/init.js}"></script>
+      <script th:src="@{/dist/js/jquery.slimscroll.js}"></script>
+   </body>
+</html>
