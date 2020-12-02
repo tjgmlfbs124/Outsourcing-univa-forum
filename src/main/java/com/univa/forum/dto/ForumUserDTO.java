@@ -16,6 +16,7 @@ public class ForumUserDTO {
 	private String nation;
 	private int state;
 	private LocalDateTime date;
+	private Boolean pass = false;
 	
 	public String getUsername() {
 		return username;
@@ -82,5 +83,11 @@ public class ForumUserDTO {
 	}
 	public void setIdx(int idx) {
 		this.idx = idx;
+	}
+	public Boolean getPass() {
+		return pass;
+	}
+	public void setPass(Boolean pass) {
+		this.pass = pass;
 	}
 }

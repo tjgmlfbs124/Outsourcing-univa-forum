@@ -92,7 +92,13 @@ public class ForumController {
 			ForumUserDTO forumUser,
 			Model model,
 			HttpSession session) {
-		return forumService.userSignin(forumUser);
+		Optional<ForumUserDTO> user = forumService.userSignin(forumUser);
+		if(user.isPresent()) {
+			session.setAttribute("ForumUserSession", user);
+			return "ok";
+		} else {
+			return "error";
+		}
 	}
 	
 	/* 로그아웃 */
@@ -131,6 +137,8 @@ public class ForumController {
 	public String ForumEditinfoPasswordPost(@RequestParam(value="password") String password, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		if(forumService.validateUserPassword(user, password)) {
+			user.setPass(true);
+			session.setAttribute("ForumUserSession", user);
 			return "ok";
 		} else {
 			return "error";
@@ -139,7 +147,11 @@ public class ForumController {
 	
 	/* 정보수정 페이지 */
 	@GetMapping("/mypage/editinfo")
-	public String ForumEditinfoPage() {
+	public String ForumEditinfoPage(HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		if(!user.getPass()) {
+			return "redirect:/mypage/editinfo_password";
+		}
 		return "/mypage/edit_profile";
 	}
 	
