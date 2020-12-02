@@ -78,9 +78,7 @@ public class ForumController {
 	public String ForumSignupPost(
 			@RequestBody ForumUserDTO forumUser,
 			Model model) {
-		forumService.userSignup(forumUser);
-		// TODO 완료후 상태에 따른 리턴값?
-		return "test";
+		return forumService.userSignup(forumUser);
 	}
 	
 	/* 로그인 */
@@ -94,16 +92,7 @@ public class ForumController {
 			@RequestBody ForumUserDTO forumUser,
 			Model model,
 			HttpSession session) {
-		Optional<ForumUserDTO> user = forumService.userSignin(forumUser);
-		if(user.isPresent()) {
-			// TODO 로그인 성공
-			session.setAttribute("ForumUserSession", user.get());
-			System.out.println("로그인 성공!");
-		} else {
-			// TODO 로그인 실패
-			System.out.println("로그인 실패!");
-		}
-		return "test";
+		return forumService.userSignin(forumUser);
 	}
 	
 	/* 로그아웃 */
@@ -115,6 +104,12 @@ public class ForumController {
 	}
 	
 	/* 마이 페이지 */
+	@GetMapping("/mypage/")
+	public String ForumMypageMain() {
+		return "/mypage/index";
+	}
+	
+	/* 마이 페이지 */
 	@GetMapping("/mypage/profile")
 	public String ForumMypagePage(Model model, HttpSession session) {
 		return "/mypage/profile";
@@ -123,7 +118,7 @@ public class ForumController {
 	/* 나의 포럼 */
 	@GetMapping("/mypage/forum")
 	public String ForumMyforumPage() {
-		return "test";
+		return "/mypage/forum";
 	}
 	
 	/* 정보수정 페이지 비밀번호 */
@@ -132,21 +127,20 @@ public class ForumController {
 		return "/mypage/password";
 	}
 	@PostMapping("/mypage/editinfo_password")
+	@ResponseBody
 	public String ForumEditinfoPasswordPost(@RequestParam(value="password") String password, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		if(forumService.validateUserPassword(user, password)) {
-			return "redirect:/mypage/editinfo";
+			return "ok";
 		} else {
-			//TODO 내정보 비밀번호 실패
-			return "hello";
+			return "error";
 		}
 	}
 	
 	/* 정보수정 페이지 */
 	@GetMapping("/mypage/editinfo")
 	public String ForumEditinfoPage() {
-		
-		return "test";
+		return "/mypage/edit_profile";
 	}
 	
 	/* 이미지 뷰어 */

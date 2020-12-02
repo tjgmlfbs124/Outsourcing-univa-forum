@@ -22,7 +22,7 @@ public class ForumService {
 		this.forumRepository = forumRepository;
 	}
 	
-	public ForumUser userSignup(ForumUserDTO userDto) {
+	public String userSignup(ForumUserDTO userDto) {
 		ForumUser mUser = new ForumUser();
 		mUser.setUsername(userDto.getUsername());
 		mUser.setPassword(userDto.getPassword());
@@ -35,9 +35,13 @@ public class ForumService {
 		mUser.setNation(userDto.getNation());
 		
 		if(validateDuplicateUser(mUser)) {
-			return forumRepository.save(mUser);
+			if( forumRepository.save(mUser).getUsername().equals(userDto.getUsername()) ) {
+				return "ok";
+			} else {
+				return "error";
+			}
 		} else {
-			return null;
+			return "duplicaiton"; //이미 있는 유저
 		}
 	}
 	
@@ -57,7 +61,7 @@ public class ForumService {
 		return imageUrl;
 	}
 	
-	public Optional<ForumUserDTO> userSignin(ForumUserDTO userDto) {
+	public String userSignin(ForumUserDTO userDto) {
 		ForumUser mUser = new ForumUser();
 		mUser.setUsername(userDto.getUsername());
 		mUser.setPassword(userDto.getPassword());
@@ -76,9 +80,10 @@ public class ForumService {
 			returnUserDto.setNation(user.getNation());
 			returnUserDto.setState(user.getState());
 			returnUserDto.setDate(user.getDate());
-			return Optional.ofNullable(returnUserDto);
+			//return Optional.ofNullable(returnUserDto);
+			return "ok";
 		} else {
-			return Optional.empty();
+			return "error";
 		}
 	}
 	
