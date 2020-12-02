@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
    <head th:replace="widget/head :: head"></head>
+   <link th:href="@{/vendors/dropzone/dist/dropzone.css}" rel="stylesheet" type="text/css">
+   <link th:href="@{/vendors/dropify/dist/css/dropify.min.css}" rel="stylesheet" type="text/css">
+   <link th:href="@{/vendors/jquery-toggles/css/toggles.css}" rel="stylesheet" type="text/css">
+   <link th:href="@{/vendors/jquery-toggles/css/themes/toggles-light.css}" rel="stylesheet" type="text/css">
+   <link th:href="@{/dist/css/style.css}" rel="stylesheet" type="text/css">
    <body data-spy="scroll" data-target=".navbar" data-offset="60">
       <!-- Preloader -->
       <div class="preloader-it">
@@ -12,59 +17,54 @@
          <!-- Header -->
       	<div th:replace="widget/menu :: menu"></div>
         <div class="hk-pg-wrapper hk-auth-wrapper">
-            <header class="d-flex justify-content-end align-items-center">
-                <div class="btn-group btn-group-sm">
-                    <a href="#" class="btn btn-outline-secondary">Help</a>
-                    <a href="#" class="btn btn-outline-secondary">About Us</a>
-                </div>
-            </header>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-xl-12 pa-0">
+                    <div class="col-xl-12">
                         <div class="auth-form-wrap pt-xl-0 pt-70">
                             <div class="auth-form w-xl-30 w-lg-55 w-sm-75 w-100">
 								<a class="d-flex auth-brand align-items-center justify-content-center  mb-20" href="#">
-									<img class="brand-img d-inline-block mr-5" th:src="@{/dist/img/logo.png}" alt="brand" /><span class="text-dark font-23">Deepor</span>
+									<img class="brand-img d-inline-block mr-5" th:src="@{/dist/img/logo.png}" alt="brand" />
+									<span class="text-dark font-23">Univa</span>
 								</a>
-                                <form>
+                                <form method="POST" action="/forum/signup" enctype="multipart/form-data">
                                     <h1 class="display-4 mb-10 text-center">Sign up for free</h1>
-                                    <p class="mb-30 text-center">Create your account and start your free trial today</p>
-                                    <div class="form-row">
-                                        <div class="col-md-6 form-group">
-                                            <input class="form-control" placeholder="First name" value="" type="text">
-                                        </div>
-                                        <div class="col-md-6 form-group">
-                                            <input class="form-control" placeholder="Last name" value="" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <input class="form-control" placeholder="Email" type="email">
-                                    </div>
-                                    <div class="form-group">
-                                        <input class="form-control" placeholder="Password" type="password">
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <input class="form-control" placeholder="Confirm Password" type="password">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text"><span class="feather-icon"><i data-feather="eye-off"></i></span></span>
+                                    <p class="mb-30 text-center">회원가입을 하고 자유롭게 질문과 답변을 해보세요</p>
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <img th:src="@{/dist/img/logo.png}" style="display:none; max-width:246px;" id="profile-img" />
+                                            <div class="dropify-wrapper" id="profile-upload-div">
+	                                            <div class="dropify-message">
+		                                            <span class="file-icon"></span>
+		                                            <p>클릭해서 이미지를 등록하세요.</p>
+	                                            </div>
+	                                            <input type="file" class="dropify" id="profile-upload" name="file'>
+	                                            <button type="button" class="dropify-clear">Remove</button>
                                             </div>
                                         </div>
+                                        <div class="col-md-6 form-group" >
+	                                        <div class="col-md-12 form-group">
+	                                            <input class="form-control" placeholder="아이디" value="" type="text" name="username">
+	                                        </div>
+	                                        <div class="col-md-12 form-group">
+	                                            <input class="form-control" placeholder="패스워드" value="" type="password" name="password">
+	                                        </div>
+		                                    <div class="col-md-12 form-group">
+		                                        <input class="form-control" placeholder="닉네임" type="text" name="nickname">
+		                                    </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-top:30px;">
+                                        <input class="form-control" placeholder="이메일" type="email" name="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="국가" type="text" name="nation">
                                     </div>
                                     <div class="custom-control custom-checkbox mb-25">
                                         <input class="custom-control-input" id="same-address" type="checkbox" checked>
-                                        <label class="custom-control-label font-14" for="same-address">I have read and agree to the <a href=""><u>term and conditions</u></a></label>
+                                        <label class="custom-control-label font-14" for="same-address">개인정보수집 이용약관 동의 <a href=""><u>자세히보기</u></a> </label>
                                     </div>
                                     <button class="btn btn-warning btn-block" type="submit">Register</button>
                                     <div class="option-sep">or</div>
-                                    <div class="form-row">
-                                        <div class="col-sm-6 mb-20">
-                                            <button class="btn btn-indigo btn-block btn-wth-icon"> <span class="icon-label"><i class="fa fa-facebook"></i> </span><span class="btn-text">Login with facebook</span></button>
-                                        </div>
-                                        <div class="col-sm-6 mb-20">
-                                            <button class="btn btn-primary btn-block btn-wth-icon"> <span class="icon-label"><i class="fa fa-twitter"></i> </span><span class="btn-text">Login with Twitter</span></button>
-                                        </div>
-                                    </div>
                                     <p class="text-center">Already have an account? <a href="#">Sign In</a></p>
                                 </form>
                             </div>
@@ -83,14 +83,42 @@
       <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
       <!-- Owl JavaScript -->
       <script th:src="@{/vendors/owl.carousel/dist/owl.carousel.min.js}"></script>
+      <script th:src="@{/dist/js/jquery.slimscroll.js}"></script>
+
       <!-- FeatherIcons JavaScript -->
       <script th:src="@{/dist/js/feather.min.js}"></script>
       <!-- Gallery JavaScript -->
       <script th:src="@{/vendors/lightgallery/dist/js/lightgallery-all.min.js}"></script>
-      <script th:src="@{/dist/js/froogaloop2.min.js}"></script>
+
       <!-- Init JavaScript -->
       <script th:src="@{/dist/js/lightgallery-all.js}"></script>
       <script th:src="@{/dist/js/landing-data.js}"></script>
       <script th:src="@{/dist/js/init.js}"></script>
+
+      <script>
+
+      	imagePreView(document.getElementById("profile-upload"));
+
+      	function imagePreView(target, callback){
+      	    var img = new Image();
+      	    console.log("target : " , target);
+      	    target.onchange = function (e) {
+      	      e.preventDefault();
+      	      var file = target.files[0], reader = new FileReader();
+      	      reader.onload = function (event) {
+      	        img.src = event.target.result;
+      	        img.width = 150;
+      	        img.height = 220;
+      	        img.id=target.id;
+    			$("#profile-img").attr("src", img.src);
+    			$("#profile-img").show();
+    			$("#profile-upload-div").hide();
+    			console.log("@@@@");
+      	      };
+      			reader.readAsDataURL(file);
+      			$("#profile-img").css("cursor","pointer");
+      	    };
+      	  }
+      </script>
    </body>
 </html>
