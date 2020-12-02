@@ -76,7 +76,7 @@ public class ForumController {
 	@PostMapping("/signup")
 	@ResponseBody
 	public String ForumSignupPost(
-			@RequestBody ForumUserDTO forumUser,
+			ForumUserDTO forumUser,
 			Model model) {
 		return forumService.userSignup(forumUser);
 	}
@@ -89,7 +89,7 @@ public class ForumController {
 	@PostMapping("/signin")
 	@ResponseBody
 	public String ForumSigninPost(
-			@RequestBody ForumUserDTO forumUser,
+			ForumUserDTO forumUser,
 			Model model,
 			HttpSession session) {
 		return forumService.userSignin(forumUser);
