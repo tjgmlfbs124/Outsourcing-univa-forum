@@ -137,7 +137,8 @@ public class ForumController {
 		if(forumService.validateUserPassword(user, password)) {
 			return "redirect:/mypage/editinfo";
 		} else {
-			return 
+			//TODO 내정보 비밀번호 실패
+			return "hello";
 		}
 	}
 	
