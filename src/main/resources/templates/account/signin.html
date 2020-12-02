@@ -82,7 +82,8 @@
       	    var formData = new FormData();
       	    formData.append("username", $("input[name=username]").val());
       	    formData.append("password", $("input[name=password]").val());
-      		postAPI("/forum/signup",formData, function(result){
+      	    
+      		postAPI("/forum/signin",JSON.stringify(formData), function(result){
       			console.log("result : " ,result);
       		})
       	}
