@@ -1,13 +1,23 @@
 package com.univa.forum.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,7 +79,7 @@ public class ForumController {
 			@RequestBody ForumUserDTO forumUser,
 			Model model) {
 		forumService.userSignup(forumUser);
-		// TODO
+		// TODO 완료후 상태에 따른 리턴값?
 		return "test";
 	}
 	
@@ -127,6 +137,25 @@ public class ForumController {
 	public String ForumEditinfoPage() {
 		
 		return "test";
+	}
+	
+	/* 이미지 뷰어 */
+	@GetMapping("/img")
+	public ResponseEntity<Resource> imageView(@RequestParam("id") String img) throws IOException {
+		Path path = Paths.get("uploads/imgs/" + img);
+		String contentType = Files.probeContentType(path);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, contentType);
+		
+		Resource resource = null;
+		try {
+			resource = new InputStreamResource(Files.newInputStream(path));
+		} catch (Exception e) {
+			e.getStackTrace();
+			// 이미지가 없을 경우 발생
+		}
+		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
 	
 	

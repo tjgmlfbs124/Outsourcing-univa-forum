@@ -1,14 +1,18 @@
 package com.univa.forum.service;
 
+import java.io.File;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.univa.forum.domain.ForumUser;
 import com.univa.forum.dto.ForumUserDTO;
 import com.univa.forum.repository.ForumRepository;
+import com.univa.forum.utils.FileUtil;
+import com.univa.forum.utils.StringUtil;
 
 @Transactional
 public class ForumService {
@@ -24,7 +28,10 @@ public class ForumService {
 		mUser.setPassword(userDto.getPassword());
 		mUser.setNickname(userDto.getNickname());
 		mUser.setEmail(userDto.getEmail());
-		//mUser.setImage_url(userDto.getImage_url());
+		if(!userDto.getFile().isEmpty()) {
+			//mUser.setImage_url(userDto.getImage_url());
+			mUser.setImage_url(imageFileWrite(userDto.getFile()));
+		}
 		mUser.setNation(userDto.getNation());
 		
 		if(validateDuplicateUser(mUser)) {
@@ -32,6 +39,22 @@ public class ForumService {
 		} else {
 			return null;
 		}
+	}
+	
+	/* 이미지 저장, url 리턴 */
+	public String imageFileWrite(MultipartFile file) {
+		String dirPath = "uploads/imgs";
+		String randomStr = StringUtil.RandomString(20)+"/";
+		String imageUrl = randomStr+"img"+FileUtil.getExtension(file.getOriginalFilename()).get();
+		String savePath = dirPath+imageUrl;
+		try {
+			File mFile = new File(dirPath+randomStr);
+			mFile.mkdirs();
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+		FileUtil.FileWrite(file, savePath);
+		return imageUrl;
 	}
 	
 	public Optional<ForumUserDTO> userSignin(ForumUserDTO userDto) {
