@@ -27,7 +27,7 @@ public class ForumController {
 	/* 포럼 표지 */
 	@GetMapping("")
 	public String mainPage() {
-		return "index";
+		return "test";
 	}
 	
 	/* 포럼 과목별 게시판 */
@@ -56,7 +56,7 @@ public class ForumController {
 	/* 회원 가입 */
 	@GetMapping("/signup")
 	public String ForumSignupPage() {
-		return "account/signup";
+		return "test";
 	}
 	
 	@PostMapping("/signup")
@@ -71,45 +71,33 @@ public class ForumController {
 	/* 로그인 */
 	@GetMapping("/signin")
 	public String ForumSigninPage() {
-		return "account/signin";
+		return "test";
 	}
 	
 	/* 마이 페이지 */
 	@GetMapping("/mypage")
 	public String ForumMypagePage() {
-		return "mypage/index";
-	}
-	
-	/* 마이 페이지 */
-	@GetMapping("/mypage/profile")
-	public String ForumMyProfile() {
-		return "mypage/profile";
-	}
-	
-	/* 나의 질문 */
-	@GetMapping("/mypage/question")
-	public String ForumMyQuestionPage() {
-		return "mypage/question";
+		return "test";
 	}
 	
 	/* 나의 포럼 */
 	@GetMapping("/mypage/forum")
 	public String ForumMyforumPage() {
-		return "mypage/forum";
+		return "test";
 	}
 	
 	/* 정보수정 페이지 비밀번호 */
 	@GetMapping("/mypage/editinfo_password")
 	public String ForumEditinfoPasswordPage() {
 		
-		return "mypage/password";
+		return "test";
 	}
 	
 	/* 정보수정 페이지 */
 	@GetMapping("/mypage/editinfo")
 	public String ForumEditinfoPage() {
 		
-		return "mypage/edit_profile";
+		return "test";
 	}
 	
 	
