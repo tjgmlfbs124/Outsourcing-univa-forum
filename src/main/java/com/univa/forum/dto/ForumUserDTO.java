@@ -1,16 +1,21 @@
 package com.univa.forum.dto;
 
+import java.time.LocalDateTime;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class ForumUserDTO {
+	private int idx;
 	private String username;
 	private String password;
 	private String nickname;
 	private String email;
 	private MultipartFile file;
+	private String image_url;
 	private int grade_idx;
 	private String nation;
 	private int state;
+	private LocalDateTime date;
 	
 	public String getUsername() {
 		return username;
@@ -36,12 +41,6 @@ public class ForumUserDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public MultipartFile getImage_url() {
-		return file;
-	}
-	public void setImage_url(MultipartFile file) {
-		this.file = file;
-	}
 	public int getGrade_idx() {
 		return grade_idx;
 	}
@@ -59,5 +58,29 @@ public class ForumUserDTO {
 	}
 	public void setState(int state) {
 		this.state = state;
+	}
+	public MultipartFile getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+	public String getImage_url() {
+		return image_url;
+	}
+	public void setImage_url(String image_url) {
+		this.image_url = image_url;
+	}
+	public LocalDateTime getDate() {
+		return date;
+	}
+	public void setDate(LocalDateTime date) {
+		this.date = date;
+	}
+	public int getIdx() {
+		return idx;
+	}
+	public void setIdx(int idx) {
+		this.idx = idx;
 	}
 }

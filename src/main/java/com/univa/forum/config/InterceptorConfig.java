@@ -1,0 +1,19 @@
+package com.univa.forum.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.univa.forum.interceptor.LoginInterceptor;
+
+@Configuration
+public class InterceptorConfig implements WebMvcConfigurer {
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new LoginInterceptor())
+			.addPathPatterns("/**")
+			.excludePathPatterns("/vendors/**","/src/**","/dist/**") // static 폴더
+			.excludePathPatterns("/forum","/forum/board","/forum/signup","/forum/signin"); // rest api
+	}
+}

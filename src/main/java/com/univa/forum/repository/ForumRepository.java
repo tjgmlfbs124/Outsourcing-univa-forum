@@ -20,11 +20,22 @@ public class ForumRepository {
 		return user;
 	}
 	
+	public Optional<ForumUser> findByIdx(int idx) {
+		ForumUser user = em.find(ForumUser.class, idx);
+		return Optional.ofNullable(user);
+	}
+	
 	public Optional<ForumUser> findByUsername(String username) {
 		List<ForumUser> result = em.createQuery("select u from user u where u.username = :username", ForumUser.class)
 				.setParameter("username", username)
 				.getResultList();
 		return result.stream().findAny();
+	}
+	
+	public Optional<ForumUser> findByUsernameAndPassword(ForumUser user) {
+		return em.createQuery("select u from user u where username = :username AND password = :password", ForumUser.class)
+		.setParameter("username", user.getUsername())
+		.setParameter("password", user.getPassword()).getResultList().stream().findAny();
 	}
 	
 	public Optional<ForumUserGrade> findByGradeId(int id) {
