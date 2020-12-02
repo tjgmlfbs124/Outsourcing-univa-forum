@@ -61,7 +61,7 @@ public class ForumService {
 		return imageUrl;
 	}
 	
-	public String userSignin(ForumUserDTO userDto) {
+	public Optional<ForumUserDTO> userSignin(ForumUserDTO userDto) {
 		ForumUser mUser = new ForumUser();
 		mUser.setUsername(userDto.getUsername());
 		mUser.setPassword(userDto.getPassword());
@@ -80,10 +80,9 @@ public class ForumService {
 			returnUserDto.setNation(user.getNation());
 			returnUserDto.setState(user.getState());
 			returnUserDto.setDate(user.getDate());
-			//return Optional.ofNullable(returnUserDto);
-			return "ok";
+			return Optional.ofNullable(returnUserDto);
 		} else {
-			return "error";
+			return Optional.ofNullable(null);
 		}
 	}
 	
