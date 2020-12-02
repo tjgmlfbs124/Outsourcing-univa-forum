@@ -22,11 +22,11 @@
                     <div class="col-xl-12">
                         <div class="auth-form-wrap pt-xl-0 pt-70">
                             <div class="auth-form w-xl-30 w-lg-55 w-sm-75 w-100">
-								<a class="d-flex auth-brand align-items-center justify-content-center  mb-20" href="#">
+								<a class="d-flex auth-brand align-items-center justify-content-center  mb-20" href="/forum">
 									<img class="brand-img d-inline-block mr-5" th:src="@{/dist/img/logo.png}" alt="brand" />
 									<span class="text-dark font-23">Univa</span>
 								</a>
-                                <form method="POST" action="/forum/signup" enctype="multipart/form-data">
+                                <div>
                                     <h1 class="display-4 mb-10 text-center">Sign up for free</h1>
                                     <p class="mb-30 text-center">회원가입을 하고 자유롭게 질문과 답변을 해보세요</p>
                                     <div class="row">
@@ -63,10 +63,10 @@
                                         <input class="custom-control-input" id="same-address" type="checkbox" checked>
                                         <label class="custom-control-label font-14" for="same-address">개인정보수집 이용약관 동의 <a href=""><u>자세히보기</u></a> </label>
                                     </div>
-                                    <button class="btn btn-warning btn-block" type="submit">Register</button>
+                                    <button class="btn btn-warning btn-block" onclick="submit()">Register</button>
                                     <div class="option-sep">or</div>
-                                    <p class="text-center">Already have an account? <a href="#">Sign In</a></p>
-                                </form>
+                                    <p class="text-center">Already have an account? <a href="/forum/signin">Sign In</a></p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -94,6 +94,7 @@
       <script th:src="@{/dist/js/lightgallery-all.js}"></script>
       <script th:src="@{/dist/js/landing-data.js}"></script>
       <script th:src="@{/dist/js/init.js}"></script>
+      <script th:src="@{/dist/js/ajax.js}"></script>
 
       <script>
 
@@ -119,6 +120,22 @@
       			$("#profile-img").css("cursor","pointer");
       	    };
       	  }
+
+      	function submit(){
+      	    var formData = new FormData();
+      	    var image_url = document.getElementById('profile-upload').files[0];
+            console.log("image : " , image_url);
+      	    formData.append("file", image_url);
+      	    formData.append("username", $("input[name=username]").val());
+      	    formData.append("password", $("input[name=password]").val());
+      	    formData.append("nickname", $("input[name=nickname]").val());
+      	    formData.append("email", $("input[name=email]").val());
+      	    formData.append("nation", $("input[name=nation]").val());
+      		postAPI("/forum/signup",JSON.stringify(formData), function(result){
+      			console.log("result : " ,result);
+      		})
+      	}
+
       </script>
    </body>
 </html>

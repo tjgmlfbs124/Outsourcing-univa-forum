@@ -23,38 +23,32 @@
         						<div class="col-xl-12 pa-0">
         							<div class="auth-form-wrap pt-xl-0 pt-70">
         								<div class="auth-form w-xl-30 w-lg-55 w-sm-75 w-100">
-        									<a class="d-flex auth-brand align-items-center justify-content-center  mb-20" href="#">
-        										<img class="brand-img d-inline-block mr-5" th:src="@{/dist/img/logo.png}" alt="brand" /><span class="text-dark font-23">Deepor</span>
+        									<a class="d-flex auth-brand align-items-center justify-content-center  mb-20" href="/forum">
+        										<img class="brand-img d-inline-block mr-5" th:src="@{/dist/img/logo.png}" alt="brand" /><span class="text-dark font-23">Univa</span>
         									</a>
-        									<form>
-        										<h1 class="display-4 text-center mb-10">Welcome Back :)</h1>
+        									<div>
+        										<h1 class="display-4 text-center mb-10">방문해주셔서 감사합니다.</h1>
         										<p class="text-center mb-30">Sign in to your account and enjoy unlimited perks.</p>
         										<div class="form-group">
-        											<input class="form-control" placeholder="Email" type="email">
+        											<input class="form-control" placeholder="아이디" type="text" name="username">
         										</div>
         										<div class="form-group">
         											<div class="input-group">
-        												<input class="form-control" placeholder="Password" type="password">
+        												<input class="form-control" placeholder="비밀번호" type="password" name="password">
         												<div class="input-group-append">
         													<span class="input-group-text"><span class="feather-icon"><i data-feather="eye-off"></i></span></span>
         												</div>
         											</div>
         										</div>
         										<div class="custom-control custom-checkbox mb-25">
-        											<input class="custom-control-input" id="same-address" type="checkbox" checked>
-        											<label class="custom-control-label font-14" for="same-address">Keep me logged in</label>
         										</div>
-        										<button class="btn btn-warning btn-block" type="submit">Login</button>
+        										<button class="btn btn-warning btn-block" onclick="submit()">Login</button>
         										<p class="font-14 text-center mt-15">Having trouble logging in?</p>
         										<div class="option-sep">or</div>
-        										<div class="form-row">
-        											<div class="col-sm-6 mb-20"><button class="btn btn-indigo btn-block btn-wth-icon"> <span class="icon-label"><i class="fa fa-facebook"></i> </span><span class="btn-text">Login with facebook</span></button></div>
-        											<div class="col-sm-6 mb-20"><button class="btn btn-primary btn-block btn-wth-icon"> <span class="icon-label"><i class="fa fa-twitter"></i> </span><span class="btn-text">Login with Twitter</span></button></div>
-        										</div>
         										<p class="text-center">Do have an account yet? 
         											<a href="/forum/signup">Sign Up</a>
         										</p>
-        									</form>
+        									</<div>
         								</div>
         							</div>
         						</div>
@@ -79,7 +73,20 @@
       <script th:src="@{/dist/js/froogaloop2.min.js}"></script>
       <!-- Init JavaScript -->
       <script th:src="@{/dist/js/lightgallery-all.js}"></script>
+      <script th:src="@{/dist/js/jquery.slimscroll.js}"></script>
       <script th:src="@{/dist/js/landing-data.js}"></script>
       <script th:src="@{/dist/js/init.js}"></script>
+      <script th:src="@{/dist/js/ajax.js}"></script>
+      <script>
+      	function submit(){
+      	    var formData = new FormData();
+      	    formData.append("username", $("input[name=username]").val());
+      	    formData.append("password", $("input[name=password]").val());
+      		postAPI("/forum/signup",formData, function(result){
+      			console.log("result : " ,result);
+      		})
+      	}
+      	
+      </script>
    </body>
 </html>
