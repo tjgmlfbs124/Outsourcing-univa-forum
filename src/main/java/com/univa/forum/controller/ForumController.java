@@ -1,5 +1,9 @@
 package com.univa.forum.controller;
 
+import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,7 +60,7 @@ public class ForumController {
 	/* 회원 가입 */
 	@GetMapping("/signup")
 	public String ForumSignupPage() {
-		return "test";
+		return "/account/signup";
 	}
 	
 	@PostMapping("/signup")
@@ -65,18 +69,43 @@ public class ForumController {
 			@RequestBody ForumUserDTO forumUser,
 			Model model) {
 		forumService.userSignup(forumUser);
+		// TODO
 		return "test";
 	}
 	
 	/* 로그인 */
 	@GetMapping("/signin")
 	public String ForumSigninPage() {
+		return "/account/signin";
+	}
+	@PostMapping("/signin")
+	@ResponseBody
+	public String ForumSigninPost(
+			@RequestBody ForumUserDTO forumUser,
+			Model model,
+			HttpSession session) {
+		Optional<ForumUserDTO> user = forumService.userSignin(forumUser);
+		if(user.isPresent()) {
+			// TODO 로그인 성공
+			session.setAttribute("ForumUserSession", user.get());
+			System.out.println("로그인 성공!");
+		} else {
+			// TODO 로그인 실패
+			System.out.println("로그인 실패!");
+		}
+		return "test";
+	}
+	
+	@GetMapping("/signout")
+	public String ForumSignoutPost(Model model, HttpSession session) {
+		session.removeAttribute("ForumUserSession");
+		// TODO 로그아웃 후처리
 		return "test";
 	}
 	
 	/* 마이 페이지 */
 	@GetMapping("/mypage")
-	public String ForumMypagePage() {
+	public String ForumMypagePage(Model model, HttpSession session) {
 		return "test";
 	}
 	

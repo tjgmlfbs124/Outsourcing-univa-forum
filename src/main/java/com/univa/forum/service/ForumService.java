@@ -1,5 +1,9 @@
 package com.univa.forum.service;
 
+import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.univa.forum.domain.ForumUser;
@@ -27,6 +31,29 @@ public class ForumService {
 			return forumRepository.save(mUser);
 		} else {
 			return null;
+		}
+	}
+	
+	public Optional<ForumUserDTO> userSignin(ForumUserDTO userDto) {
+		ForumUser mUser = new ForumUser();
+		mUser.setUsername(userDto.getUsername());
+		mUser.setPassword(userDto.getPassword());
+		
+		Optional<ForumUser> foundUser = forumRepository.findByUsernameAndPassword(mUser);
+		if(foundUser.isPresent()) {
+			ForumUser user = foundUser.get();
+			ForumUserDTO returnUserDto = new ForumUserDTO();
+			returnUserDto.setUsername(user.getUsername());
+			returnUserDto.setNickname(user.getNickname());
+			returnUserDto.setEmail(user.getEmail());
+			returnUserDto.setImage_url(user.getImage_url());
+			returnUserDto.setGrade_idx(user.getIdx());
+			returnUserDto.setNation(user.getNation());
+			returnUserDto.setState(user.getState());
+			returnUserDto.setDate(user.getDate());
+			return Optional.ofNullable(returnUserDto);
+		} else {
+			return Optional.empty();
 		}
 	}
 	
