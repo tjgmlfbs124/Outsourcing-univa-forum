@@ -88,7 +88,7 @@ public class ForumController {
 	public String ForumWritePost(
 			ForumPostDTO forum,
 			HttpSession session) {
-		// TODO
+		// TODO 서비스, 레포지토리 만들기
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		if(user == null) {
 			return "session error";
@@ -96,6 +96,7 @@ public class ForumController {
 		forum.setUser_idx(user.getIdx()); // 게시자
 		forum.setType(0); // 타입
 		forum.setState(0); // 상태
+		
 		return "ok";
 	}
 	

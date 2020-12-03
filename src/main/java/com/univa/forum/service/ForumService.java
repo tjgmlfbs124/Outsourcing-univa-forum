@@ -4,14 +4,15 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
-import javax.security.auth.Subject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.univa.forum.domain.ForumPost;
+import com.univa.forum.domain.ForumSubject;
 import com.univa.forum.domain.ForumUser;
+import com.univa.forum.dto.ForumPostDTO;
 import com.univa.forum.dto.ForumUserDTO;
 import com.univa.forum.repository.ForumRepository;
 import com.univa.forum.utils.FileUtil;
@@ -115,8 +116,13 @@ public class ForumService {
 	}
 	
 	/* 모든 주제 찾기 */
-	public List<Subject> findAllSubject() {
+	public List<ForumSubject> findAllSubject() {
 		return forumRepository.findAllSubject();
 	}
 	
+	/* 포럼 쓰기 결과 리턴 */
+	public String writeForum(ForumPostDTO forum) {
+		
+		return "ok";
+	}
 }
