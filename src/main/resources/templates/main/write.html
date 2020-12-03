@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-      <title>Deepor I File Upload</title>
-      <meta name="description" content="A responsive bootstrap 4 admin dashboard template by hencework">
-      <!-- Favicon -->
-      <link rel="shortcut icon" href="favicon.ico">
-      <link rel="icon" href="favicon.ico" type="image/x-icon">
-      <!-- Bootstrap Dropzone CSS -->
-      <link th:href="@{/vendors/dropzone/dist/dropzone.css}" rel="stylesheet" type="text/css">
-      <!-- Bootstrap Dropzone CSS -->
-      <link th:href="@{/vendors/dropify/dist/css/dropify.min.css}" rel="stylesheet" type="text/css">
-      <!-- Toggles CSS -->
-      <link th:href="@{/vendors/jquery-toggles/css/toggles.css}" rel="stylesheet" type="text/css">
-      <link th:href="@{/vendors/jquery-toggles/css/themes/toggles-light.css}" rel="stylesheet" type="text/css">
-      <!-- Custom CSS -->
-      <link th:href="@{/dist/css/style.css}" rel="stylesheet" type="text/css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Deepor I Editor</title>
+    <meta name="description" content="A responsive bootstrap 4 admin dashboard template by hencework" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Toggles CSS -->
+    <link th:href="@{/vendors/jquery-toggles/css/toggles.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/vendors/jquery-toggles/css/themes/toggles-light.css}" rel="stylesheet" type="text/css">
+
+    <!-- Custom CSS -->
+    <link th:href="@{/dist/css/style.css}" rel="stylesheet" type="text/css">
    </head>
    <body data-spy="scroll" data-target=".navbar" data-offset="60">
       <div class="preloader-it">
@@ -86,6 +85,18 @@
                                           </form>
                                        </div>
                                     </div>
+                                    <!-- <div class="col-xl-12">
+				                        <section class="hk-sec-wrapper">
+				                            <div class="row">
+				                                <div class="col-sm">
+				                                    <div class="tinymce-wrap">
+				                                        <textarea class="tinymce"></textarea>
+				                                    </div>
+				                                </div>
+				                            </div>
+				                        </section>
+				                    </div>
+				                    -->
                                     <div class="row" style="margin-top:30px;">
                                        <div class="col-sm">
                                           <form class="dropzone dz-clickable" id="remove_link">
@@ -114,39 +125,53 @@
             </div>
          </div>
       </div>
-      <!-- jQuery -->
-      <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
-      <!-- Bootstrap Core JavaScript -->
-      <script th:src="@{/vendors/popper.js/dist/umd/popper.min.js}"></script>
-      <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
-      <!-- Owl JavaScript -->
-      <script th:src="@{/vendors/owl.carousel/dist/owl.carousel.min.js}"></script>
-      <!-- FeatherIcons JavaScript -->
-      <script th:src="@{/dist/js/feather.min.js}"></script>
-      <!-- Gallery JavaScript -->
-      <script th:src="@{/vendors/lightgallery/dist/js/lightgallery-all.min.js}"></script>
-      <script th:src="@{/dist/js/froogaloop2.min.js}"></script>
-      <!-- Init JavaScript -->
-      <script th:src="@{/dist/js/lightgallery-all.js}"></script>
-      <script th:src="@{/dist/js/landing-data.js}"></script>
-      <script th:src="@{/dist/js/init.js}"></script>
-      <script th:src="@{/dist/js/jquery.slimscroll.js}"></script>
-      <script th:src="@{/dist/js/dropdown-bootstrap-extended.js}"></script>
-      <script th:src="@{/vendors/dropzone/dist/dropzone.js}"></script>
-      <script th:src="@{/vendors/dropify/dist/js/dropify.min.js}"></script>
-      <script th:src="@{/dist/js/form-file-upload-data.js}"></script>
-      <script th:src="@{/vendors/jquery-toggles/toggles.min.js}"></script>
-      <script th:src="@{/dist/js/toggle-data.js}"></script>
-      <script th:src="@{/dist/js/ajax.js}"></script>
+	    <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+	
+	    <!-- Bootstrap Core JavaScript -->
+	    <script th:src="@{/vendors/popper.js/dist/umd/popper.min.js}"></script>
+	    <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+	
+	    <!-- Slimscroll JavaScript -->
+	    <script th:src="@{/dist/js/jquery.slimscroll.js}"></script>
+	
+	    <!-- Fancy Dropdown JS -->
+	    <script th:src="@{/dist/js/dropdown-bootstrap-extended.js}"></script>
+	
+	    <!-- Tinymce JavaScript -->
+	    <script th:src="@{/vendors/tinymce/tinymce.min.js}"></script>
+	
+	    <!-- Tinymce Wysuhtml5 Init JavaScript -->
+	    <script th:src="@{/dist/js/tinymce-data.js}"></script>
+	
+	    <!-- FeatherIcons JavaScript -->
+	    <script th:src="@{/dist/js/feather.min.js}"></script>
+	
+	    <!-- Toggles JavaScript -->
+	    <script th:src="@{/vendors/jquery-toggles/toggles.min.js}"></script>
+	    <script th:src="@{/dist/js/toggle-data.js}"></script>
+	
+	    <!-- Init JavaScript -->>
+	    <script th:src="@{/dist/js/init.js}"></script>
+	    <script th:src="@{/dist/js/ajax.js}"></script>
       
       <script>
 		function submit(){
 		    var formData = new FormData();
+		    var array = [];
+		    array.push("1");
+		    array.push("2");
+		    
 		    formData.append("title", $("input[name=title]").val());
 		    formData.append("content", $("textarea[name=content]").val());
+		    formData.append("subjects", array)
 		    
 		    postAPI("/forum/main/write",formData, function(result){
-		 		console.log("result : " ,result);
+		    	switch(result){
+			    	case "ok":
+			    		alert("질문이 등록되었습니다.");
+			    		// TODO 내 질문 페이
+			    		break;
+		    	}
       		});
 		}
       
