@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.univa.forum.domain.ForumPost;
+import com.univa.forum.domain.ForumRecommend;
 import com.univa.forum.domain.ForumSubjectBridge;
 import com.univa.forum.dto.ForumPostDTO;
 import com.univa.forum.dto.ForumPostDTO;
@@ -64,15 +65,18 @@ public class ForumController {
 	
 	/* 포럼 게시물 */
 	@GetMapping("/main/content")
-	public String ForumContent(@RequestParam("id") int id, Model model) {
-		ForumPost forum = forumService.findOneForumPost(id);
+	@ResponseBody //TODO 테스트용 지우기
+	public String ForumContent(@RequestParam("id") int id, Model model, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		ForumPost forum = forumService.findOneForumPost(id, user.getIdx());
 //		for(ForumPost cf : forum.getChildren()) {
 //			// TODO 지우기
 //			//System.out.println("child title : "+cf.getTitle());
 //		}
-//		System.out.println("parent title : "+forum.getParent().getTitle());
-//		for(ForumSubjectBridge su : forum.getSubjects()) {
-//			System.out.println("subs : "+ su.getSubject().getName());
+//		System.out.println("reco : "+forum.getRecommended());
+//		System.out.println("reco cnt :"+forum.getRecommendedCount());
+//		for(ForumRecommend reco : forum.getForumRecommend()) {
+//			System.out.println("subs : "+ reco.getUser().getNickname());
 //		}
 		return "test";
 	}

@@ -1,8 +1,10 @@
 package com.univa.forum.service;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.univa.forum.domain.ForumPost;
+import com.univa.forum.domain.ForumRecommend;
 import com.univa.forum.domain.ForumSubject;
 import com.univa.forum.domain.ForumSubjectBridge;
 import com.univa.forum.domain.ForumUser;
@@ -92,8 +95,18 @@ public class ForumService {
 	}
 	
 	/* 인덱스로 게시물 찾기 */
-	public ForumPost findOneForumPost(int idx) {
-		return forumRepository.findForumByIdx(idx).get();
+	public ForumPost findOneForumPost(int idx, int userIdx) {
+		ForumPost post = forumRepository.findForumByIdx(idx).get();
+		int recoCnt = 0;
+		Set<ForumRecommend> recommend = post.getForumRecommend();
+		for (ForumRecommend reco : recommend ) {
+			recoCnt++;
+			if (reco.getUser().getIdx() == userIdx) { 
+				post.setRecommended(true);
+			}
+		}
+		post.setRecommendedCount(recoCnt);
+		return post;
 	}
 	
 	/* 유저 비밀번호 검사 */
