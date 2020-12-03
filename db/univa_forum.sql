@@ -156,3 +156,8 @@ CREATE TABLE IF NOT EXISTS `univa_forum`.`forum_report` (
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
+
+/* 포럼 게시물 delete_request 컬럼 제거 */
+ALTER TABLE `univa_forum`.`forum` DROP `delete_request`;
+
+  

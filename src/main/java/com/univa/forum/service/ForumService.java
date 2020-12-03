@@ -1,13 +1,16 @@
 package com.univa.forum.service;
 
 import java.io.File;
+import java.util.List;
 import java.util.Optional;
 
+import javax.security.auth.Subject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.univa.forum.domain.ForumPost;
 import com.univa.forum.domain.ForumUser;
 import com.univa.forum.dto.ForumUserDTO;
 import com.univa.forum.repository.ForumRepository;
@@ -86,6 +89,12 @@ public class ForumService {
 		}
 	}
 	
+	/* 인덱스로 게시물 찾기 */
+	public ForumPost findOneForumPost(int idx) {
+		return forumRepository.findForumByIdx(idx).get();
+	}
+	
+	/* 유저 비밀번호 검사 */
 	public Boolean validateUserPassword(ForumUserDTO userDto, String password) {
 		int userIdx = userDto.getIdx();
 		Optional<ForumUser> forumUser = forumRepository.findByIdx(userIdx); 
@@ -103,6 +112,11 @@ public class ForumService {
 	/* 중복검사 */
 	public Boolean validateDuplicateUser(ForumUser user) {
 		return !forumRepository.findByUsername(user.getUsername()).isPresent();
+	}
+	
+	/* 모든 주제 찾기 */
+	public List<Subject> findAllSubject() {
+		return forumRepository.findAllSubject();
 	}
 	
 }

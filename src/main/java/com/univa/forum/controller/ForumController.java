@@ -17,14 +17,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.univa.forum.domain.ForumPost;
+import com.univa.forum.domain.ForumSubjectBridge;
+import com.univa.forum.dto.ForumPostDTO;
+import com.univa.forum.dto.ForumPostDTO;
 import com.univa.forum.dto.ForumUserDTO;
 import com.univa.forum.service.ForumService;
 
@@ -38,10 +39,16 @@ public class ForumController {
 		this.forumService = service;
 	}
 	
-	/* 포럼 표지 */
+	/* 포럼 인덱스 */
 	@GetMapping("")
+	public String indexPage() {
+		return "index";
+	}
+	
+	/* 포럼 표지 */
+	@GetMapping("/main")
 	public String mainPage() {
-		return "test";
+		return "main/index";
 	}
 	
 	/* 포럼 과목별 게시판 */
@@ -58,13 +65,38 @@ public class ForumController {
 	/* 포럼 게시물 */
 	@GetMapping("/content")
 	public String ForumContent(@RequestParam("id") int id, Model model) {
+		ForumPost forum = forumService.findOneForumPost(id);
+//		for(ForumPost cf : forum.getChildren()) {
+//			// TODO 지우기
+//			//System.out.println("child title : "+cf.getTitle());
+//		}
+//		System.out.println("parent title : "+forum.getParent().getTitle());
+//		for(ForumSubjectBridge su : forum.getSubjects()) {
+//			System.out.println("subs : "+ su.getSubject().getName());
+//		}
 		return "test";
 	}
 	
 	/* 글쓰기 페이지 */
 	@GetMapping("/write")
-	public String ForumWritePage() {
-		return "test";
+	public String ForumWritePage(Model model) {
+		model.addAttribute("subject", forumService.findAllSubject());
+		return "/main/write";
+	}
+	@PostMapping("/write")
+	@ResponseBody
+	public String ForumWritePost(
+			ForumPostDTO forum,
+			HttpSession session) {
+		// TODO
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		if(user == null) {
+			return "session error";
+		}
+		forum.setUser_idx(user.getIdx()); // 게시자
+		forum.setType(0); // 타입
+		forum.setState(0); // 상태
+		return "ok";
 	}
 	
 	/* 회원 가입 */
@@ -72,7 +104,6 @@ public class ForumController {
 	public String ForumSignupPage() {
 		return "/account/signup";
 	}
-	
 	@PostMapping("/signup")
 	@ResponseBody
 	public String ForumSignupPost(
@@ -94,7 +125,7 @@ public class ForumController {
 			HttpSession session) {
 		Optional<ForumUserDTO> user = forumService.userSignin(forumUser);
 		if(user.isPresent()) {
-			session.setAttribute("ForumUserSession", user);
+			session.setAttribute("ForumUserSession", user.get());
 			return "ok";
 		} else {
 			return "error";
@@ -173,6 +204,5 @@ public class ForumController {
 		}
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
-	
 	
 }
