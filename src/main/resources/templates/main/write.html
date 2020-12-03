@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <title>Deepor I File Upload</title>
+      <meta name="description" content="A responsive bootstrap 4 admin dashboard template by hencework">
+      <!-- Favicon -->
+      <link rel="shortcut icon" href="favicon.ico">
+      <link rel="icon" href="favicon.ico" type="image/x-icon">
+      <!-- Bootstrap Dropzone CSS -->
+      <link th:href="@{/vendors/dropzone/dist/dropzone.css}" rel="stylesheet" type="text/css">
+      <!-- Bootstrap Dropzone CSS -->
+      <link th:href="@{/vendors/dropify/dist/css/dropify.min.css}" rel="stylesheet" type="text/css">
+      <!-- Toggles CSS -->
+      <link th:href="@{/vendors/jquery-toggles/css/toggles.css}" rel="stylesheet" type="text/css">
+      <link th:href="@{/vendors/jquery-toggles/css/themes/toggles-light.css}" rel="stylesheet" type="text/css">
+      <!-- Custom CSS -->
+      <link th:href="@{/dist/css/style.css}" rel="stylesheet" type="text/css">
+   </head>
+   <body data-spy="scroll" data-target=".navbar" data-offset="60">
+      <div class="preloader-it">
+         <div class="loader-pendulums"></div>
+      </div>
+      <div class="hk-wrapper">
+         <div th:replace="widget/menu :: menu"></div>
+         <div class="hk-pg-wrapper px-0">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-xl-12 pa-0">
+                     <div class="hk-pg-wrapper" style="min-height: 937px;">
+                        <!-- Container -->
+                        <div class="container">
+                           <!-- Title -->
+                           <div class="hk-pg-header">
+                              <h4 class="hk-pg-title">
+                                 <span class="pg-title-icon">
+                                    <span class="feather-icon">
+                                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-upload">
+                                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                          <polyline points="17 8 12 3 7 8"></polyline>
+                                          <line x1="12" y1="3" x2="12" y2="15"></line>
+                                       </svg>
+                                    </span>
+                                 </span>
+                                 질문 등록하기
+                              </h4>
+                           </div>
+                           <!-- /Title -->
+                           <!-- Row -->
+                           <div class="row">
+                              <div class="col-xl-12">
+                                 <section class="hk-sec-wrapper">
+                                    <div class="row">
+                                       <div class="col-sm">
+                                          <div class="card-body" style="padding:0px; margin-bottom:10px;">
+                                             <i class="glyphicon glyphicon-search"></i>
+                                             태그를 검색하여 적용해주세요.
+                                             <input class="form-control" placeholder="닉네임" type="text" name="nickname" style="max-width:300px;">
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                       <div class="col-sm">
+                                          <div class="card-body" style="padding:0px; margin:30px 0px 10px 0px;">
+                                             <i class="glyphicon glyphicon-search"></i>
+                                             질문을 작성해주세요
+                                          </div>
+                                          <form>
+                                             <div class="form-group">
+                                                <div class="input-group">
+                                                   <div class="input-group-prepend">
+                                                      <span class="input-group-text" id="inputGroup-sizing-default" style="padding:0px 30px 0px 30px">제 목</span>
+                                                   </div>
+                                                   <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="title">
+                                                </div>
+                                             </div>
+                                             <div class="form-group mb-0">
+                                                <div class="input-group">
+                                                   <div class="input-group-prepend">
+                                                      <span class="input-group-text" style="padding:0px 30px 0px 30px">내 용</span>
+                                                   </div>
+                                                   <textarea class="form-control" aria-label="With textarea" style="min-height:300px;" name="content"></textarea>
+                                                </div>
+                                             </div>
+                                          </form>
+                                       </div>
+                                    </div>
+                                    <div class="row" style="margin-top:30px;">
+                                       <div class="col-sm">
+                                          <form class="dropzone dz-clickable" id="remove_link">
+                                             <div class="dz-default dz-message">
+                                             	<span>파일을 첨부해주세요. (최대 5개)<br> Drop files or Click here to upload</span>
+                                             </div>
+                                          </form>
+                                       </div>
+                                    </div>
+                                    <div class="row">
+                                       <div class="col-sm">
+                                          <div class="card-body" style="padding:0px; margin-bottom:10px;">
+                                             <button type="button" class="btn btn-success" style="margin-top:30px; float:right;" onclick="submit()">등록하기</button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </section>
+                              </div>
+                           </div>
+                           <!-- /Row -->
+                        </div>
+                        <!-- /Container -->
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- jQuery -->
+      <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+      <!-- Bootstrap Core JavaScript -->
+      <script th:src="@{/vendors/popper.js/dist/umd/popper.min.js}"></script>
+      <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+      <!-- Owl JavaScript -->
+      <script th:src="@{/vendors/owl.carousel/dist/owl.carousel.min.js}"></script>
+      <!-- FeatherIcons JavaScript -->
+      <script th:src="@{/dist/js/feather.min.js}"></script>
+      <!-- Gallery JavaScript -->
+      <script th:src="@{/vendors/lightgallery/dist/js/lightgallery-all.min.js}"></script>
+      <script th:src="@{/dist/js/froogaloop2.min.js}"></script>
+      <!-- Init JavaScript -->
+      <script th:src="@{/dist/js/lightgallery-all.js}"></script>
+      <script th:src="@{/dist/js/landing-data.js}"></script>
+      <script th:src="@{/dist/js/init.js}"></script>
+      <script th:src="@{/dist/js/jquery.slimscroll.js}"></script>
+      <script th:src="@{/dist/js/dropdown-bootstrap-extended.js}"></script>
+      <script th:src="@{/vendors/dropzone/dist/dropzone.js}"></script>
+      <script th:src="@{/vendors/dropify/dist/js/dropify.min.js}"></script>
+      <script th:src="@{/dist/js/form-file-upload-data.js}"></script>
+      <script th:src="@{/vendors/jquery-toggles/toggles.min.js}"></script>
+      <script th:src="@{/dist/js/toggle-data.js}"></script>
+      <script th:src="@{/dist/js/ajax.js}"></script>
+      
+      <script>
+		function submit(){
+		    var formData = new FormData();
+		    formData.append("title", $("input[name=title]").val());
+		    formData.append("content", $("textarea[name=content]").val());
+		    
+		    postAPI("/forum/mypage/editinfo_password",formData, function(result){
+		 		console.log("result : " ,result);
+		 		switch(result){
+		 			case "ok" : 
+		 				switchContent(this, 'editinfo'); 
+	 				break;
+		 			case "error" : 
+		 				alert("정보가 일치하지 않습니다.");
+		 			break;
+		 			
+		 		}
+      		});
+		}
+      
+      </script>
+   </body>
+</html>
