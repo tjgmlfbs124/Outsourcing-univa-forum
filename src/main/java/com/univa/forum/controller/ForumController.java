@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.univa.forum.domain.ForumPost;
 import com.univa.forum.domain.ForumSubjectBridge;
+import com.univa.forum.dto.ForumPostDTO;
+import com.univa.forum.dto.ForumPostDTO;
 import com.univa.forum.dto.ForumUserDTO;
 import com.univa.forum.service.ForumService;
 
@@ -78,8 +80,23 @@ public class ForumController {
 	/* 글쓰기 페이지 */
 	@GetMapping("/write")
 	public String ForumWritePage(Model model) {
-		//model.addAttribute("subject", attributeValue)
+		model.addAttribute("subject", forumService.findAllSubject());
 		return "/main/write";
+	}
+	@PostMapping("/write")
+	@ResponseBody
+	public String ForumWritePost(
+			ForumPostDTO forum,
+			HttpSession session) {
+		// TODO
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		if(user == null) {
+			return "session error";
+		}
+		forum.setUser_idx(user.getIdx()); // 게시자
+		forum.setType(0); // 타입
+		forum.setState(0); // 상태
+		return "ok";
 	}
 	
 	/* 회원 가입 */
@@ -187,6 +204,5 @@ public class ForumController {
 		}
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
-	
 	
 }

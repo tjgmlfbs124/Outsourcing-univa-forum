@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.security.auth.Subject;
 
 import com.univa.forum.domain.ForumPost;
 import com.univa.forum.domain.ForumUser;
@@ -47,5 +48,9 @@ public class ForumRepository {
 	public Optional<ForumPost> findForumByIdx(int idx) {
 		ForumPost forum = em.find(ForumPost.class, idx);
 		return Optional.ofNullable(forum);
+	}
+	
+	public List<Subject> findAllSubject() {
+		return em.createQuery("select s from subject s", Subject.class).getResultList();
 	}
 }

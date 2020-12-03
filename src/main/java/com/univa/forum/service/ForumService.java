@@ -1,8 +1,10 @@
 package com.univa.forum.service;
 
 import java.io.File;
+import java.util.List;
 import java.util.Optional;
 
+import javax.security.auth.Subject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -87,6 +89,7 @@ public class ForumService {
 		}
 	}
 	
+	/* 인덱스로 게시물 찾기 */
 	public ForumPost findOneForumPost(int idx) {
 		return forumRepository.findForumByIdx(idx).get();
 	}
@@ -109,6 +112,11 @@ public class ForumService {
 	/* 중복검사 */
 	public Boolean validateDuplicateUser(ForumUser user) {
 		return !forumRepository.findByUsername(user.getUsername()).isPresent();
+	}
+	
+	/* 모든 주제 찾기 */
+	public List<Subject> findAllSubject() {
+		return forumRepository.findAllSubject();
 	}
 	
 }
