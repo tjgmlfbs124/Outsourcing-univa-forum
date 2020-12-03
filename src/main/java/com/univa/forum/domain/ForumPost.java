@@ -1,6 +1,8 @@
 package com.univa.forum.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -43,7 +45,8 @@ public class ForumPost {
 	private String content;
 	//private ForumPost history;
 	
-	@Column(name = "update_date")
+	@Column(name = "update_date", insertable = false, updatable=false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	//@Column(name = "update_date", columnDefinition = "CURRENT_TIMESTAMP")
 	private LocalDateTime update_date;
 	
 	@Column(name = "state")
@@ -56,7 +59,7 @@ public class ForumPost {
 	private List<ForumFile> files;
 	
 	@OneToMany(targetEntity=ForumSubjectBridge.class, mappedBy="forum", cascade = CascadeType.PERSIST)
-	private Set<ForumSubjectBridge> subjects;
+	private Collection<ForumSubjectBridge> subjects;
 
 	public int getIdx() {
 		return idx;
@@ -146,12 +149,19 @@ public class ForumPost {
 		this.files = files;
 	}
 
-	public Set<ForumSubjectBridge> getSubjects() {
+	public Collection<ForumSubjectBridge> getSubjects() {
+		if( subjects == null) {
+			subjects = new ArrayList<ForumSubjectBridge>();
+		}
 		return subjects;
 	}
 
-	public void setSubjects(Set<ForumSubjectBridge> subjects) {
+	public void setSubjects(Collection<ForumSubjectBridge> subjects) {
 		this.subjects = subjects;
+	}
+	public void addSubjects(ForumSubjectBridge subject) {
+		Collection<ForumSubjectBridge> subjects = getSubjects();
+		subjects.add(subject);
 	}
 	
 }

@@ -91,13 +91,22 @@ public class ForumController {
 		// TODO 서비스, 레포지토리 만들기
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		if(user == null) {
+			// TODO 필요 한가?
 			return "session error";
 		}
 		forum.setUser_idx(user.getIdx()); // 게시자
 		forum.setType(0); // 타입
 		forum.setState(0); // 상태
-		
-		return "ok";
+		return forumService.writeForum(forum);
+	}
+	
+	@GetMapping("/main/edit")
+	public String ForumPostModifyPage() {
+		return "test";
+	}
+	@PostMapping("/main/edit")
+	public String ForumPostModifyPost() {
+		return "test";
 	}
 	
 	/* 회원 가입 */
