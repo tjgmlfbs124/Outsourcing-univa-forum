@@ -52,7 +52,7 @@ public class ForumController {
 	}
 	
 	/* 포럼 과목별 게시판 */
-	@GetMapping("/board")
+	@GetMapping("/main/board")
 	public String ForumBoard(
 			@RequestParam(value="min", defaultValue="0") int min,
 			@RequestParam(value="max", defaultValue="10") int max,
@@ -63,7 +63,7 @@ public class ForumController {
 	}
 	
 	/* 포럼 게시물 */
-	@GetMapping("/content")
+	@GetMapping("/main/content")
 	public String ForumContent(@RequestParam("id") int id, Model model) {
 		ForumPost forum = forumService.findOneForumPost(id);
 //		for(ForumPost cf : forum.getChildren()) {
@@ -78,12 +78,12 @@ public class ForumController {
 	}
 	
 	/* 글쓰기 페이지 */
-	@GetMapping("/write")
+	@GetMapping("/main/write")
 	public String ForumWritePage(Model model) {
 		model.addAttribute("subject", forumService.findAllSubject());
 		return "/main/write";
 	}
-	@PostMapping("/write")
+	@PostMapping("/main/write")
 	@ResponseBody
 	public String ForumWritePost(
 			ForumPostDTO forum,
@@ -142,7 +142,7 @@ public class ForumController {
 	}
 	
 	/* 마이 페이지 */
-	@GetMapping("/mypage/")
+	@GetMapping("/mypage")
 	public String ForumMypageMain() {
 		return "/mypage/index";
 	}
