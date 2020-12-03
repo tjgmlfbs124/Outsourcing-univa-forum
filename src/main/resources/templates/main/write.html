@@ -145,17 +145,8 @@
 		    formData.append("title", $("input[name=title]").val());
 		    formData.append("content", $("textarea[name=content]").val());
 		    
-		    postAPI("/forum/mypage/editinfo_password",formData, function(result){
+		    postAPI("/forum/main/write",formData, function(result){
 		 		console.log("result : " ,result);
-		 		switch(result){
-		 			case "ok" : 
-		 				switchContent(this, 'editinfo'); 
-	 				break;
-		 			case "error" : 
-		 				alert("정보가 일치하지 않습니다.");
-		 			break;
-		 			
-		 		}
       		});
 		}
       
