@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.univa.forum.domain.ForumPost;
 import com.univa.forum.domain.ForumUser;
 import com.univa.forum.dto.ForumUserDTO;
 import com.univa.forum.repository.ForumRepository;
@@ -86,6 +87,11 @@ public class ForumService {
 		}
 	}
 	
+	public ForumPost findOneForumPost(int idx) {
+		return forumRepository.findForumByIdx(idx).get();
+	}
+	
+	/* 유저 비밀번호 검사 */
 	public Boolean validateUserPassword(ForumUserDTO userDto, String password) {
 		int userIdx = userDto.getIdx();
 		Optional<ForumUser> forumUser = forumRepository.findByIdx(userIdx); 

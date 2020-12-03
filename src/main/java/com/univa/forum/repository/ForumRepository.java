@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
+import com.univa.forum.domain.ForumPost;
 import com.univa.forum.domain.ForumUser;
 import com.univa.forum.domain.ForumUserGrade;
 
@@ -41,5 +42,10 @@ public class ForumRepository {
 	public Optional<ForumUserGrade> findByGradeId(int id) {
 		ForumUserGrade grade = em.find(ForumUserGrade.class, id);
 		return Optional.ofNullable(grade);
+	}
+	
+	public Optional<ForumPost> findForumByIdx(int idx) {
+		ForumPost forum = em.find(ForumPost.class, idx);
+		return Optional.ofNullable(forum);
 	}
 }
