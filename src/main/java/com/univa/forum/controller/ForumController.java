@@ -95,6 +95,7 @@ public class ForumController {
 		Optional<ForumUserDTO> user = forumService.userSignin(forumUser);
 		if(user.isPresent()) {
 			session.setAttribute("ForumUserSession", user);
+			session.setAttribute("ForumUserSession", user.get());
 			return "ok";
 		} else {
 			return "error";
