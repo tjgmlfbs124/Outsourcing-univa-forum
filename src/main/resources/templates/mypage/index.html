@@ -37,7 +37,7 @@
                         <div class="container">
                            <ul class="nav nav-light nav-tabs" role="tablist" id="menu-tab">
                               <li class="nav-item">
-                                 <a class="d-flex h-60p align-items-center nav-link" onclick="switchContent(this, 'profile')">회원정보</a>
+                                 <a class="d-flex h-60p align-items-center nav-link active" onclick="switchContent(this, 'profile')">회원정보</a>
                               </li>
                               <li class="nav-item">
                                  <a class="d-flex h-60p align-items-center nav-link" onclick="switchContent(this, 'question')">나의 질문</a>
@@ -66,6 +66,7 @@
       <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
       <!-- Owl JavaScript -->
       <script th:src="@{/vendors/owl.carousel/dist/owl.carousel.min.js}"></script>
+      <script th:src="@{/dist/js/jquery.slimscroll.js}"></script>
       <!-- FeatherIcons JavaScript -->
       <script th:src="@{/dist/js/feather.min.js}"></script>
       <!-- Gallery JavaScript -->
@@ -76,6 +77,7 @@
       <script th:src="@{/dist/js/landing-data.js}"></script>
       <script th:src="@{/dist/js/init.js}"></script>
       <script>
+     	$("#content").load("/forum/mypage/profile");
         function switchContent(target, content){
         	var tabs = $("#menu-tab").children();
         	
