@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.univa.forum.domain.ForumPost;
+import com.univa.forum.domain.ForumRecommend;
 import com.univa.forum.domain.ForumSubjectBridge;
 import com.univa.forum.dto.ForumPostDTO;
 import com.univa.forum.dto.ForumPostDTO;
@@ -52,7 +53,7 @@ public class ForumController {
 	}
 	
 	/* 포럼 과목별 게시판 */
-	@GetMapping("/board")
+	@GetMapping("/main/board")
 	public String ForumBoard(
 			@RequestParam(value="min", defaultValue="0") int min,
 			@RequestParam(value="max", defaultValue="10") int max,
@@ -63,27 +64,30 @@ public class ForumController {
 	}
 	
 	/* 포럼 게시물 */
-	@GetMapping("/content")
-	public String ForumContent(@RequestParam("id") int id, Model model) {
-		ForumPost forum = forumService.findOneForumPost(id);
+	@GetMapping("/main/content")
+	@ResponseBody //TODO 테스트용 지우기
+	public String ForumContent(@RequestParam("id") int id, Model model, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		ForumPost forum = forumService.findOneForumPost(id, user.getIdx());
 //		for(ForumPost cf : forum.getChildren()) {
 //			// TODO 지우기
 //			//System.out.println("child title : "+cf.getTitle());
 //		}
-//		System.out.println("parent title : "+forum.getParent().getTitle());
-//		for(ForumSubjectBridge su : forum.getSubjects()) {
-//			System.out.println("subs : "+ su.getSubject().getName());
+//		System.out.println("reco : "+forum.getRecommended());
+//		System.out.println("reco cnt :"+forum.getRecommendedCount());
+//		for(ForumRecommend reco : forum.getForumRecommend()) {
+//			System.out.println("subs : "+ reco.getUser().getNickname());
 //		}
 		return "test";
 	}
 	
 	/* 글쓰기 페이지 */
-	@GetMapping("/write")
+	@GetMapping("/main/write")
 	public String ForumWritePage(Model model) {
 		model.addAttribute("subject", forumService.findAllSubject());
 		return "/main/write";
 	}
-	@PostMapping("/write")
+	@PostMapping("/main/write")
 	@ResponseBody
 	public String ForumWritePost(
 			ForumPostDTO forum,
@@ -91,13 +95,22 @@ public class ForumController {
 		// TODO 서비스, 레포지토리 만들기
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		if(user == null) {
+			// TODO 필요 한가?
 			return "session error";
 		}
 		forum.setUser_idx(user.getIdx()); // 게시자
 		forum.setType(0); // 타입
 		forum.setState(0); // 상태
-		
-		return "ok";
+		return forumService.writeForum(forum);
+	}
+	
+	@GetMapping("/main/edit")
+	public String ForumPostModifyPage() {
+		return "test";
+	}
+	@PostMapping("/main/edit")
+	public String ForumPostModifyPost() {
+		return "test";
 	}
 	
 	/* 회원 가입 */
@@ -142,7 +155,7 @@ public class ForumController {
 	}
 	
 	/* 마이 페이지 */
-	@GetMapping("/mypage/")
+	@GetMapping("/mypage")
 	public String ForumMypageMain() {
 		return "/mypage/index";
 	}

@@ -1,7 +1,10 @@
 package com.univa.forum.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity(name="forum")
 public class ForumPost {
@@ -43,7 +47,8 @@ public class ForumPost {
 	private String content;
 	//private ForumPost history;
 	
-	@Column(name = "update_date")
+	@Column(name = "update_date", insertable = false, updatable=false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	//@Column(name = "update_date", columnDefinition = "CURRENT_TIMESTAMP")
 	private LocalDateTime update_date;
 	
 	@Column(name = "state")
@@ -56,8 +61,18 @@ public class ForumPost {
 	private List<ForumFile> files;
 	
 	@OneToMany(targetEntity=ForumSubjectBridge.class, mappedBy="forum", cascade = CascadeType.PERSIST)
-	private Set<ForumSubjectBridge> subjects;
-
+	private Collection<ForumSubjectBridge> subjects;
+	
+	@OneToMany(targetEntity=ForumRecommend.class, mappedBy="forum", cascade = CascadeType.PERSIST)
+	private Set<ForumRecommend> forumRecommend;
+	
+	/* 컬럼이 아닌 프로퍼티(리턴용 데이터?) */
+	@Transient
+	private int recommendedCount;
+	
+	@Transient
+	private Boolean recommended = false; 
+	
 	public int getIdx() {
 		return idx;
 	}
@@ -146,12 +161,43 @@ public class ForumPost {
 		this.files = files;
 	}
 
-	public Set<ForumSubjectBridge> getSubjects() {
+	public Collection<ForumSubjectBridge> getSubjects() {
+		if( subjects == null) {
+			subjects = new ArrayList<ForumSubjectBridge>();
+		}
 		return subjects;
 	}
 
-	public void setSubjects(Set<ForumSubjectBridge> subjects) {
+	public void setSubjects(Collection<ForumSubjectBridge> subjects) {
 		this.subjects = subjects;
+	}
+	public void addSubjects(ForumSubjectBridge subject) {
+		Collection<ForumSubjectBridge> subjects = getSubjects();
+		subjects.add(subject);
+	}
+
+	public Set<ForumRecommend> getForumRecommend() {
+		return forumRecommend;
+	}
+
+	public void setForumRecommend(Set<ForumRecommend> forumRecommend) {
+		this.forumRecommend = forumRecommend;
+	}
+
+	public int getRecommendedCount() {
+		return recommendedCount;
+	}
+
+	public void setRecommendedCount(int recommend) {
+		this.recommendedCount = recommend;
+	}
+
+	public Boolean getRecommended() {
+		return recommended;
+	}
+
+	public void setRecommended(Boolean recoomended) {
+		this.recommended = recoomended;
 	}
 	
 }

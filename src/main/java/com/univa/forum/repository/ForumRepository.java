@@ -27,26 +27,26 @@ public class ForumRepository {
 		return forum;
 	}
 	
-	public Optional<ForumUser> findByIdx(int idx) {
+	public Optional<ForumUser> findUserByIdx(int idx) {
 		ForumUser user = em.find(ForumUser.class, idx);
 		return Optional.ofNullable(user);
 	}
 	
-	public Optional<ForumUser> findByUsername(String username) {
+	public Optional<ForumUser> findUserByUsername(String username) {
 		List<ForumUser> result = em.createQuery("select u from user u where u.username = :username", ForumUser.class)
 				.setParameter("username", username)
 				.getResultList();
 		return result.stream().findAny();
 	}
 	
-	public Optional<ForumUser> findByUsernameAndPassword(ForumUser user) {
+	public Optional<ForumUser> findUserByUsernameAndPassword(ForumUser user) {
 		return em.createQuery("select u from user u where username = :username AND password = :password", ForumUser.class)
 		.setParameter("username", user.getUsername())
 		.setParameter("password", user.getPassword()).getResultList().stream().findAny();
 	}
 	
-	public Optional<ForumUserGrade> findByGradeId(int id) {
-		ForumUserGrade grade = em.find(ForumUserGrade.class, id);
+	public Optional<ForumUserGrade> findGradeByIdx(int idx) {
+		ForumUserGrade grade = em.find(ForumUserGrade.class, idx);
 		return Optional.ofNullable(grade);
 	}
 	
@@ -57,6 +57,11 @@ public class ForumRepository {
 	
 	public List<ForumSubject> findAllSubject() {
 		return em.createQuery("select s from subject s", ForumSubject.class).getResultList();
+	}
+	
+	public Optional<ForumSubject> findSubjectByIdx(int idx) {
+		ForumSubject subject = em.find(ForumSubject.class, idx);
+		return Optional.ofNullable(subject);
 	}
 	
 	

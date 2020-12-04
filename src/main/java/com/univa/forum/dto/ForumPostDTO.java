@@ -81,4 +81,7 @@ public class ForumPostDTO {
 	public void setSubjects(List<Integer> subjects) {
 		this.subjects = subjects;
 	}
+	public List<Integer> getSubjects() {
+		return subjects;
+	}
 }
