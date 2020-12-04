@@ -167,7 +167,7 @@ public class ForumController {
 	public String ForumSignoutPost(Model model, HttpSession session) {
 		session.removeAttribute("ForumUserSession");
 		// TODO 로그아웃 후처리
-		return "test";
+		return "index";
 	}
 	
 	/* 마이 페이지 */
@@ -192,7 +192,7 @@ public class ForumController {
 		List<ForumPost> answers = forumService.findMyFormList(0, 5, user.getIdx(), 100);
 		model.addAttribute("answers", answers);
 
-		return "test";
+		return "mypage/my_profile";
 	}
 	
 	/* 나의 질문 */
@@ -210,7 +210,7 @@ public class ForumController {
 		List<ForumPost> questions = forumService.findMyQuestionHeaderList(0, 9999, user.getIdx());
 		model.addAttribute("questions", questions);
 		
-		return "test";
+		return "mypage/my_forum";
 	}
 	
 	/* 나의 포럼 */
