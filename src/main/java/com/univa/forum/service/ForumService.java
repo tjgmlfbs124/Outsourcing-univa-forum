@@ -30,7 +30,7 @@ public class ForumService {
 	public ForumService(ForumRepository forumRepository) {
 		this.forumRepository = forumRepository;
 	}
-	
+	/** 회원가입 */
 	public String userSignup(ForumUserDTO userDto) {
 		ForumUser mUser = new ForumUser();
 		mUser.setUsername(userDto.getUsername());
@@ -54,7 +54,7 @@ public class ForumService {
 		}
 	}
 	
-	/* 이미지 저장, url 리턴 */
+	/** 이미지 저장, url 리턴 */
 	public String imageFileWrite(MultipartFile file) {
 		String dirPath = "uploads/imgs/";
 		String randomStr = StringUtil.RandomString(20)+"/";
@@ -69,7 +69,7 @@ public class ForumService {
 		FileUtil.FileWrite(file, savePath);
 		return imageUrl;
 	}
-	/* 파일 저장, url 리턴 */
+	/** 파일 저장, url 리턴 */
 	public String writeFile(MultipartFile file) {
 		String dirPath = "uploads/forum_files/";
 		String randomStr = StringUtil.RandomString(20)+"/";
@@ -85,6 +85,7 @@ public class ForumService {
 		return fileUrl;
 	}
 	
+	/** 로그인 */
 	public Optional<ForumUserDTO> userSignin(ForumUserDTO userDto) {
 		ForumUser mUser = new ForumUser();
 		mUser.setUsername(userDto.getUsername());
@@ -110,7 +111,7 @@ public class ForumService {
 		}
 	}
 	
-	/* 인덱스로 게시물 찾기 */
+	/** 인덱스로 게시물 찾기 */
 	public ForumPost findOneForumPost(int idx, int userIdx) {
 		ForumPost post = forumRepository.findForumByIdx(idx).get();
 		int recoCnt = 0;
@@ -125,7 +126,7 @@ public class ForumService {
 		return post;
 	}
 	
-	/* 유저 비밀번호 검사 */
+	/** 유저 비밀번호 검사 */
 	public Boolean validateUserPassword(ForumUserDTO userDto, String password) {
 		int userIdx = userDto.getIdx();
 		Optional<ForumUser> forumUser = forumRepository.findUserByIdx(userIdx); 
@@ -140,17 +141,17 @@ public class ForumService {
 		}
 	}
 	
-	/* 중복검사 */
+	/** 중복검사 */
 	public Boolean validateDuplicateUser(ForumUser user) {
 		return !forumRepository.findUserByUsername(user.getUsername()).isPresent();
 	}
 	
-	/* 모든 주제 찾기 */
+	/** 모든 주제 찾기 */
 	public List<ForumSubject> findAllSubject() {
 		return forumRepository.findAllSubject();
 	}
 	
-	/* 포럼 쓰기, 결과 리턴 */
+	/** 포럼 쓰기, 결과 리턴 */
 	public String writeForum(ForumPostDTO forum) {
 		ForumPost forumPost = new ForumPost();
 		ForumUser user = findUserByIdx(forum.getUser_idx());
@@ -170,7 +171,6 @@ public class ForumService {
 				forumPost.addSubjects(subjectEnt);
 			}
 		}
-		// TODO 파일 처리
 		if( forum.getFiles() != null && forum.getFiles().size() > 0) {
 			for (MultipartFile file : forum.getFiles() ) {
 				ForumFile mFile = new ForumFile();
@@ -184,8 +184,42 @@ public class ForumService {
 		return "ok";
 	}
 	
-	/* 유저 찾기 */
+	/** 유저 찾기 */
 	public ForumUser findUserByIdx(int idx) {
 		return forumRepository.findUserByIdx(idx).orElse(null);
+	}
+	
+	/** 모든 주제 포럼 게시물 리스트 */
+	public List<ForumPost> findQuestionFormList(int first, int max, int user_idx) {
+
+		// TODO 내가 추천한 테이블 설정
+		List<ForumPost> posts = forumRepository.findForumHeaderListSetLimit(first, max);
+		for(ForumPost post : posts) {
+			Set<ForumRecommend> reco = post.getForumRecommend();
+			post.setRecommendedCount(reco.size());
+			for(ForumRecommend mReco : reco) {
+				if(mReco.getUser().getIdx() == user_idx) {
+					post.setRecommended(true);
+				}
+			}
+		}
+		return posts;
+	}
+	
+	/** 특정 주제 포럼 게시물 리스트 */
+	public List<ForumPost> findQuestionsBySubject(int first, int max, int[] subjects, int user_idx){
+
+		// TODO 내가 추천한 테이블 설정
+		List<ForumPost> posts = forumRepository.findForumBySubject(first, max, subjects);
+		for(ForumPost post : posts) {
+			Set<ForumRecommend> reco = post.getForumRecommend();
+			post.setRecommendedCount(reco.size());
+			for(ForumRecommend mReco : reco) {
+				if(mReco.getUser().getIdx() == user_idx) {
+					post.setRecommended(true);
+				}
+			}
+		}
+		return posts;
 	}
 }

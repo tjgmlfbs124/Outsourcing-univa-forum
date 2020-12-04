@@ -64,5 +64,38 @@ public class ForumRepository {
 		return Optional.ofNullable(subject);
 	}
 	
+	public List<ForumPost> findAllForumPost() {
+		return em.createQuery("select f from forum f order by f.idx desc", ForumPost.class).getResultList();
+	}
 	
+	public List<ForumPost> findForumPostByTypeSetLimit(int type, int firstIdx, int max) {
+		return em.createQuery("select f from forum f where type = :type order by f.idx desc", ForumPost.class)
+				.setParameter("type", type)
+				.setFirstResult(firstIdx)
+				.setMaxResults(max)
+				.getResultList();
+	}
+	public List<ForumPost> findForumHeaderListSetLimit(int firstIdx, int max) {
+		return em.createQuery("select f from forum f where parent_idx is null order by f.idx desc", ForumPost.class)
+				.setFirstResult(firstIdx)
+				.setMaxResults(max)
+				.getResultList();
+	}
+	
+	public List<ForumPost> findForumBySubject(int firstIdx, int max, int[] subjects) {
+		String query = "select distinct f from forum f, forum_subject fs ";
+		if(subjects.length > 0) {
+			query += "where ( ";
+			for(int i=0; subjects.length>i; i++) {
+				query += "fs.subject ="+subjects[i];
+				if(i < subjects.length-1) query += " OR ";
+			}
+			query += ") and fs.forum = f.idx ";
+		}
+		query += "order by f.idx desc";
+		return em.createQuery(query, ForumPost.class)
+				.setFirstResult(firstIdx)
+				.setMaxResults(max)
+				.getResultList();
+	}
 }

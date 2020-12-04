@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -57,14 +58,27 @@ public class ForumController {
 	public String ForumBoard(
 			@RequestParam(value="min", defaultValue="0") int min,
 			@RequestParam(value="max", defaultValue="10") int max,
-			@RequestParam(value="subject") int[] subject,
+			@RequestParam(value="subject", defaultValue="0") int[] subject,
 			Model model,
 			HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		List<ForumPost> forums;
+		if(subject[0] == 0) {
+			forums = forumService.findQuestionFormList(0, 10, user.getIdx());
+		} else {
+			forums = forumService.findQuestionsBySubject(0, 10, subject, user.getIdx());
+		}
+		// TODO 게시판 결과 테스트 지우기
+//		for (ForumPost post : forums) {
+//			System.out.println("post :"+post.getTitle());
+//			System.out.println("post reco? :"+post.getRecommended());
+//			System.out.println("post recnt :"+post.getRecommendedCount());
+//		}
 		
 		return "test";
 	}
 	
-	/* 포럼 게시물 */
+	/* 포럼 내용 보기 */
 	@GetMapping("/main/content")
 	@ResponseBody //TODO 테스트용 지우기
 	public String ForumContent(@RequestParam("id") int id, Model model, HttpSession session) {
