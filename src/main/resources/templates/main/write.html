@@ -235,7 +235,10 @@
              formData.append("title", $("input[name=title]").val());
              formData.append("content", $("textarea[name=content]").val());
              formData.append("subjects", tagForms);
-             formData.append("files", files);
+             
+             for(let i=0; i < files.length; i++) {
+                formData.append('files', files[i]);
+             }
 
              postAPI("/forum/main/write",formData, function(result){
                	switch(result){
