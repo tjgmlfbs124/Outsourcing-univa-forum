@@ -15,7 +15,7 @@
                      <div class="profile-cover-wrap overlay-wrap">
                         <div class="profile-cover-img" style="background-image:url('/dist/img/bg1.jpg')"></div>
                         <div class="bg-overlay bg-trans-dark-60"></div>
-                        <div class="container profile-cover-content py-50">
+                        <div class="container profile-cover-content py-50" style="max-width:1600px;">
                            <div class="hk-row">
                               <div class="col-lg-6">
                                  <div class="media align-items-center">
@@ -25,8 +25,8 @@
                                        </div>
                                     </div>
                                     <div class="media-body">
-                                       <div class="text-white text-capitalize display-6 mb-5 font-weight-400">Cecilia Rios</div>
-                                       <div class="font-14 text-white"><span class="mr-5"><span class="font-weight-500 pr-5">124</span><span class="mr-5">Followers</span></span><span><span class="font-weight-500 pr-5">45</span><span>Following</span></span></div>
+                                       <div class="text-white text-capitalize display-6 mb-5 font-weight-400"><span th:text="${session.ForumUserSession?.nickname}"></span></div>
+                                       <div class="font-14 text-white"><span class="mr-5" th:text="${session.ForumUserSession?.email}"></span></div>
                                     </div>
                                  </div>
                               </div>
@@ -34,16 +34,16 @@
                         </div>
                      </div>
                      <div class="bg-white shadow-bottom">
-                        <div class="container">
+                        <div class="container"  style="max-width:1600px;">
                            <ul class="nav nav-light nav-tabs" role="tablist" id="menu-tab">
                               <li class="nav-item">
-                                 <a class="d-flex h-60p align-items-center nav-link active" onclick="switchContent(this, 'profile')">회원정보</a>
+                                 <a class="d-flex h-60p align-items-center nav-link active" onclick="switchContent(this, 'profile')" style="cursor:pointer;">회원정보</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="d-flex h-60p align-items-center nav-link" onclick="switchContent(this, 'question')">나의 질문</a>
+                                 <a class="d-flex h-60p align-items-center nav-link" onclick="switchContent(this, 'question')" style="cursor:pointer;">나의 질문</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="d-flex h-60p align-items-center nav-link" onclick="switchContent(this, 'forum')">나의 포럼</a>
+                                 <a class="d-flex h-60p align-items-center nav-link" onclick="switchContent(this, 'forum')" style="cursor:pointer;">나의 포럼</a>
                               </li>
                            </ul>
                         </div>
@@ -74,8 +74,15 @@
       <script th:src="@{/dist/js/froogaloop2.min.js}"></script>
       <!-- Init JavaScript -->
       <script th:src="@{/dist/js/lightgallery-all.js}"></script>
+      
       <script th:src="@{/dist/js/landing-data.js}"></script>
       <script th:src="@{/dist/js/init.js}"></script>
+      
+      
+      <script th:src="@{/vendors/jquery-toggles/toggles.min.js}"></script>
+      <script th:src="@{/dist/js/dropdown-bootstrap-extended.js}"></script>
+      <script th:src="@{/dist/js/toggle-data.js}"></script>
+      <script th:src="@{/dist/js/feather.min.js}"></script>
       <script>
      	$("#content").load("/forum/mypage/profile");
         function switchContent(target, content){
