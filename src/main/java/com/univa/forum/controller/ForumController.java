@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.univa.forum.domain.ForumPost;
 import com.univa.forum.domain.ForumRecommend;
 import com.univa.forum.domain.ForumSubjectBridge;
+import com.univa.forum.domain.ForumUserGrade;
 import com.univa.forum.dto.ForumPostDTO;
 import com.univa.forum.dto.ForumPostDTO;
 import com.univa.forum.dto.ForumUserDTO;
@@ -64,7 +65,7 @@ public class ForumController {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		List<ForumPost> forums;
 		if(subject[0] == 0) {
-			forums = forumService.findQuestionFormList(0, 10, user.getIdx());
+			forums = forumService.findHeaderForumList(0, 10, user.getIdx());
 		} else {
 			forums = forumService.findQuestionsBySubject(0, 10, subject, user.getIdx());
 		}
@@ -107,7 +108,6 @@ public class ForumController {
 	public String ForumWritePost(
 			ForumPostDTO forum,
 			HttpSession session) {
-		// TODO 서비스, 레포지토리 만들기
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		if(user == null) {
 			// TODO 필요 한가?
@@ -172,20 +172,51 @@ public class ForumController {
 	
 	/* 마이 페이지 */
 	@GetMapping("/mypage")
-	public String ForumMypageMain() {
+	public String ForumMypageMain(Model model, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		ForumUserGrade grade = forumService.findOneGrade(user.getGrade_idx());
+		model.addAttribute("grade", grade);
 		return "/mypage/index";
 	}
 	
 	/* 마이 페이지 */
-	@GetMapping("/mypage/profile")
+	@GetMapping("/mypage/my_profile")
 	public String ForumMypagePage(Model model, HttpSession session) {
-		return "/mypage/profile";
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		Long recommendCnt = forumService.findMyForumRecommendedCount(user.getIdx());
+		model.addAttribute("recommendCount", recommendCnt);
+		model.addAttribute("questionCount", forumService.findMyForumCountSetType(user.getIdx(), 0));
+		model.addAttribute("answerCount", forumService.findMyForumCountSetType(user.getIdx(), 100));
+		List<ForumPost> questions = forumService.findMyFormList(0, 5, user.getIdx(), 0);
+		model.addAttribute("questions", questions);
+		List<ForumPost> answers = forumService.findMyFormList(0, 5, user.getIdx(), 100);
+		model.addAttribute("answers", answers);
+
+		return "test";
+	}
+	
+	/* 나의 질문 */
+	@GetMapping("/mypage/my_question")
+	public String ForumMyQuestionPage(Model model, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		Long recommendCnt = forumService.findMyForumRecommendedCount(user.getIdx());
+		model.addAttribute("recommendCount", recommendCnt);
+		model.addAttribute("questionCount", forumService.findMyForumCountSetType(user.getIdx(), 0));
+		model.addAttribute("answerCount", forumService.findMyForumCountSetType(user.getIdx(), 100));
+		List<ForumPost> questionList = forumService.findMyFormList(0, 5, user.getIdx(), 0);
+		model.addAttribute("questionList", questionList);
+		List<ForumPost> answerList = forumService.findMyFormList(0, 5, user.getIdx(), 100);
+		model.addAttribute("answerList", answerList);
+		List<ForumPost> questions = forumService.findMyQuestionHeaderList(0, 9999, user.getIdx());
+		model.addAttribute("questions", questions);
+		
+		return "test";
 	}
 	
 	/* 나의 포럼 */
-	@GetMapping("/mypage/forum")
+	@GetMapping("/mypage/my_forum")
 	public String ForumMyforumPage() {
-		return "/mypage/forum";
+		return "/mypage/my_forum";
 	}
 	
 	/* 정보수정 페이지 비밀번호 */

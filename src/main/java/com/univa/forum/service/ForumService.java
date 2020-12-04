@@ -17,6 +17,7 @@ import com.univa.forum.domain.ForumRecommend;
 import com.univa.forum.domain.ForumSubject;
 import com.univa.forum.domain.ForumSubjectBridge;
 import com.univa.forum.domain.ForumUser;
+import com.univa.forum.domain.ForumUserGrade;
 import com.univa.forum.dto.ForumPostDTO;
 import com.univa.forum.dto.ForumUserDTO;
 import com.univa.forum.repository.ForumRepository;
@@ -190,9 +191,7 @@ public class ForumService {
 	}
 	
 	/** 모든 주제 포럼 게시물 리스트 */
-	public List<ForumPost> findQuestionFormList(int first, int max, int user_idx) {
-
-		// TODO 내가 추천한 테이블 설정
+	public List<ForumPost> findHeaderForumList(int first, int max, int user_idx) {
 		List<ForumPost> posts = forumRepository.findForumHeaderListSetLimit(first, max);
 		for(ForumPost post : posts) {
 			Set<ForumRecommend> reco = post.getForumRecommend();
@@ -208,8 +207,6 @@ public class ForumService {
 	
 	/** 특정 주제 포럼 게시물 리스트 */
 	public List<ForumPost> findQuestionsBySubject(int first, int max, int[] subjects, int user_idx){
-
-		// TODO 내가 추천한 테이블 설정
 		List<ForumPost> posts = forumRepository.findForumBySubject(first, max, subjects);
 		for(ForumPost post : posts) {
 			Set<ForumRecommend> reco = post.getForumRecommend();
@@ -222,4 +219,33 @@ public class ForumService {
 		}
 		return posts;
 	}
+	
+	/** 유저 등급 리턴 */
+	public ForumUserGrade findOneGrade(int idx) {
+		return forumRepository.findGradeByIdx(idx).orElse(null);
+	}
+	
+	/** 나의 포럼 게시물 수 타입별 리턴 */
+	public Long findMyForumCountSetType(int user_idx, int type) {
+		return forumRepository.findForumCountByUserIdxSetType(user_idx, type);	
+	}
+	
+	/** 나의 포럼 게시물 */
+	public List<ForumPost> findMyFormList(int first, int max, int user_idx, int type) {
+		List<ForumPost> posts = forumRepository.findForumPostByTypeSetLimit(type, first, max, user_idx);
+		return posts;
+	}
+	
+	/** 나의 모든 포럼의 받은 추천 수*/
+	public Long findMyForumRecommendedCount(int user_idx) {
+		return forumRepository.findAllMyForumRecommendedCount(user_idx);
+	}
+	
+	/** 나의 모든 포럼 질문 */
+	public List<ForumPost> findMyQuestionHeaderList(int first, int max, int user_idx) {
+		return forumRepository.findForumHeaderListSetLimitAndUser(first, max, user_idx);
+	}
+	
+	/** 내가 관여한 모든 포럼 질문 */
+	
 }

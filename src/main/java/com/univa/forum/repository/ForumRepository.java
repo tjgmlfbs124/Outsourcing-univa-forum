@@ -68,15 +68,24 @@ public class ForumRepository {
 		return em.createQuery("select f from forum f order by f.idx desc", ForumPost.class).getResultList();
 	}
 	
-	public List<ForumPost> findForumPostByTypeSetLimit(int type, int firstIdx, int max) {
-		return em.createQuery("select f from forum f where type = :type order by f.idx desc", ForumPost.class)
+	public List<ForumPost> findForumPostByTypeSetLimit(int type, int firstIdx, int max, int user) {
+		return em.createQuery("select f from forum f where type = :type and user_idx = :user order by f.idx desc", ForumPost.class)
 				.setParameter("type", type)
+				.setParameter("user", user)
 				.setFirstResult(firstIdx)
 				.setMaxResults(max)
 				.getResultList();
 	}
 	public List<ForumPost> findForumHeaderListSetLimit(int firstIdx, int max) {
 		return em.createQuery("select f from forum f where parent_idx is null order by f.idx desc", ForumPost.class)
+				.setFirstResult(firstIdx)
+				.setMaxResults(max)
+				.getResultList();
+	}
+	
+	public List<ForumPost> findForumHeaderListSetLimitAndUser(int firstIdx, int max, int user) {
+		return em.createQuery("select f from forum f where user_idx = :user and parent_idx is null order by f.idx desc", ForumPost.class)
+				.setParameter("user", user)
 				.setFirstResult(firstIdx)
 				.setMaxResults(max)
 				.getResultList();
@@ -97,5 +106,21 @@ public class ForumRepository {
 				.setFirstResult(firstIdx)
 				.setMaxResults(max)
 				.getResultList();
+	}
+	
+	public Long findForumCountByUserIdxSetType(int user_idx, int type) {
+		return em.createQuery("select count(f.idx) from forum f where type=:type and user_idx=:user_idx order by f.idx desc", Long.class)
+				.setParameter("type", type)
+				.setParameter("user_idx", user_idx)
+				.getSingleResult();
+	}
+	
+	public Long findAllMyForumRecommendedCount(int user_idx) {
+		String query = "select count(fr.forum)"
+				+" from forum f, forum_recommend fr"
+				+" where f.user.idx = :user_idx and fr.forum = f.idx";
+		return em.createQuery(query, Long.class)
+				.setParameter("user_idx", user_idx)
+				.getSingleResult();
 	}
 }
