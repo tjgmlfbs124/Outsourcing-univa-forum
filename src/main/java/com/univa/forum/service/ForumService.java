@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.univa.forum.domain.ForumFile;
 import com.univa.forum.domain.ForumPost;
 import com.univa.forum.domain.ForumRecommend;
 import com.univa.forum.domain.ForumSubject;
@@ -55,7 +56,7 @@ public class ForumService {
 	
 	/* 이미지 저장, url 리턴 */
 	public String imageFileWrite(MultipartFile file) {
-		String dirPath = "uploads/imgs";
+		String dirPath = "uploads/imgs/";
 		String randomStr = StringUtil.RandomString(20)+"/";
 		String imageUrl = randomStr+"img"+FileUtil.getExtension(file.getOriginalFilename()).get();
 		String savePath = dirPath+imageUrl;
@@ -67,6 +68,21 @@ public class ForumService {
 		}
 		FileUtil.FileWrite(file, savePath);
 		return imageUrl;
+	}
+	/* 파일 저장, url 리턴 */
+	public String writeFile(MultipartFile file) {
+		String dirPath = "uploads/forum_files/";
+		String randomStr = StringUtil.RandomString(20)+"/";
+		String fileUrl = randomStr+"file"+FileUtil.getExtension(file.getOriginalFilename()).get();
+		String savePath = dirPath+fileUrl;
+		try {
+			File mFile = new File(dirPath+randomStr);
+			mFile.mkdirs();
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+		FileUtil.FileWrite(file, savePath);
+		return fileUrl;
 	}
 	
 	public Optional<ForumUserDTO> userSignin(ForumUserDTO userDto) {
@@ -155,6 +171,14 @@ public class ForumService {
 			}
 		}
 		// TODO 파일 처리
+		if( forum.getFiles() != null && forum.getFiles().size() > 0) {
+			for (MultipartFile file : forum.getFiles() ) {
+				ForumFile mFile = new ForumFile();
+				mFile.setFile_url(writeFile(file));
+				mFile.setForum(forumPost);
+				forumPost.addFiles(mFile);
+			}
+		}
 		forumRepository.save(forumPost);
 		
 		return "ok";

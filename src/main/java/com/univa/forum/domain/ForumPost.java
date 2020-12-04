@@ -154,11 +154,15 @@ public class ForumPost {
 	}
 
 	public List<ForumFile> getFiles() {
+		if(files == null) files = new ArrayList<ForumFile>();
 		return files;
 	}
-
 	public void setFiles(List<ForumFile> files) {
 		this.files = files;
+	}
+	public void addFiles(ForumFile file) {
+		List<ForumFile> files = getFiles();
+		files.add(file);
 	}
 
 	public Collection<ForumSubjectBridge> getSubjects() {

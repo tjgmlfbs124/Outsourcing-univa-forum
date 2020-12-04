@@ -58,7 +58,8 @@ public class ForumController {
 			@RequestParam(value="min", defaultValue="0") int min,
 			@RequestParam(value="max", defaultValue="10") int max,
 			@RequestParam(value="subject") int[] subject,
-			Model model) {
+			Model model,
+			HttpSession session) {
 		
 		return "test";
 	}
@@ -101,6 +102,7 @@ public class ForumController {
 		forum.setUser_idx(user.getIdx()); // 게시자
 		forum.setType(0); // 타입
 		forum.setState(0); // 상태
+		
 		return forumService.writeForum(forum);
 	}
 	
