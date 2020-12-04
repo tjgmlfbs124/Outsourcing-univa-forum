@@ -119,9 +119,15 @@
                                           <div class="card-body" style="padding:0px;">
                                              <i class="glyphicon glyphicon-search"></i>
                                              태그를 검색하여 적용해주세요.
-                                             <input class="form-control" id="input-tag" type="text" name="myCountry" placeholder="태그명을 입력하세요" style="max-width:300px; margin-top:10px;">
+                                             <input class="form-control" id="input-tag" type="text" name="tag" placeholder="태그명을 입력하세요" style="max-width:300px; margin-top:10px;">
                                           </div>
                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <div class="w-100" id="tag-list">
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="row">
                                        <div class="col-sm">
@@ -217,15 +223,18 @@
       <script>
          function submit(){
              var formData = new FormData();
-             var array = [];
-             array.push("1");
-             array.push("2");
              var files = document.getElementById('uploadFiles').files;
-             console.log("image_url : " , image_url)
+             var tagForms = [];
+             var tags = $("#tag-list").children();
+
+             for(var idx=0; idx<tags.length; idx++){
+              var tag = tags[idx];
+              tagForms.push(tag.getAttribute('data-id'));
+             }
 
              formData.append("title", $("input[name=title]").val());
              formData.append("content", $("textarea[name=content]").val());
-             formData.append("subjects", array);
+             formData.append("subjects", tagForms);
              formData.append("files", files);
 
              postAPI("/forum/main/write",formData, function(result){
@@ -237,10 +246,28 @@
                	}
            		});
          }
-         var tags = "[[${forum.subject}]]";
-         console.log("tags : " , tags);
-         var countries = [];
-		 autocomplete(document.getElementById("input-tag"), countries);
+
       </script>
+      <script th:inline="javascript">
+        var countries = [];
+         /*<![CDATA[*/
+
+         /*[# th:each="tmp : ${subject}"]*/
+         noti(/*[[${tmp.idx}]]*/, /*[[${tmp.name}]]*/);
+         /*[/]*/
+         /*]]>*/
+
+         function noti(id, name){
+           countries.push([id, name]);
+         }
+
+        autocomplete(document.getElementById("input-tag"), countries,
+          function(id, name){
+            $("#tag-list").append("<span class='badge badge-primary mt-15 mr-10' data-id='"+id+"'>"+name+"</span>");
+            $("input[name=tag]").val("");
+          }
+        );
+      </script>
+
    </body>
 </html>
