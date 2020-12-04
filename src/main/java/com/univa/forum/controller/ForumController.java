@@ -180,7 +180,7 @@ public class ForumController {
 	}
 	
 	/* 마이 페이지 */
-	@GetMapping("/mypage/my_profile")
+	@GetMapping("/mypage/profile")
 	public String ForumMypagePage(Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		Long recommendCnt = forumService.findMyForumRecommendedCount(user.getIdx());
@@ -196,7 +196,7 @@ public class ForumController {
 	}
 	
 	/* 나의 질문 */
-	@GetMapping("/mypage/my_question")
+	@GetMapping("/mypage/question")
 	public String ForumMyQuestionPage(Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		Long recommendCnt = forumService.findMyForumRecommendedCount(user.getIdx());
@@ -214,7 +214,7 @@ public class ForumController {
 	}
 	
 	/* 나의 포럼 */
-	@GetMapping("/mypage/my_forum")
+	@GetMapping("/mypage/forum")
 	public String ForumMyforumPage() {
 		return "/mypage/my_forum";
 	}
