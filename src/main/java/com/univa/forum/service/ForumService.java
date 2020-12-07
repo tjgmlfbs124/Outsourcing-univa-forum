@@ -259,7 +259,30 @@ public class ForumService {
 		return posts;
 	}
 	
-	/** 내가 관여한 모든 포럼 질문 */
+	/** 내가 관여한 모든 포럼의 루트 질문 */
+	public List<ForumPost> findInvolvedHeaderList(int user_idx) {
+		List<ForumPost> allPosts = forumRepository.findForumByUserIdx(user_idx);
+		List<ForumPost> involvedPosts = new ArrayList<ForumPost>();
+		for(ForumPost post : allPosts) {
+			ForumPost rootPost = this.getRoot(post);
+			if(!involvedPosts.contains(rootPost)) involvedPosts.add(rootPost);
+		}
+		
+		for(ForumPost post : involvedPosts) {
+			post.setRecommendedCount(post.getForumRecommend().size());
+			for(ForumRecommend reco : post.getForumRecommend()) {
+				if (reco.getUser().getIdx() == user_idx) post.setRecommended(true);
+			}
+		}
+		
+		return involvedPosts;
+	}
 	
+	public ForumPost getRoot(ForumPost post) {
+		while (post.getParent() != null) {
+			post = post.getParent();
+		}
+		return post;
+	}
 	
 }

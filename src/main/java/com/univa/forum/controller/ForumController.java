@@ -215,7 +215,10 @@ public class ForumController {
 	
 	/* 나의 포럼 */
 	@GetMapping("/mypage/forum")
-	public String ForumMyforumPage() {
+	public String ForumMyforumPage(Model model, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		List<ForumPost> posts = forumService.findInvolvedHeaderList(user.getIdx());
+		model.addAttribute("involvedQuestions", posts);
 		return "/mypage/my_forum";
 	}
 	
