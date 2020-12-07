@@ -2,6 +2,8 @@ package com.univa.forum.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -128,10 +130,40 @@ public class ForumService {
 		return post;
 	}
 	
-	/** TODO 가장 자식이 많은 게시물 정렬 */
+	/** 가장 자식이 많은 게시물 역순 정렬 */
+	public List<ForumPost> findHeaderForumOrderByChildCnt(int user_idx) {
+		List<ForumPost> posts = this.findHeaderForumList(user_idx);
+		posts = this.addChildCount(posts);
+		
+		posts.sort(new Comparator<ForumPost>() {
+			@Override
+			public int compare(ForumPost post1, ForumPost post2) {
+				int cnt1 = post1.getChildrenCount();
+				int cnt2 = post2.getChildrenCount();
+				
+				if(cnt1==cnt2) return 0;
+				else if(cnt1 > cnt2) return -1;
+				else return 1;
+			}
+		});
+		return posts;
+	}
 	public List<ForumPost> findHeaderForumOrderByChildCnt() {
-		//this.findHeaderForumList(first, max, user_idx)
-		return null;
+		List<ForumPost> posts = this.findHeaderForumList();
+		posts = this.addChildCount(posts);
+		
+		posts.sort(new Comparator<ForumPost>() {
+			@Override
+			public int compare(ForumPost post1, ForumPost post2) {
+				int cnt1 = post1.getChildrenCount();
+				int cnt2 = post2.getChildrenCount();
+				
+				if(cnt1==cnt2) return 0;
+				else if(cnt1 > cnt2) return -1;
+				else return 1;
+			}
+		});
+		return posts;
 	}
 	
 	/** 유저 비밀번호 검사 */
@@ -201,6 +233,18 @@ public class ForumService {
 	public List<ForumPost> findHeaderForumList(int first, int max, int user_idx) {
 		List<ForumPost> posts = forumRepository.findForumHeaderListSetLimit(first, max);
 		posts = this.addRecommendCount(posts, user_idx);
+		
+		return posts;
+	}
+	public List<ForumPost> findHeaderForumList(int user_idx) {
+		List<ForumPost> posts = forumRepository.findForumHeaderList();
+		posts = this.addRecommendCount(posts, user_idx);
+		
+		return posts;
+	}
+	public List<ForumPost> findHeaderForumList() {
+		List<ForumPost> posts = forumRepository.findForumHeaderList();
+		posts = this.addRecommendCount(posts);
 		
 		return posts;
 	}
@@ -281,6 +325,24 @@ public class ForumService {
 			if(post.getChildren() != null) this.addRecommendCount(post.getChildren(), user_idx);
 		}
 		return posts;
+	}
+	
+	/** 게시물에 모든 자식 수 할당*/
+	public List<ForumPost> addChildCount(List<ForumPost> posts) {
+		for(ForumPost post: posts) {
+			post.setChildrenCount(this.findChildrenCount(post));
+		}
+		return posts;
+	}
+	
+	/** 게시글의 모든 자식 수 */
+	public int findChildrenCount(ForumPost post) {
+		int count = 0;
+		count += post.getChildren().size();
+		for(ForumPost forumPost : post.getChildren()) {
+			count += this.findChildrenCount(forumPost);
+		}
+		return count;
 	}
 	
 	/** 게시글 최상위 루트 찾기 */

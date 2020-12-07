@@ -50,7 +50,17 @@ public class ForumController {
 	
 	/* 포럼 표지 */
 	@GetMapping("/main")
-	public String mainPage() {
+	public String mainPage(Model model, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		List<ForumPost> posts;
+		if(user != null) {
+			posts = forumService.findHeaderForumOrderByChildCnt(user.getIdx());
+		} else {
+			posts = forumService.findHeaderForumOrderByChildCnt();
+		}
+		
+		model.addAttribute("questions", posts);
+		
 		return "main/index";
 	}
 	

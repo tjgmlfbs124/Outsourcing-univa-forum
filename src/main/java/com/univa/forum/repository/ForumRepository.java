@@ -77,9 +77,15 @@ public class ForumRepository {
 				.getResultList();
 	}
 	public List<ForumPost> findForumHeaderListSetLimit(int firstIdx, int max) {
-		return em.createQuery("select f from forum f where parent_idx is null order by f.idx desc", ForumPost.class)
+		return em.createQuery("select f from forum f where parent_idx is null order by f.idx desc",
+				ForumPost.class)
 				.setFirstResult(firstIdx)
 				.setMaxResults(max)
+				.getResultList();
+	}
+	public List<ForumPost> findForumHeaderList(){
+		return em.createQuery("select f from forum f where parent_idx is null order by f.idx desc",
+				ForumPost.class)
 				.getResultList();
 	}
 	
