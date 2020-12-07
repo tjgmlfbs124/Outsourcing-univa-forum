@@ -73,6 +73,9 @@ public class ForumPost {
 	@Transient
 	private Boolean recommended = false; 
 	
+	@Transient
+	private int childrenCount;
+	
 	public int getIdx() {
 		return idx;
 	}
@@ -202,6 +205,14 @@ public class ForumPost {
 
 	public void setRecommended(Boolean recoomended) {
 		this.recommended = recoomended;
+	}
+
+	public int getChildrenCount() {
+		return childrenCount;
+	}
+
+	public void setChildrenCount(int childrenCount) {
+		this.childrenCount = childrenCount;
 	}
 	
 }

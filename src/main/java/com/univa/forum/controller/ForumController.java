@@ -50,7 +50,17 @@ public class ForumController {
 	
 	/* 포럼 표지 */
 	@GetMapping("/main")
-	public String mainPage() {
+	public String mainPage(Model model, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		List<ForumPost> posts;
+		if(user != null) {
+			posts = forumService.findHeaderForumOrderByChildCnt(user.getIdx());
+		} else {
+			posts = forumService.findHeaderForumOrderByChildCnt();
+		}
+		
+		model.addAttribute("questions", posts);
+		
 		return "main/index";
 	}
 	
@@ -180,7 +190,7 @@ public class ForumController {
 	}
 	
 	/* 마이 페이지 */
-	@GetMapping("/mypage/my_profile")
+	@GetMapping("/mypage/profile")
 	public String ForumMypagePage(Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		Long recommendCnt = forumService.findMyForumRecommendedCount(user.getIdx());
@@ -188,15 +198,15 @@ public class ForumController {
 		model.addAttribute("questionCount", forumService.findMyForumCountSetType(user.getIdx(), 0));
 		model.addAttribute("answerCount", forumService.findMyForumCountSetType(user.getIdx(), 100));
 		List<ForumPost> questions = forumService.findMyFormList(0, 5, user.getIdx(), 0);
-		model.addAttribute("questions", questions);
+		model.addAttribute("questionList", questions);
 		List<ForumPost> answers = forumService.findMyFormList(0, 5, user.getIdx(), 100);
-		model.addAttribute("answers", answers);
+		model.addAttribute("answerList", answers);
 
 		return "mypage/my_profile";
 	}
 	
 	/* 나의 질문 */
-	@GetMapping("/mypage/my_question")
+	@GetMapping("/mypage/question")
 	public String ForumMyQuestionPage(Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		Long recommendCnt = forumService.findMyForumRecommendedCount(user.getIdx());
@@ -210,12 +220,15 @@ public class ForumController {
 		List<ForumPost> questions = forumService.findMyQuestionHeaderList(0, 9999, user.getIdx());
 		model.addAttribute("questions", questions);
 		
-		return "mypage/my_forum";
+		return "mypage/my_question";
 	}
 	
 	/* 나의 포럼 */
-	@GetMapping("/mypage/my_forum")
-	public String ForumMyforumPage() {
+	@GetMapping("/mypage/forum")
+	public String ForumMyforumPage(Model model, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		List<ForumPost> posts = forumService.findInvolvedHeaderList(user.getIdx());
+		model.addAttribute("involvedQuestions", posts);
 		return "/mypage/my_forum";
 	}
 	

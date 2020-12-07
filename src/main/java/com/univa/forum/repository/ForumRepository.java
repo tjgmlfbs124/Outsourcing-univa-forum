@@ -77,9 +77,15 @@ public class ForumRepository {
 				.getResultList();
 	}
 	public List<ForumPost> findForumHeaderListSetLimit(int firstIdx, int max) {
-		return em.createQuery("select f from forum f where parent_idx is null order by f.idx desc", ForumPost.class)
+		return em.createQuery("select f from forum f where parent_idx is null order by f.idx desc",
+				ForumPost.class)
 				.setFirstResult(firstIdx)
 				.setMaxResults(max)
+				.getResultList();
+	}
+	public List<ForumPost> findForumHeaderList(){
+		return em.createQuery("select f from forum f where parent_idx is null order by f.idx desc",
+				ForumPost.class)
 				.getResultList();
 	}
 	
@@ -115,6 +121,12 @@ public class ForumRepository {
 				.getSingleResult();
 	}
 	
+	public List<ForumPost> findForumByUserIdx(int user_idx) {
+		return em.createQuery("select f from forum f where user_idx = :user_idx", ForumPost.class)
+				.setParameter("user_idx", user_idx)
+				.getResultList();
+	}
+	
 	public Long findAllMyForumRecommendedCount(int user_idx) {
 		String query = "select count(fr.forum)"
 				+" from forum f, forum_recommend fr"
@@ -123,4 +135,5 @@ public class ForumRepository {
 				.setParameter("user_idx", user_idx)
 				.getSingleResult();
 	}
+	
 }
