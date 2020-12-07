@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+   <body data-spy="scroll" data-target=".navbar" data-offset="60">
+      <div class="hk-wrapper">
+         <div class="hk-pg-wrapper px-0" style="padding-top:0px;">
+            <div class="container-fluid">
+               <!-- Row -->
+               <div class="row">
+                  <div class="col-xl-12 pa-0">
+                     <div class="tab-content mt-sm-60 mt-30">
+                        <div class="tab-pane fade show active" role="tabpanel">
+                           <div class="container"  style="max-width:1600px;">
+                              <div class="hk-row">
+                                 <div class="col-lg-9" >
+                                    <div class="card-columns card-column-1" th:each="list : ${questions}">
+                                       <div class="card card-profile-feed mb-0 rounded-bottom-0">
+                                          <div class="card-header card-header-action">
+                                             <div class="media align-items-center">
+                                                <div class="media-img-wrap d-flex mr-10">
+                                                   <div class="avatar avatar-sm">
+                                                      <img th:src="@{/dist/img/avatar3.jpg}" alt="user" class="avatar-img rounded-circle">
+                                                   </div>
+                                                </div>
+                                                <div class="media-body">
+                                                   <div class="text-capitalize font-weight-500 text-dark"><span th:text="${list.user.username}"></span></div>
+                                                   <div class="font-13" th:text="${list.update_date}">2020-12-04 11:30</div>
+                                                </div>
+                                             </div>
+                                             <div class="d-flex align-items-center card-action-wrap">
+                                                <div class="inline-block dropdown">
+                                                   <a class="dropdown-toggle no-caret" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="ion ion-ios-more"></i></a>
+                                                   <div class="dropdown-menu dropdown-menu-right">
+                                                      <a class="dropdown-item" th:href="'/forum/main/edit?id=' + ${list.idx}">update</a>
+                                                      <a class="dropdown-item" th:href="'/forum/main/edit?id=' + ${list.idx}">remove</a>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="card-body">
+                                             <p class="card-text mb-30" th:utext="${#strings.replace( #strings.escapeXml( list.content ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}">내용내용</p>
+                                             <div class="feed-img-layout">
+                                                <div class="row h-200p">
+                                                   <div class="col-6 h-100">
+                                                      <div class="feed-img h-100" style="background-image:url(/dist/img/gallery/mock2.jpg);"></div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="card-footer justify-content-between">
+                                             <div>
+                                                <a href="#"><i class="ion ion-md-heart text-primary"></i><span>111</span></a>
+                                             </div>
+                                             <div>
+                                                <a role="button" data-toggle="collapse" th:href="'#collapse_'+${list.idx}" aria-expanded="false" class="collapsed">
+                                                18 reply
+                                                </a>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="accordion accordion-type-2 accordion-flush">
+                                          <div class="card card-profile-feed border-top-0 rounded-top-0">
+                                             <div th:id="'collapse_'+${list.idx}" class="collapse"  role="tabpanel">
+                                                <div class="card-body">
+                                                   <div class="user-activity" >
+                                                      <div class="media">
+                                                         <div class="media-img-wrap">
+                                                            <div class="avatar avatar-sm">
+                                                               <img th:src="@{/dist/img/avatar2.jpg}" alt="user" class="avatar-img rounded-circle">
+                                                            </div>
+                                                         </div>
+                                                         <div class="media-body">
+                                                            <div>
+                                                               <span class="d-block mb-5">
+                                                               <span class="font-weight-500 text-dark text-capitalize" th:text="${questions.children}">홍길동님 <span class="font-13">1 day ago </span></span>
+                                                               <span class="d-block font-13 mb-30">답글쓰기</span>
+                                                               <span class="pl-5">lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled.</span>
+                                                               </span>
+                                                            </div>
+                                                            <div class="card">
+                                                               <div class="card-body">
+                                                                  <div class="user-activity">
+                                                                     <div class="media">
+                                                                        <div class="media-img-wrap">
+                                                                           <div class="avatar avatar-sm">
+                                                                              <img th:src="@{/dist/img/avatar2.jpg}" alt="user" class="avatar-img rounded-circle">
+                                                                           </div>
+                                                                        </div>
+                                                                        <div class="media-body">
+                                                                           <div>
+                                                                              <span class="d-block mb-5"><span class="font-weight-500 text-dark text-capitalize">Laura Thompson</span>
+                                                                              <span class="pl-5">joined josh groben team.</span></span>
+                                                                              <span class="d-block font-13 mb-30">3 hours ago</span>
+                                                                           </div>
+                                                                           <div class="card">
+                                                                              <div class="card-body">
+                                                                                 <div class="user-activity">
+                                                                                    <div class="media">
+                                                                                       <div class="media-img-wrap">
+                                                                                          <div class="avatar avatar-sm">
+                                                                                             <img th:src="@{/dist/img/avatar2.jpg}" alt="user" class="avatar-img rounded-circle">
+                                                                                          </div>
+                                                                                       </div>
+                                                                                       <div class="media-body">
+                                                                                          <div>
+                                                                                             <span class="d-block mb-5"><span class="font-weight-500 text-dark text-capitalize">Laura Thompson</span><span class="pl-5">joined josh groben team.</span></span>
+                                                                                             <span class="d-block font-13 mb-30">3 hours ago</span>
+                                                                                          </div>
+
+                                                                                          <div class="media">
+                                                                                             <div class="media-img-wrap">
+                                                                                                <div class="avatar avatar-sm">
+                                                                                                   <img th:src="@{/dist/img/avatar4.jpg}" alt="user" class="avatar-img rounded-circle">
+                                                                                                </div>
+                                                                                             </div>
+                                                                                             <div class="media-body">
+                                                                                                <div>
+                                                                                                   <span class="d-block mb-5"><span class="font-weight-500 text-dark text-capitalize">Billy Flowers</span><span class="pl-5">lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled.</span></span>
+                                                                                                   <span class="d-block font-13 mb-30">1 day ago</span>
+                                                                                                </div>
+                                                                                             </div>
+                                                                                          </div>
+
+
+                                                                                       </div>
+                                                                                    </div>
+                                                                                 </div>
+                                                                              </div>
+                                                                           </div>
+                                                                        </div>
+                                                                     </div>
+                                                                     <div class="media">
+                                                                        <div class="media-img-wrap">
+                                                                           <div class="avatar avatar-sm">
+                                                                              <img th:src="@{/dist/img/avatar4.jpg}" alt="user" class="avatar-img rounded-circle">
+                                                                           </div>
+                                                                        </div>
+                                                                        <div class="media-body">
+                                                                           <div>
+                                                                              <span class="d-block mb-5"><span class="font-weight-500 text-dark text-capitalize">Billy Flowers</span><span class="pl-5">lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled.</span></span>
+                                                                              <span class="d-block font-13 mb-30">1 day ago</span>
+                                                                           </div>
+                                                                        </div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                      <div class="media">
+                                                         <div class="media-img-wrap">
+                                                            <div class="avatar avatar-sm">
+                                                               <img th:src="@{/dist/img/avatar4.jpg}" alt="user" class="avatar-img rounded-circle">
+                                                            </div>
+                                                         </div>
+                                                         <div class="media-body">
+                                                            <div>
+                                                               <span class="d-block mb-5"><span class="font-weight-500 text-dark text-capitalize">Billy Flowers</span><span class="pl-5">lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled.</span></span>
+                                                               <span class="d-block font-13 mb-30">1 day ago</span>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-lg-3">
+                                    <div class="card card-profile-feed">
+                                       <div class="card-header card-header-action">
+                                          <div class="media align-items-center">
+                                             <div class="media-body">
+                                                <div class="text-capitalize font-weight-500 text-dark">Total Forums</div>
+                                                <div class="font-13">총 질문답변 수</div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="row text-center">
+                                          <div class="col-4 border-right pr-0">
+                                             <div class="pa-15">
+                                                <span class="d-block display-6 text-dark mb-5" th:text="${questionCount}"></span>
+                                                <span class="d-block text-capitalize font-14">question</span>
+                                             </div>
+                                          </div>
+                                          <div class="col-4 border-right px-0">
+                                             <div class="pa-15">
+                                                <span class="d-block display-6 text-dark mb-5"  th:text="${answerCount}"></span>
+                                                <span class="d-block text-capitalize font-14">answer</span>
+                                             </div>
+                                          </div>
+                                          <div class="col-4 border-right px-0">
+                                             <div class="pa-15">
+                                                <span class="d-block display-6 text-dark mb-5" th:text="${recommendCount}"></span>
+                                                <span class="d-block text-capitalize font-14">hits</span>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="card card-profile-feed">
+                                       <div class="card-header card-header-action">
+                                          <h6><span>내 질문의 답변 <span class="badge badge-soft-success ml-5" th:text="${answerCount}"></span></span></h6>
+                                          <a href="#" class="font-14 ml-auto">View all</a>
+                                       </div>
+                                       <ul class="list-group list-group-flush" th:each="list : ${answerList}">
+                                          <li class="list-group-item border-0" data-id="${list?.idx}">
+                                             <div class="media align-items-center">
+                                                <div class="d-flex media-img-wrap mr-15">
+                                                   <div class="avatar avatar-sm">
+                                                      <img th:src="@{/dist/img/slide1.jpg}" alt="user" class="avatar-img rounded-circle">
+                                                   </div>
+                                                </div>
+                                                <div class="media-body">
+                                                   <span class="d-block text-dark text-capitalize" th:text="${list?.title}"></span>
+                                                   <span class="d-block font-13 mb-30" th:text="${list?.content}"></span>
+                                                </div>
+                                             </div>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                    <div class="card card-profile-feed">
+                                       <div class="card-header card-header-action">
+                                          <h6><span>나의 질문<span class="badge badge-soft-success ml-5" th:text="${questionCount}"></span></span></h6>
+                                          <a href="#" class="font-14 ml-auto">View all</a>
+                                       </div>
+                                       <ul class="list-group list-group-flush" th:each="list : ${questions}" >
+                                          <li class="list-group-item border-0" th:data-id="${list?.idx}">
+                                             <div class="media align-items-center">
+                                                <div class="d-flex media-img-wrap mr-15">
+                                                   <div class="avatar avatar-sm">
+                                                      <img th:src="@{/dist/img/slide1.jpg}" alt="user" class="avatar-img rounded-circle">
+                                                   </div>
+                                                </div>
+                                                <div class="media-body">
+                                                   <span class="d-block text-dark text-capitalize" th:text="${list?.title}"></span>
+                                                   <span class="d-block font-13 mb-30" th:text="${list?.content}"></span>
+                                                </div>
+                                             </div>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- /Row -->
+            </div>
+         </div>
+      </div>
+   </body>
+   <script th:src="@{/vendors/jquery-toggles/toggles.min.js}"></script>
+   <script th:src="@{/dist/js/dropdown-bootstrap-extended.js}"></script>
+   <script th:src="@{/dist/js/toggle-data.js}"></script>
+   <script th:src="@{/dist/js/feather.min.js}"></script>
+</html>
