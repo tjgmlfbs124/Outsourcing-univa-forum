@@ -1,6 +1,7 @@
 package com.univa.forum.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -243,9 +244,22 @@ public class ForumService {
 	
 	/** 나의 모든 포럼 질문 */
 	public List<ForumPost> findMyQuestionHeaderList(int first, int max, int user_idx) {
-		return forumRepository.findForumHeaderListSetLimitAndUser(first, max, user_idx);
+		//return forumRepository.findForumHeaderListSetLimitAndUser(first, max, user_idx);
+		List<ForumPost> posts = new ArrayList<ForumPost>();
+		posts = forumRepository.findForumHeaderListSetLimitAndUser(first, max, user_idx);
+		for( ForumPost post : posts) {
+			post.setRecommendedCount(post.getForumRecommend().size());
+			for(ForumRecommend reco : post.getForumRecommend()) {
+				if(reco.getUser().getIdx() == user_idx) {
+					post.setRecommended(true);
+				}
+			}
+		}
+		
+		return posts;
 	}
 	
 	/** 내가 관여한 모든 포럼 질문 */
+	
 	
 }
