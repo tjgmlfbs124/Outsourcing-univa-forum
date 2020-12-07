@@ -188,9 +188,9 @@ public class ForumController {
 		model.addAttribute("questionCount", forumService.findMyForumCountSetType(user.getIdx(), 0));
 		model.addAttribute("answerCount", forumService.findMyForumCountSetType(user.getIdx(), 100));
 		List<ForumPost> questions = forumService.findMyFormList(0, 5, user.getIdx(), 0);
-		model.addAttribute("questions", questions);
+		model.addAttribute("questionList", questions);
 		List<ForumPost> answers = forumService.findMyFormList(0, 5, user.getIdx(), 100);
-		model.addAttribute("answers", answers);
+		model.addAttribute("answerList", answers);
 
 		return "mypage/my_profile";
 	}
