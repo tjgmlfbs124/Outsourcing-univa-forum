@@ -116,16 +116,22 @@ public class ForumService {
 	/** 인덱스로 게시물 찾기 */
 	public ForumPost findOneForumPost(int idx, int userIdx) {
 		ForumPost post = forumRepository.findForumByIdx(idx).get();
-		int recoCnt = 0;
+		
+		post.setRecommendedCount(post.getForumRecommend().size());
 		Set<ForumRecommend> recommend = post.getForumRecommend();
 		for (ForumRecommend reco : recommend ) {
-			recoCnt++;
 			if (reco.getUser().getIdx() == userIdx) { 
 				post.setRecommended(true);
 			}
 		}
-		post.setRecommendedCount(recoCnt);
+		
 		return post;
+	}
+	
+	/** TODO 가장 자식이 많은 게시물 정렬 */
+	public List<ForumPost> findHeaderForumOrderByChildCnt() {
+		//this.findHeaderForumList(first, max, user_idx)
+		return null;
 	}
 	
 	/** 유저 비밀번호 검사 */
@@ -194,30 +200,15 @@ public class ForumService {
 	/** 모든 주제 포럼 게시물 리스트 */
 	public List<ForumPost> findHeaderForumList(int first, int max, int user_idx) {
 		List<ForumPost> posts = forumRepository.findForumHeaderListSetLimit(first, max);
-		for(ForumPost post : posts) {
-			Set<ForumRecommend> reco = post.getForumRecommend();
-			post.setRecommendedCount(reco.size());
-			for(ForumRecommend mReco : reco) {
-				if(mReco.getUser().getIdx() == user_idx) {
-					post.setRecommended(true);
-				}
-			}
-		}
+		posts = this.addRecommendCount(posts, user_idx);
+		
 		return posts;
 	}
 	
 	/** 특정 주제 포럼 게시물 리스트 */
 	public List<ForumPost> findQuestionsBySubject(int first, int max, int[] subjects, int user_idx){
 		List<ForumPost> posts = forumRepository.findForumBySubject(first, max, subjects);
-		for(ForumPost post : posts) {
-			Set<ForumRecommend> reco = post.getForumRecommend();
-			post.setRecommendedCount(reco.size());
-			for(ForumRecommend mReco : reco) {
-				if(mReco.getUser().getIdx() == user_idx) {
-					post.setRecommended(true);
-				}
-			}
-		}
+		posts = this.addRecommendCount(posts, user_idx);
 		return posts;
 	}
 	
@@ -234,6 +225,7 @@ public class ForumService {
 	/** 나의 포럼 게시물 */
 	public List<ForumPost> findMyFormList(int first, int max, int user_idx, int type) {
 		List<ForumPost> posts = forumRepository.findForumPostByTypeSetLimit(type, first, max, user_idx);
+		posts = this.addRecommendCount(posts, user_idx);
 		return posts;
 	}
 	
@@ -247,14 +239,7 @@ public class ForumService {
 		//return forumRepository.findForumHeaderListSetLimitAndUser(first, max, user_idx);
 		List<ForumPost> posts = new ArrayList<ForumPost>();
 		posts = forumRepository.findForumHeaderListSetLimitAndUser(first, max, user_idx);
-		for( ForumPost post : posts) {
-			post.setRecommendedCount(post.getForumRecommend().size());
-			for(ForumRecommend reco : post.getForumRecommend()) {
-				if(reco.getUser().getIdx() == user_idx) {
-					post.setRecommended(true);
-				}
-			}
-		}
+		posts = this.addRecommendCount(posts, user_idx);
 		
 		return posts;
 	}
@@ -268,16 +253,37 @@ public class ForumService {
 			if(!involvedPosts.contains(rootPost)) involvedPosts.add(rootPost);
 		}
 		
-		for(ForumPost post : involvedPosts) {
-			post.setRecommendedCount(post.getForumRecommend().size());
-			for(ForumRecommend reco : post.getForumRecommend()) {
-				if (reco.getUser().getIdx() == user_idx) post.setRecommended(true);
-			}
-		}
+		involvedPosts = this.addRecommendCount(involvedPosts, user_idx);
 		
 		return involvedPosts;
 	}
 	
+	/** 게시글 과 자식 모두 추천수 추가 */
+	public List<ForumPost> addRecommendCount(List<ForumPost> posts) {
+		for(ForumPost post: posts) {
+			post.setRecommendedCount(post.getForumRecommend().size());
+			if(post.getChildren() != null) this.addRecommendCount(post.getChildren());
+		}
+		return posts;
+	}
+	
+	/** 게시글 과 자식 모두 추천수, 내가 추천했는지 추가 */
+	public List<ForumPost> addRecommendCount(List<ForumPost> posts, int user_idx) {
+		for(ForumPost post: posts) {
+			post.setRecommendedCount(post.getForumRecommend().size());
+			if(user_idx > 0) {
+				for(ForumRecommend reco : post.getForumRecommend()) {
+					if(reco.getUser().getIdx() == user_idx) {
+						post.setRecommended(true);
+					}
+				}
+			}
+			if(post.getChildren() != null) this.addRecommendCount(post.getChildren(), user_idx);
+		}
+		return posts;
+	}
+	
+	/** 게시글 최상위 루트 찾기 */
 	public ForumPost getRoot(ForumPost post) {
 		while (post.getParent() != null) {
 			post = post.getParent();

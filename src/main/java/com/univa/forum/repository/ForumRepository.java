@@ -129,4 +129,5 @@ public class ForumRepository {
 				.setParameter("user_idx", user_idx)
 				.getSingleResult();
 	}
+	
 }
