@@ -52,18 +52,19 @@
                                                 <a href="#"><i class="ion ion-md-heart text-primary"></i><span th:text="${list.recommendedCount}"></span></a>
                                              </div>
                                              <div>
-                                                <a role="button" data-toggle="collapse" th:href="'#collapse_'+${list.idx}" aria-expanded="false" class="collapsed" th:text="${#lists.size(list.children)}">
-                                                  18 reply
+                                                <a role="button" data-toggle="collapse" th:href="'#collapse_'+${list.idx}" aria-expanded="false" class="collapsed">
+                                                18 reply
                                                 </a>
                                              </div>
                                           </div>
                                        </div>
                                        <div class="accordion accordion-type-2 accordion-flush">
                                           <div class="card card-profile-feed border-top-0 rounded-top-0">
-                                             <div th:id="'collapse_'+${list.idx}" class="collapse"  role="tabpanel" >
-                                                <div class="card-body" >
-                                                   <div class="user-activity" th:id="'replyWrap-' + ${num.index}" th:if="${list.children != null}" th:with="replies = ${list.children}">
-                                                      <section class="media" th:fragment="replyForm" th:each="replyList : ${replies}" th:if="${replyList != null}">
+                                             <div th:id="'collapse_'+${list.idx}" class="collapse" role="tabpanel" >
+                                                <div class="user-activity" th:if="${list.children != null}">
+                                                   <div class="card-body" >
+                                                     <span th:fragment="replyForm" th:remove="tag">
+                                                      <div class="media" th:each="replyList : ${list.children}">
                                                          <div class="media-img-wrap">
                                                             <div class="avatar avatar-sm">
                                                                <img th:src="@{/dist/img/avatar2.jpg}" alt="user" class="avatar-img rounded-circle">
@@ -72,19 +73,24 @@
                                                          <div class="media-body">
                                                             <div class="mb-10">
                                                                <span class="d-block mb-5">
-                                                                 <span class="font-weight-500 text-dark text-capitalize" th:text="${replyList.user.username} + '님'">홍길동님</span>
-                                                                 <div class="d-flex mb-10">
-                                  																	<span class="font-14 text-light mr-15">1 hr</span>
-                                  																	<a href="#" class="font-14 text-light text-capitalize font-weight-500" th:text="${#lists.size(replyList.children)}">reply</a>
-                                  																</div>
-                                                                 <span class="mt-10" style="margin-bottom:10px !important;" th:text="${replyList.content}"></span>
+                                                                  <span class="font-weight-500 text-dark text-capitalize" th:text="${replyList.user.username}">홍길동님</span>
+                                                                  <div class="d-flex mb-10">
+                                                                     <span class="font-14 text-light mr-15">1 hr</span>
+                                                                     <a href="#" class="font-14 text-light text-capitalize font-weight-500">reply</a>
+                                                                  </div>
+                                                                  <p class="mt-10" style="font-weight:bold; color:#324148; margin-bottom:10px !important;" th:text="${replyList.title}"></p>
+                                                                  <span class="mt-10" style="margin-bottom:10px !important;" th:text="${replyList.content}"></span>
+                                                                  <p class="mt-10" style="margin-bottom:10px !important;" th:text="'children : ' + ${#lists.size(replyList.children)}"></p>
                                                                </span>
                                                             </div>
-                                                            <section th:with="replies = ${replyList.children}" th:include="this :: replyForm" class="media">
-                                                            </section>
+                                                            <div
+                                                              th:with="list = ${replyList}"
+                                                              th:include="this :: replyForm" class="media"
+                                                              th:remove="tag"></div>
                                                          </div>
                                                       </div>
-                                                   </section>
+                                                    </span>
+                                                   </div>
                                                 </div>
                                              </div>
                                           </div>
@@ -181,10 +187,6 @@
    <script th:src="@{/dist/js/toggle-data.js}"></script>
    <script th:src="@{/dist/js/feather.min.js}"></script>
    <script th:src="@{/dist/js/replyForm.js}"></script>
-
-   <script>
-
-   </script>
-   <script th:inline="javascript">
-   </script>
+   <script></script>
+   <script th:inline="javascript"></script>
 </html>
