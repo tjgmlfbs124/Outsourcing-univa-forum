@@ -210,7 +210,7 @@ public class ForumController {
 		List<ForumPost> questions = forumService.findMyQuestionHeaderList(0, 9999, user.getIdx());
 		model.addAttribute("questions", questions);
 		
-		return "mypage/my_forum";
+		return "mypage/my_question";
 	}
 	
 	/* 나의 포럼 */
