@@ -107,23 +107,28 @@ public class ForumRepository {
 			}
 			query += ") and fs.forum = f.idx ";
 		}
-		query += "and parent_idx is null order by f.idx desc";
+		query += "and parent_idx is null "
+				+ "order by f.idx desc";
 		return em.createQuery(query, ForumPost.class)
 				.setFirstResult(firstIdx)
 				.setMaxResults(max)
 				.getResultList();
 	}
 	
-	public List<ForumPost> findForumHeaderListByTitle(int firstIdx, int max, String title) {
+	public List<ForumPost> findForumHeaderListByTitle(int firstIdx, int max, String title, String sort) {
+		String sortValue = "f."+this.ForumSortValueSet(sort);
 		title = "%"+title+"%";
-		return em.createQuery("select f from forum f where f.title like :title and parent_idx is null order by f.idx desc", ForumPost.class)
+		return em.createQuery("select f "
+				+ "from forum "
+				+ "f where f.title like :title "
+				+ "and parent_idx is null "
+				+ "order by "+sortValue+" desc", ForumPost.class)
 				.setParameter("title", title)
 				.getResultList();
 	}
 	
-	public List<ForumPost> findForumHeaderListByTitleAndSubject(int firstIdx, int max, int[] subjects, String title){
-		// TODO 제목과 주제로 찾기
-		
+	public List<ForumPost> findForumHeaderListByTitleAndSubject(int firstIdx, int max, int[] subjects, String title, String sort){
+		String sortValue = "f."+this.ForumSortValueSet(sort);
 		title = "%"+title+"%";
 		String query = "select distinct f froum forum f, forum_subject fs ";
 		if(subjects.length > 0) {
@@ -134,7 +139,8 @@ public class ForumRepository {
 			}
 			query += " ) and fs.forum = f.idx ";
 		}
-		query += "and title like :title and parent_idx is null order by f.idx desc";
+		query += "and title like :title and parent_idx is null "
+				+ "order by "+sortValue+" desc";
 		return em.createQuery(query, ForumPost.class)
 				.setParameter("title", title)
 				.setFirstResult(firstIdx)
@@ -162,6 +168,20 @@ public class ForumRepository {
 		return em.createQuery(query, Long.class)
 				.setParameter("user_idx", user_idx)
 				.getSingleResult();
+	}
+	
+	public String ForumSortValueSet(String str) {
+		String sortValue = "";
+		switch(str) {
+		case "hits": 
+			sortValue = "hits";
+			break;
+		case "date": 
+		default: 
+			sortValue = "update_date";
+			break;
+		}
+		return sortValue;
 	}
 	
 }

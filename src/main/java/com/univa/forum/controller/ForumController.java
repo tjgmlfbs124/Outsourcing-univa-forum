@@ -72,6 +72,7 @@ public class ForumController {
 			@RequestParam(value="max", defaultValue="10") int max,
 			@RequestParam(value="subject", defaultValue="0") int[] subject,
 			@RequestParam(value="title", defaultValue="") String title,
+			@RequestParam(value="sort", defaultValue="date") String sort,
 			Model model,
 			HttpSession session) {
 		
@@ -81,20 +82,25 @@ public class ForumController {
 		
 		List<ForumPost> forums;
 		if(subject[0] == 0) {
-			forums = forumService.findHeaderForumList(min, max, user_idx, title);
+			forums = forumService.findHeaderForumList(min, max, user_idx, title, sort);
 		} else {
 			//forums = forumService.findQuestionsBySubject(min, max, subject, user.getIdx());
-			forums = forumService.findHeaderForumList(min, max, user_idx, subject, title);
+			forums = forumService.findHeaderForumList(min, max, user_idx, subject, title, sort);
 		}
 		model.addAttribute("question", forums);
 		
-		return "/main/board";
-		//return "test";
+		// TODO 테스트
+		for(ForumPost post : forums) {
+			System.out.println(post.getIdx()+":title?"+post.getTitle()+"/hits?"+post.getHits());
+		}
+		
+		//return "/main/board";
+		return "test";
 	}
 	
 	/* 포럼 내용 보기 */
 	@GetMapping("/main/content")
-	@ResponseBody //TODO 테스트용 지우기
+	@ResponseBody //TODO 컨텐트 보이기
 	public String ForumContent(@RequestParam("id") int id, Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		ForumPost forum = forumService.findOneForumPost(id, user.getIdx());
