@@ -89,13 +89,7 @@ public class ForumController {
 		}
 		model.addAttribute("question", forums);
 		
-		// TODO 테스트
-		for(ForumPost post : forums) {
-			System.out.println(post.getIdx()+":title?"+post.getTitle()+"/hits?"+post.getHits());
-		}
-		
-		//return "/main/board";
-		return "test";
+		return "/main/board";
 	}
 	
 	/* 포럼 내용 보기 */
