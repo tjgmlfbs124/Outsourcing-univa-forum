@@ -119,8 +119,8 @@ public class ForumRepository {
 		String sortValue = "f."+this.ForumSortValueSet(sort);
 		title = "%"+title+"%";
 		return em.createQuery("select f "
-				+ "from forum "
-				+ "f where f.title like :title "
+				+ "from forum f "
+				+ "where f.title like :title "
 				+ "and parent_idx is null "
 				+ "order by "+sortValue+" desc", ForumPost.class)
 				.setParameter("title", title)
@@ -130,7 +130,7 @@ public class ForumRepository {
 	public List<ForumPost> findForumHeaderListByTitleAndSubject(int firstIdx, int max, int[] subjects, String title, String sort){
 		String sortValue = "f."+this.ForumSortValueSet(sort);
 		title = "%"+title+"%";
-		String query = "select distinct f froum forum f, forum_subject fs ";
+		String query = "select distinct f from forum f, forum_subject fs ";
 		if(subjects.length > 0) {
 			query += "where ( ";
 			for(int i=0; subjects.length > i; i++) {
