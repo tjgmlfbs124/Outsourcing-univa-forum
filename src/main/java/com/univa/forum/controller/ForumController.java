@@ -87,7 +87,9 @@ public class ForumController {
 			//forums = forumService.findQuestionsBySubject(min, max, subject, user.getIdx());
 			forums = forumService.findHeaderForumList(min, max, user_idx, subject, title, sort);
 		}
+		
 		model.addAttribute("question", forums);
+		model.addAttribute("subject", forumService.findAllSubject());
 		
 		return "/main/board";
 	}
