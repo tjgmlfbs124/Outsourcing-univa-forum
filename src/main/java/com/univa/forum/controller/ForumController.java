@@ -60,6 +60,7 @@ public class ForumController {
 		}
 		
 		model.addAttribute("questions", posts);
+		model.addAttribute("subject", forumService.findAllSubject());
 		
 		return "main/index";
 	}
