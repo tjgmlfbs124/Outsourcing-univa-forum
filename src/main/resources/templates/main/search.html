@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"><head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+   <title>Deepor I File Upload</title>
+   <meta name="description" content="A responsive bootstrap 4 admin dashboard template by hencework" />
+   <!-- Favicon -->
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="icon" href="favicon.ico" type="image/x-icon">
+   <!-- Bootstrap Dropzone CSS -->
+   <link th:href="@{/vendors/dropzone/dist/dropzone.css}" rel="stylesheet" type="text/css"/>
+   <!-- Bootstrap Dropzone CSS -->
+   <link th:href="@{/vendors/dropify/dist/css/dropify.min.css}" rel="stylesheet" type="text/css"/>
+   <!-- Toggles CSS -->
+   <link th:href="@{/vendors/jquery-toggles/css/toggles.css}" rel="stylesheet" type="text/css">
+   <link th:href="@{/vendors/jquery-toggles/css/themes/toggles-light.css}" rel="stylesheet" type="text/css">
+   <!-- Custom CSS -->
+   <link th:href="@{/dist/css/style.css}" rel="stylesheet" type="text/css">
+</head>
+   <body data-spy="scroll" data-target=".navbar" data-offset="60">
+      <!-- Preloader -->
+      <div class="preloader-it">
+         <div class="loader-pendulums"></div>
+      </div>
+      <!-- /Preloader -->
+      <!-- HK Wrapper -->
+      <div class="hk-wrapper hk-alt-nav hk-landing">
+         <!-- Header -->
+         <div th:replace="widget/menu :: menu"></div>
+         <!-- Main Content -->
+         <div class="hk-pg-wrapper px-0">
+            <div class="container-fluid">
+               <!-- Row -->
+               <div class="row">
+                  <div class="col-xl-12 pa-0">
+                     <!-- Preview Sec -->
+                     <div class="faq-search-wrap bg-yellow-dark-5" style="padding:70px 0px 60px 0px">
+                        <div class="container">
+                           <h1 class="display-5 text-white mb-20"></h1>
+                           <div class="form-group w-100 mb-0">
+                              <div class="input-group">
+                                 <div class="input-group-prepend" style="background:#fff;">
+                                    <button class="btn btn-outline-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-value">전체</button>
+                                    <!-- <div class="dropdown-menu">
+                                       <a class="dropdown-item" onclick="setInput(this)">전체</a>
+                                       <a class="dropdown-item" onclick="setInput(this)">과목명</a>
+                                       <a class="dropdown-item" onclick="setInput(this)">질문내용</a>
+                                    </div> -->
+                                 </div>
+                                 <input class="form-control form-control-lg filled-input bg-white" placeholder="키워드를 입력하세요" type="text" id="input-search" th:value="${param.title}">
+                                 <div class="input-group-append" style="cursor:pointer; z-index:999; pointer-events:all;" onclick="search()">
+                                    <span class="input-group-text" >
+                                       <span class="feather-icon" >
+                                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right">
+                                             <line x1="5" y1="12" x2="19" y2="12"></line>
+                                             <polyline points="12 5 19 12 12 19"></polyline>
+                                          </svg>
+                                       </span>
+                                    </span>
+                                 </div>
+                              </div>
+
+                              <!-- <div class="row">
+                                  <div class="col-sm">
+                                      <div class="w-100" id="tag-list">
+                                      </div>
+                                  </div>
+                              </div> -->
+                           </div>
+                        </div>
+                     </div>
+                     <div class="hk-row" id="result-row">
+
+                     </div>
+                  </div>
+               </div>
+               <!-- /Row -->
+               <!-- Footer -->
+               <div class="hk-footer-wrap container px-15">
+                  <footer class="footer">
+                     <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                           <p>Pampered by<a href="https://hencework.com/" class="text-dark" target="_blank">Hencework</a> © 2019</p>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                           <p class="d-inline-block">Follow us</p>
+                           <a href="#" class="d-inline-block btn btn-icon btn-icon-only btn-indigo btn-icon-style-4"><span class="btn-icon-wrap"><i class="fa fa-facebook"></i></span></a>
+                           <a href="#" class="d-inline-block btn btn-icon btn-icon-only btn-indigo btn-icon-style-4"><span class="btn-icon-wrap"><i class="fa fa-twitter"></i></span></a>
+                           <a href="#" class="d-inline-block btn btn-icon btn-icon-only btn-indigo btn-icon-style-4"><span class="btn-icon-wrap"><i class="fa fa-google-plus"></i></span></a>
+                        </div>
+                     </div>
+                  </footer>
+               </div>
+               <!-- /Footer -->
+            </div>
+            <!-- /Main Content -->
+         </div>
+      </div>
+      <!-- /HK Wrapper -->
+      <!-- jQuery -->
+      <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+      <!-- Bootstrap Core JavaScript -->
+      <script th:src="@{/vendors/popper.js/dist/umd/popper.min.js}"></script>
+      <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+      <!-- Owl JavaScript -->
+      <script th:src="@{/vendors/owl.carousel/dist/owl.carousel.min.js}"></script>
+      <!-- FeatherIcons JavaScript -->
+      <script th:src="@{/dist/js/feather.min.js}"></script>
+      <!-- Gallery JavaScript -->
+      <script th:src="@{/vendors/lightgallery/dist/js/lightgallery-all.min.js}"></script>
+      <script th:src="@{/dist/js/froogaloop2.min.js}"></script>
+      <!-- Init JavaScript -->
+      <script th:src="@{/dist/js/lightgallery-all.js}"></script>
+      <script th:src="@{/dist/js/landing-data.js}"></script>
+      <script th:src="@{/dist/js/init.js}"></script>
+      <script th:src="@{/dist/js/jquery.slimscroll.js}"></script>
+      <script th:src="@{/dist/js/ajax.js}"></script>
+      <script>
+      $("#result-row").load("/forum/main/board?title=테스트&min=0&max=10");
+      function setInput(){
+
+      }
+
+
+      // 검색결과를 가지고 restful api
+      function search(){
+        var inputText = $("#input-search").val();
+        var subjects = [];
+        if(inputText=="") {
+          alert("키워드를 입력해주세요."); return;
+        }
+
+        var formData = new FormData();
+        formData.append("title", inputText);
+        formData.append("min",0);
+        formData.append("max",0);
+        formData.append("subject", subjects);
+
+        $("#result-row").load("/forum/main/board?title="+inputText+"&min=0&max=10");
+
+        // getAPI("/forum/main/board",formData, function(result){
+        // 	console.log("result : " ,result);
+        // 	switch(result){
+        // 		case "ok" : location.href="/forum/board"; break;
+        // 		case "error" :
+        // 			alert("오류가 발생하였습니다. 다시 시도해주세요.");
+        // 		break;
+        // 	}
+        // })
+      }
+      </script>
+   </body>
+</html>
