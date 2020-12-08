@@ -284,6 +284,7 @@ public class ForumService {
 		List<ForumPost> posts = new ArrayList<ForumPost>();
 		posts = forumRepository.findForumHeaderListSetLimitAndUser(first, max, user_idx);
 		posts = this.addRecommendCount(posts, user_idx);
+		posts = this.addChildCount(posts);
 		
 		return posts;
 	}
@@ -298,6 +299,7 @@ public class ForumService {
 		}
 		
 		involvedPosts = this.addRecommendCount(involvedPosts, user_idx);
+		involvedPosts = this.addChildCount(involvedPosts);
 		
 		return involvedPosts;
 	}

@@ -122,7 +122,7 @@ public class ForumRepository {
 	}
 	
 	public List<ForumPost> findForumByUserIdx(int user_idx) {
-		return em.createQuery("select f from forum f where user_idx = :user_idx", ForumPost.class)
+		return em.createQuery("select f from forum f where user_idx = :user_idx order by f.idx desc", ForumPost.class)
 				.setParameter("user_idx", user_idx)
 				.getResultList();
 	}

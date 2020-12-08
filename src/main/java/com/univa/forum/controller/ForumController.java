@@ -197,10 +197,10 @@ public class ForumController {
 		model.addAttribute("recommendCount", recommendCnt);
 		model.addAttribute("questionCount", forumService.findMyForumCountSetType(user.getIdx(), 0));
 		model.addAttribute("answerCount", forumService.findMyForumCountSetType(user.getIdx(), 100));
-		List<ForumPost> questions = forumService.findMyFormList(0, 5, user.getIdx(), 0);
-		model.addAttribute("questionList", questions);
-		List<ForumPost> answers = forumService.findMyFormList(0, 5, user.getIdx(), 100);
-		model.addAttribute("answerList", answers);
+		List<ForumPost> questionList = forumService.findMyFormList(0, 5, user.getIdx(), 0);
+		model.addAttribute("questionList", questionList);
+		List<ForumPost> answerList = forumService.findMyFormList(0, 5, user.getIdx(), 100);
+		model.addAttribute("answerList", answerList);
 
 		return "mypage/my_profile";
 	}
@@ -217,6 +217,7 @@ public class ForumController {
 		model.addAttribute("questionList", questionList);
 		List<ForumPost> answerList = forumService.findMyFormList(0, 5, user.getIdx(), 100);
 		model.addAttribute("answerList", answerList);
+		
 		List<ForumPost> questions = forumService.findMyQuestionHeaderList(0, 9999, user.getIdx());
 		model.addAttribute("questions", questions);
 		
@@ -227,6 +228,15 @@ public class ForumController {
 	@GetMapping("/mypage/forum")
 	public String ForumMyforumPage(Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		Long recommendCnt = forumService.findMyForumRecommendedCount(user.getIdx());
+		model.addAttribute("recommendCount", recommendCnt);
+		model.addAttribute("questionCount", forumService.findMyForumCountSetType(user.getIdx(), 0));
+		model.addAttribute("answerCount", forumService.findMyForumCountSetType(user.getIdx(), 100));
+		List<ForumPost> questionList = forumService.findMyFormList(0, 5, user.getIdx(), 0);
+		model.addAttribute("questionList", questionList);
+		List<ForumPost> answerList = forumService.findMyFormList(0, 5, user.getIdx(), 100);
+		model.addAttribute("answerList", answerList);
+		
 		List<ForumPost> posts = forumService.findInvolvedHeaderList(user.getIdx());
 		model.addAttribute("involvedQuestions", posts);
 		return "/mypage/my_forum";
