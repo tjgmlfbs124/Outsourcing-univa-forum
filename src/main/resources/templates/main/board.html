@@ -3,29 +3,26 @@
       <div class="card" style="width:100%;">
         <div class="card-body" style="padding:0px;">
            <div class="card-body pa-5" style="float:left; max-width:200px;">
-              <input class="form-control" placeholder="태그 이름" type="text" name="nickname" style="max-width:300px;">
+              <input class="form-control" placeholder="태그명 필터" type="text" name="nickname" style="max-width:300px;" id="input-tag">
            </div>
-            <div class="card-body pa-5" style="float:left; max-width:200px;">
-              <button type="button" class="btn btn-light" style="float:right;" onclick="location.href='/forum/main/write'">검색</button>
-            </div>
             <div class="card-body pa-5" style="float:right;">
                <div class="col-md-4 mt-10" style="float:right;">
                    <div class="custom-control custom-radio" style="min-width:100px; cursor:pointer;">
-                       <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" style="cursor:pointer;" >
-                       <label class="custom-control-label" for="customRadio1" style="cursor:pointer;" >인기순</label>
+                       <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" style="cursor:pointer;" th:checked="${param.sort[0] == 'hits' ? 'true' : 'false'}" data-sort="hits">
+                       <label class="custom-control-label" for="customRadio1" style="cursor:pointer;">인기순</label>
                    </div>
                </div>
                <div class="col-md-4 mt-10" style="float:right;">
                    <div class="custom-control custom-radio" style="min-width:100px; cursor:pointer;">
-                       <input type="radio" id="customRadio2" name="customRadio" checked="" class="custom-control-input" style="cursor:pointer;" >
+                       <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" style="cursor:pointer;" th:checked="${param.sort[0] == 'date' ? 'true' : 'false'}" data-sort="date">
                        <label class="custom-control-label" for="customRadio2" style="cursor:pointer;" >최신순</label>
                    </div>
                </div>
             </div>
         </div>
 
-          <div class="card-body" style="padding:0px 0px 10px 15px;">
-            <div class="w-100">
+          <div class="card-body" style="padding:0px 0px 10px 15px;" >
+            <div class="w-100" id="tag-list">
             </div>
           </div>
 
@@ -50,7 +47,7 @@
                      <tbody th:each="list : ${question}">
                        <tr style="cursor:pointer;" th:id="'forum-idx-' + ${list.idx}" onclick="location.href='/'">
                           <td><img class="img-fluid rounded" th:src="@{/dist/img/logo1.jpg}" alt="icon"></td>
-                          <td th:text="${list.user?.nickname}+'님'"></td>
+                          <td th:text="${list.user?.nickname}"></td>
                           <td th:text="${list.title}"></td>
                           <!-- <td th:Text="${list.childCount}">13 Nov 2018</td> -->
                           <td>5</td>
@@ -70,6 +67,39 @@
          </div>
       </div>
    </div>
-
-   
 </section>
+
+<script>
+  var selectTags = [];
+  $("input[name=customRadio]").change(function(){
+    var title = $("#input-search").val();
+    var sort = $(this).data("sort");
+    $("#result-row").load("/forum/main/board?title="+title+"&min=0&max=10&sort="+sort);
+  });
+
+  function tagSearch(){
+    $("#result-row").load("/forum/main/board?title="+title+"&min=0&max=10&sort="+sort);
+  }
+</script>
+
+<script th:inline="javascript">
+  var tags = [];
+   /*<![CDATA[*/
+
+   /*[# th:each="tmp : ${subject}"]*/
+   noti(/*[[${tmp.idx}]]*/, /*[[${tmp.name}]]*/);
+   /*[/]*/
+   /*]]>*/
+
+   function noti(id, name){
+     tags.push([id, name]);
+   }
+
+  autocomplete(document.getElementById("input-tag"), tags,
+    function(id, name){
+      $("#tag-list").append("<span class='badge badge-soft-success mt-15 mr-10' data-id='"+id+"'>"+name+"</span>");
+      $("#input-tag").val("");
+      $("#result-row").load("/forum/main/board?title="+title+"&min=0&max=10&sort="+sort);
+    }
+  );
+</script>
