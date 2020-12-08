@@ -116,6 +116,11 @@ public class ForumService {
 	}
 	
 	/** 인덱스로 게시물 찾기 */
+	public ForumPost findOneForumPost(int idx) {
+		ForumPost post = forumRepository.findForumByIdx(idx).get();
+		post.setRecommendedCount(post.getForumRecommend().size());
+		return post;
+	}
 	public ForumPost findOneForumPost(int idx, int userIdx) {
 		ForumPost post = forumRepository.findForumByIdx(idx).get();
 		
@@ -239,20 +244,39 @@ public class ForumService {
 	public List<ForumPost> findHeaderForumList(int user_idx) {
 		List<ForumPost> posts = forumRepository.findForumHeaderList();
 		posts = this.addRecommendCount(posts, user_idx);
+		posts = this.addChildCount(posts);
 		
 		return posts;
 	}
 	public List<ForumPost> findHeaderForumList() {
 		List<ForumPost> posts = forumRepository.findForumHeaderList();
 		posts = this.addRecommendCount(posts);
+		posts = this.addChildCount(posts);
 		
 		return posts;
 	}
 	
 	/** 특정 주제 포럼 게시물 리스트 */
 	public List<ForumPost> findQuestionsBySubject(int first, int max, int[] subjects, int user_idx){
-		List<ForumPost> posts = forumRepository.findForumBySubject(first, max, subjects);
+		List<ForumPost> posts = forumRepository.findForumListBySubject(first, max, subjects);
 		posts = this.addRecommendCount(posts, user_idx);
+		posts = this.addChildCount(posts);
+		return posts;
+	}
+	
+	/** 특정 주제, 제목 검색 포럼 게시물 리스트 */
+	public List<ForumPost> findHeaderForumList(int first, int max, int user_idx, int[] subjects, String title) {
+		List<ForumPost> posts = forumRepository.findForumHeaderListByTitleAndSubject(first, max, subjects, title);
+		posts = this.addRecommendCount(posts, user_idx);
+		posts = this.addChildCount(posts);
+		return posts;
+	}
+	
+	/** 모든 주제 제목검색 포럼 게시물 리스트 */
+	public List<ForumPost> findHeaderForumList(int first, int max, int user_idx, String title) {
+		List<ForumPost> posts = forumRepository.findForumHeaderListByTitle(first, max, title);
+		posts = this.addRecommendCount(posts, user_idx);
+		posts = this.addChildCount(posts);
 		return posts;
 	}
 	

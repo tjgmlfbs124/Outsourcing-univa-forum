@@ -97,7 +97,7 @@ public class ForumRepository {
 				.getResultList();
 	}
 	
-	public List<ForumPost> findForumBySubject(int firstIdx, int max, int[] subjects) {
+	public List<ForumPost> findForumListBySubject(int firstIdx, int max, int[] subjects) {
 		String query = "select distinct f from forum f, forum_subject fs ";
 		if(subjects.length > 0) {
 			query += "where ( ";
@@ -107,8 +107,36 @@ public class ForumRepository {
 			}
 			query += ") and fs.forum = f.idx ";
 		}
-		query += "order by f.idx desc";
+		query += "and parent_idx is null order by f.idx desc";
 		return em.createQuery(query, ForumPost.class)
+				.setFirstResult(firstIdx)
+				.setMaxResults(max)
+				.getResultList();
+	}
+	
+	public List<ForumPost> findForumHeaderListByTitle(int firstIdx, int max, String title) {
+		title = "%"+title+"%";
+		return em.createQuery("select f from forum f where f.title like :title and parent_idx is null order by f.idx desc", ForumPost.class)
+				.setParameter("title", title)
+				.getResultList();
+	}
+	
+	public List<ForumPost> findForumHeaderListByTitleAndSubject(int firstIdx, int max, int[] subjects, String title){
+		// TODO 제목과 주제로 찾기
+		
+		title = "%"+title+"%";
+		String query = "select distinct f froum forum f, forum_subject fs ";
+		if(subjects.length > 0) {
+			query += "where ( ";
+			for(int i=0; subjects.length > i; i++) {
+				query += "fs.subject ="+subjects[i];
+				if(i < subjects.length-1)query += " OR ";
+			}
+			query += " ) and fs.forum = f.idx ";
+		}
+		query += "and title like :title and parent_idx is null order by f.idx desc";
+		return em.createQuery(query, ForumPost.class)
+				.setParameter("title", title)
 				.setFirstResult(firstIdx)
 				.setMaxResults(max)
 				.getResultList();

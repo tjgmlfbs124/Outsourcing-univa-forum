@@ -71,23 +71,25 @@ public class ForumController {
 			@RequestParam(value="min", defaultValue="0") int min,
 			@RequestParam(value="max", defaultValue="10") int max,
 			@RequestParam(value="subject", defaultValue="0") int[] subject,
+			@RequestParam(value="title", defaultValue="") String title,
 			Model model,
 			HttpSession session) {
+		
+		int user_idx = 0;
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		if(user != null) user_idx = user.getIdx();
+		
 		List<ForumPost> forums;
 		if(subject[0] == 0) {
-			forums = forumService.findHeaderForumList(0, 10, user.getIdx());
+			forums = forumService.findHeaderForumList(min, max, user_idx, title);
 		} else {
-			forums = forumService.findQuestionsBySubject(0, 10, subject, user.getIdx());
+			//forums = forumService.findQuestionsBySubject(min, max, subject, user.getIdx());
+			forums = forumService.findHeaderForumList(min, max, user_idx, subject, title);
 		}
-		// TODO 게시판 결과 테스트 지우기
-//		for (ForumPost post : forums) {
-//			System.out.println("post :"+post.getTitle());
-//			System.out.println("post reco? :"+post.getRecommended());
-//			System.out.println("post recnt :"+post.getRecommendedCount());
-//		}
+		model.addAttribute("question", forums);
 		
-		return "test";
+		return "/main/board";
+		//return "test";
 	}
 	
 	/* 포럼 내용 보기 */
@@ -114,16 +116,13 @@ public class ForumController {
 		model.addAttribute("subject", forumService.findAllSubject());
 		return "/main/write";
 	}
-	@PostMapping("/main/write")
+	@PostMapping(value = {"/main/write", "/main/reply"} )
 	@ResponseBody
 	public String ForumWritePost(
 			ForumPostDTO forum,
 			HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
-		if(user == null) {
-			// TODO 필요 한가?
-			return "session error";
-		}
+		
 		forum.setUser_idx(user.getIdx()); // 게시자
 		forum.setType(0); // 타입
 		forum.setState(0); // 상태
@@ -131,12 +130,26 @@ public class ForumController {
 		return forumService.writeForum(forum);
 	}
 	
+	/* 포럼 수정 요청 */
 	@GetMapping("/main/edit")
 	public String ForumPostModifyPage() {
 		return "test";
 	}
 	@PostMapping("/main/edit")
 	public String ForumPostModifyPost() {
+		return "test";
+	}
+	
+	/* 포럼 삭제요청 */
+	@PostMapping("/main/remove")
+	public String ForumPostRemoveRequestPost(@RequestParam("id")int idx, HttpSession session) {
+		// TODO 삭제 요청
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumSessionUser");
+		ForumPost post = forumService.findOneForumPost(idx);
+		if( post.getUser().getIdx() == user.getIdx() ) {
+			post.setState(20);
+		}
+		
 		return "test";
 	}
 	
