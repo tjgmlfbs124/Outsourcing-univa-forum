@@ -31,7 +31,7 @@
                                                    <a class="dropdown-toggle no-caret" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="ion ion-ios-more"></i></a>
                                                    <div class="dropdown-menu dropdown-menu-right">
                                                       <a class="dropdown-item" th:href="'/forum/main/edit?id=' + ${list.idx}">update</a>
-                                                      <a class="dropdown-item" th:href="'/forum/main/edit?id=' + ${list.idx}">remove</a>
+                                                      <a class="dropdown-item" th:href="'/forum/main/remove?id=' + ${list.idx}">remove</a>
                                                    </div>
                                                 </div>
                                              </div>
@@ -52,9 +52,8 @@
                                                 <a href="#"><i class="ion ion-md-heart text-primary"></i><span th:text="${list.recommendedCount}"></span></a>
                                              </div>
                                              <div>
-                                                <a role="button" data-toggle="collapse" th:href="'#collapse_'+${list.idx}" aria-expanded="false" class="collapsed">
-                                                18 reply
-                                                </a>
+                                                <!-- <a role="button" data-toggle="collapse" th:href="'#collapse_'+${list.idx}" aria-expanded="false" class="collapsed" th:text="${list.childCount} + 'reply'"></a> -->
+                                                <a role="button" data-toggle="collapse" th:href="'#collapse_'+${list.idx}" aria-expanded="false" class="collapsed">18 reply</a>
                                              </div>
                                           </div>
                                        </div>
@@ -113,18 +112,6 @@
                                                                                 </form>
                                                                              </div>
                                                                           </div>
-                                                                          <!-- <div class="col-xl-12">
-                                                                             <section class="hk-sec-wrapper">
-                                                                                 <div class="row">
-                                                                                     <div class="col-sm">
-                                                                                         <div class="tinymce-wrap">
-                                                                                             <textarea class="tinymce"></textarea>
-                                                                                         </div>
-                                                                                     </div>
-                                                                                 </div>
-                                                                             </section>
-                                                                             </div>
-                                                                             -->
                                                                           <section class="hk-sec-wrapper">
                                                                                 <div class="card-body" style="padding:0px; margin:30px 0px 10px 0px;">
                                                                                    <i class="glyphicon glyphicon-search"></i>
@@ -188,11 +175,12 @@
                                           <div class="col-4 border-right px-0">
                                              <div class="pa-15">
                                                 <span class="d-block display-6 text-dark mb-5" th:text="${recommendCount}"></span>
-                                                <span class="d-block text-capitalize font-14">hits</span>
+                                                <span class="d-block text-capitalize font-14">goods</span>
                                              </div>
                                           </div>
                                        </div>
                                     </div>
+
                                     <div class="card card-profile-feed">
                                        <div class="card-header card-header-action">
                                           <h6><span>내 질문의 답변 <span class="badge badge-soft-success ml-5" th:text="${answerCount}"></span></span></h6>
@@ -214,12 +202,13 @@
                                           </li>
                                        </ul>
                                     </div>
+
                                     <div class="card card-profile-feed">
                                        <div class="card-header card-header-action">
                                           <h6><span>나의 질문<span class="badge badge-soft-success ml-5" th:text="${questionCount}"></span></span></h6>
                                           <a href="#" class="font-14 ml-auto">View all</a>
                                        </div>
-                                       <ul class="list-group list-group-flush" th:each="list : ${questions}" >
+                                       <ul class="list-group list-group-flush" th:each="list : ${questionList}" >
                                           <li class="list-group-item border-0" th:data-id="${list?.idx}">
                                              <div class="media align-items-center">
                                                 <div class="d-flex media-img-wrap mr-15">
@@ -235,6 +224,8 @@
                                           </li>
                                        </ul>
                                     </div>
+
+
                                  </div>
                               </div>
                            </div>
