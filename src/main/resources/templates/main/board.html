@@ -71,36 +71,42 @@
                      </div>
                      <div class="hk-row">
                         <!-- /Preview Sec -->
-                        <section id="apps_sec" class="hk-landing-sec bg-white col-lg-12" style="padding-bottom:0px;">
+                        <section id="apps_sec" class="hk-landing-sec bg-white col-lg-12" style="padding-top:30px;">
                            <div class="container" style="max-width:1400px;">
-                              <h4 class="text-center" style="margin-bottom:100px;">Univa는 모든 유저를 위한
-                                 <span class="text-warning">개방형 커뮤니티</span>입니다. <br>
-                                 까다로운 질문에 대한 답변을 얻고, 지식을 공유하세요.
-                              </h4>
-                              <div class="accordion accordion-type-2 accordion-flush" id="accordion_2">
-                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-between">
-                                       <a role="button" data-toggle="collapse" href="#collapse_1i" aria-expanded="false" class="collapsed">
-                                       태그 검색
-                                       </a>
+                              <div class="card" style="width:100%;">
+                                <div class="card-body" style="padding:0px;">
+                                   <div class="card-body pa-5" style="float:left; max-width:200px;">
+                                      <input class="form-control" placeholder="태그 이름" type="text" name="nickname" style="max-width:300px;">
+                                   </div>
+                                    <div class="card-body pa-5" style="float:left; max-width:200px;">
+                                      <button type="button" class="btn btn-light" style="float:right;" onclick="location.href='/forum/main/write'">검색</button>
                                     </div>
-                                    <div id="collapse_1i" class="collapse" data-parent="#accordion_2" role="tabpanel">
-                                       <div class="card-body pa-15">
-                                          <i class="glyphicon glyphicon-search" style="margin-left:5px; margin-right:5px;"></i>
-                                          검색결과 내 검색
-                                          <input class="form-control" placeholder="닉네임" type="text" name="nickname" style="max-width:300px;">
+                                    <div class="card-body pa-5" style="float:right;">
+                                       <div class="col-md-4 mt-10" >
+                                           <div class="custom-control custom-radio" style="min-width:100px;">
+                                               <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
+                                               <label class="custom-control-label" for="customRadio1">인기순</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-4 mt-10" >
+                                           <div class="custom-control custom-radio" style="min-width:100px;">
+                                               <input type="radio" id="customRadio2" name="customRadio" checked="" class="custom-control-input">
+                                               <label class="custom-control-label" for="customRadio2">최신순</label>
+                                           </div>
                                        </div>
                                     </div>
-                                    <div id="collapse_1i" class="collapse" data-parent="#accordion_2" role="tabpanel" >
-                                       <div class="card-body pa-15">
-                                          <i class="glyphicon glyphicon-search" style="margin-left:5px; margin-right:5px;"></i>
-                                          태그 검색
-                                          <input class="form-control" placeholder="닉네임" type="text" name="123" style="max-width:300px;">
-                                       </div>
+                                </div>
+
+                                  <div class="card-body" style="padding:0px 0px 10px 15px;">
+                                    <div class="w-100">
+                                      <span class="badge badge-indigo mt-15 mr-10">indigo</span>
+                                      <span class="badge badge-indigo mt-15 mr-10">indigo</span>
+                                      <span class="badge badge-indigo mt-15 mr-10">indigo</span>
                                     </div>
-                                 </div>
-                              </div>
-                              <div class="card">
+                                  </div>
+
+                                <div class="border-bottom mb-5"></div>
+
                                  <div class="card-body pa-0">
                                     <div class="table-wrap">
                                        <div class="table-responsive">
@@ -117,7 +123,7 @@
                                                    <th>조회수</th>
                                                 </tr>
                                              </thead>
-                                             <tbody th:each="list : ${question}">
+                                             <tbody th:each="list : ${questions}">
                                                <tr style="cursor:pointer;" th:id="'forum-idx-' + ${list.idx}" onclick="location.href='/'">
                                                   <td><img class="img-fluid rounded" th:src="@{/dist/img/logo1.jpg}" alt="icon"></td>
                                                   <td th:text="${list.user?.nickname}+'님'"></td>
@@ -205,17 +211,17 @@
           formData.append("max",0);
           formData.append("subject", subjects);
 
-          location.href="/forum/main/board?title="+inputText+"&min=0"+"&max=10";
+          location.href="/forum/main/board?title="+title+"&min=0"+"&max=10";
 
-          // getAPI("/forum/main/board",formData, function(result){
-          // 	console.log("result : " ,result);
-          // 	switch(result){
-          // 		case "ok" : location.href="/forum/board"; break;
-          // 		case "error" :
-          // 			alert("오류가 발생하였습니다. 다시 시도해주세요.");
-          // 		break;
-          // 	}
-          // })
+        	// getAPI("/forum/main/board",formData, function(result){
+        	// 	console.log("result : " ,result);
+        	// 	switch(result){
+        	// 		case "ok" : location.href="/forum/board"; break;
+        	// 		case "error" :
+        	// 			alert("오류가 발생하였습니다. 다시 시도해주세요.");
+        	// 		break;
+        	// 	}
+        	// })
         }
       </script>
    </body>
