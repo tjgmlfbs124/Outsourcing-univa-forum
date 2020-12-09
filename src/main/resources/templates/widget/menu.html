@@ -1,78 +1,206 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<div class="fixed-top bg-white shadow-sm" th:fragment="menu">
- <div class="container px-0">
-    <nav class="navbar navbar-expand-xl navbar-light fixed-top hk-navbar hk-navbar-alt">
-       <a class="navbar-toggle-btn nav-link-hover navbar-toggler" href="javascript:void(0);"
-          data-toggle="collapse" data-target="#navbarCollapseAlt" aria-controls="navbarCollapseAlt"
-          aria-expanded="false" aria-label="Toggle navigation">
-          <span class="feather-icon">
-             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" class="feather feather-menu">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-             </svg>
-          </span>
-       </a>
-       <a class="navbar-brand" href="/forum">
-       <img class="brand-img d-inline-block mr-10" th:src="@{/dist/img/logo.png}" alt="brand">Univa
-       </a>
-       <div class="collapse navbar-collapse" id="navbarCollapseAlt">
-          <ul class="navbar-nav" style="height:80px;">
-             <li class="nav-item dropdown show-on-hover active" >
-                  <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="line-height:75px; cursor:pointer;">
-                	서비스소개
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" th:fragment="menu">
+   <nav class="navbar navbar-expand-xl navbar-light fixed-top hk-navbar" >
+      <a id="navbar_toggle_btn" class="navbar-toggle-btn nav-link-hover" href="javascript:void(0);"><i class="ion ion-ios-menu"></i></a>
+      <a class="navbar-brand" href="dashboard1.html">
+      <img class="brand-img d-inline-block mr-5" th:src="@{/dist/img/logo.png}" alt="brand" />Deepor
+      </a>
+      <ul class="navbar-nav hk-navbar-content">
+         <li class="nav-item">
+            <a id="navbar_search_btn" class="nav-link nav-link-hover" href="javascript:void(0);"><i class="ion ion-ios-search"></i></a>
+         </li>
+         <li class="nav-item dropdown dropdown-notifications">
+            <a class="nav-link dropdown-toggle no-caret" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ion ion-ios-notifications"></i><span class="badge-wrap"><span class="badge badge-primary badge-indicator badge-indicator-sm badge-pill pulse"></span></span></a>
+            <div class="dropdown-menu dropdown-menu-right" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+               <h6 class="dropdown-header">Notifications <a href="javascript:void(0);" class="">View all</a></h6>
+               <div class="notifications-nicescroll-bar">
+                  <a href="javascript:void(0);" class="dropdown-item">
+                     <div class="media">
+                        <div class="media-img-wrap">
+                           <div class="avatar avatar-sm">
+                              <img src="dist/img/avatar1.jpg" alt="user" class="avatar-img rounded-circle">
+                           </div>
+                        </div>
+                        <div class="media-body">
+                           <div>
+                              <div class="notifications-text"><span class="text-dark text-capitalize">Evie Ono</span> accepted your invitation to join the team</div>
+                              <div class="notifications-time">12m</div>
+                           </div>
+                        </div>
+                     </div>
                   </a>
-                  <div class="dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                     <a class="dropdown-item" href="dashboard1.html">Univa</a>
-                     <a class="dropdown-item" href="dashboard1.html">개인정보 이용약관</a>
-                  </div>
-               </li>
-               <li class="nav-item dropdown show-on-hover" onclick="location.href='/forum/main'">
-                  <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="line-height:75px; cursor:pointer;">
-                  	Univa 포럼
+                  <div class="dropdown-divider"></div>
+                  <a href="javascript:void(0);" class="dropdown-item">
+                     <div class="media">
+                        <div class="media-img-wrap">
+                           <div class="avatar avatar-sm">
+                              <img src="dist/img/avatar2.jpg" alt="user" class="avatar-img rounded-circle">
+                           </div>
+                        </div>
+                        <div class="media-body">
+                           <div>
+                              <div class="notifications-text">New message received from <span class="text-dark text-capitalize">Misuko Heid</span></div>
+                              <div class="notifications-time">1h</div>
+                           </div>
+                        </div>
+                     </div>
                   </a>
-                  <div class="dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                     <a class="dropdown-item" href="/forum/mypage?type=question">나의 질문</a>
-                     <a class="dropdown-item" href="/forum/main/write">질문 등록하기</a>
+                  <div class="dropdown-divider"></div>
+                  <a href="javascript:void(0);" class="dropdown-item">
+                     <div class="media">
+                        <div class="media-img-wrap">
+                           <div class="avatar avatar-sm">
+                              <span class="avatar-text avatar-text-primary rounded-circle">
+                              <span class="initial-wrap"><span><i class="zmdi zmdi-account font-18"></i></span></span>
+                              </span>
+                           </div>
+                        </div>
+                        <div class="media-body">
+                           <div>
+                              <div class="notifications-text">You have a follow up with<span class="text-dark text-capitalize"> Deepor head</span> on <span class="text-dark text-capitalize">friday, dec 19</span> at <span class="text-dark">10.00 am</span></div>
+                              <div class="notifications-time">2d</div>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a href="javascript:void(0);" class="dropdown-item">
+                     <div class="media">
+                        <div class="media-img-wrap">
+                           <div class="avatar avatar-sm">
+                              <span class="avatar-text avatar-text-success rounded-circle">
+                              <span class="initial-wrap"><span>A</span></span>
+                              </span>
+                           </div>
+                        </div>
+                        <div class="media-body">
+                           <div>
+                              <div class="notifications-text">Application of <span class="text-dark text-capitalize">Sarah Williams</span> is waiting for your approval</div>
+                              <div class="notifications-time">1w</div>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a href="javascript:void(0);" class="dropdown-item">
+                     <div class="media">
+                        <div class="media-img-wrap">
+                           <div class="avatar avatar-sm">
+                              <span class="avatar-text avatar-text-warning rounded-circle">
+                              <span class="initial-wrap"><span><i class="zmdi zmdi-notifications font-18"></i></span></span>
+                              </span>
+                           </div>
+                        </div>
+                        <div class="media-body">
+                           <div>
+                              <div class="notifications-text">Last 2 days left for the project</div>
+                              <div class="notifications-time">15d</div>
+                           </div>
+                        </div>
+                     </div>
+                  </a>
+               </div>
+            </div>
+         </li>
+         <li class="nav-item dropdown dropdown-authentication">
+            <a class="nav-link dropdown-toggle no-caret" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               <div class="media">
+                  <div class="media-img-wrap">
+                     <div class="avatar">
+                        <img th:src="@{/dist/img/avatar10.jpg}" alt="user" class="avatar-img rounded-circle">
+                     </div>
+                     <span class="badge badge-success badge-indicator"></span>
                   </div>
+                  <div class="media-body">
+                     <span>Madelyn Shane<i class="zmdi zmdi-chevron-down"></i></span>
+                  </div>
+               </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" data-dropdown-in="flipInX" data-dropdown-out="flipOutX">
+               <a class="dropdown-item" href="profile.html"><i class="dropdown-icon zmdi zmdi-account"></i><span>Profile</span></a>
+               <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-card"></i><span>My balance</span></a>
+               <a class="dropdown-item" href="inbox.html"><i class="dropdown-icon zmdi zmdi-email"></i><span>Inbox</span></a>
+               <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-settings"></i><span>Settings</span></a>
+               <div class="dropdown-divider"></div>
+               <div class="sub-dropdown-menu show-on-hover">
+                  <a href="#" class="dropdown-toggle dropdown-item no-caret"><i class="zmdi zmdi-check text-success"></i>Online</a>
+                  <div class="dropdown-menu open-left-side">
+                     <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-check text-success"></i><span>Online</span></a>
+                     <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-circle-o text-warning"></i><span>Busy</span></a>
+                     <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-minus-circle-outline text-danger"></i><span>Offline</span></a>
+                  </div>
+               </div>
+               <div class="dropdown-divider"></div>
+               <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-power"></i><span>Log out</span></a>
+            </div>
+         </li>
+      </ul>
+   </nav>
+   <form role="search" class="navbar-search">
+      <div class="position-relative">
+         <a href="javascript:void(0);" class="navbar-search-icon"><i class="ion ion-ios-search"></i></a>
+         <input type="text" name="example-input1-group2" class="form-control" placeholder="Type here to Search">
+         <a id="navbar_search_close" class="navbar-search-close" href="#"><i class="ion ion-ios-close"></i></a>
+      </div>
+   </form>
+   <nav class="hk-nav hk-nav-light">
+      <a href="javascript:void(0);" id="hk_nav_close" class="hk-nav-close"><span class="feather-icon"><i data-feather="x"></i></span></a>
+      <div class="nicescroll-bar">
+         <div class="navbar-nav-wrap">
+            <ul class="navbar-nav flex-row">
+               <li class="nav-item active">
+                  <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#dash_drp">
+                  <span class="nav-link-text">Dashboard</span>
+                  </a>
+                  <ul id="dash_drp" class="nav flex-column collapse collapse-level-1">
+                     <li class="nav-item">
+                        <ul class="nav flex-column">
+                           <li class="nav-item">
+                              <a class="nav-link" href="dashboard1.html">CRM</a>
+                           </li>
+                           <li class="nav-item active">
+                              <a class="nav-link" href="dashboard2.html">Project</a>
+                           </li>
+                           <li class="nav-item">
+                              <a class="nav-link" href="dashboard3.html">Statistics</a>
+                           </li>
+                        </ul>
+                     </li>
+                  </ul>
                </li>
                <li class="nav-item">
-                  <a class="nav-link" href="documentation.html">고객센터</a>
+                  <a class="nav-link link-with-indicator" href="javascript:void(0);" data-toggle="collapse" data-target="#app_drp">
+                  <span class="nav-link-text">Application</span>
+                  </a>
+                  <ul id="app_drp" class="nav flex-column collapse collapse-level-1">
+                     <li class="nav-item">
+                        <ul class="nav flex-column">
+                           <li class="nav-item">
+                              <a class="nav-link" href="chats.html">Chat</a>
+                           </li>
+                           <li class="nav-item">
+                              <a class="nav-link" href="calendar.html">Calendar</a>
+                           </li>
+                           <li class="nav-item">
+                              <a class="nav-link" href="email.html">Email</a>
+                           </li>
+                           <li class="nav-item">
+                              <a class="nav-link" href="file-manager.html">File Manager</a>
+                           </li>
+                        </ul>
+                     </li>
+                  </ul>
+               </li>
+
+               <li class="nav-item">
+                  <a class="nav-link" href="documentation.html">
+                  <i class="ion ion-ios-book"></i>
+                  <span class="nav-link-text">Documentation</span>
+                  </a>
                </li>
             </ul>
-            <form class="navbar-search-alt">
-               <div class="input-group">
-                  <div class="input-group-prepend">
-                     <span class="input-group-text"><i class="ion ion-ios-search"></i></span>
-                  </div>
-                  <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-               </div>
-            </form>
          </div>
-         <ul class="navbar-nav hk-navbar-content">
-            <li class="nav-item dropdown dropdown-authentication">
-               <a class="nav-link dropdown-toggle no-caret" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <div class="media">
-                     <div class="media-body">
-                        <span th:onclick="location.href='/forum/signin'" th:if="${session.ForumUserSession?.username == null}">로그인</span>
-                        <span th:unless="${session.ForumUserSession?.username == null}" th:text="${session.ForumUserSession?.nickname} + '님'"></span>
-                        <!-- <span>홍길동님<i class="zmdi zmdi-chevron-down"></i></span> -->
-                     </div>
-                  </div>
-               </a>
-               <div class="dropdown-menu dropdown-menu-right" data-dropdown-in="flipInX" data-dropdown-out="flipOutX" th:if="${session.ForumUserSession?.username != null}">
-                  <a class="dropdown-item" href="/forum/mypage?type=profile"><i class="dropdown-icon zmdi zmdi-account"></i><span>회원 정보</span></a>
-                  <a class="dropdown-item" href="/fourm/mypage?type=question"><i class="dropdown-icon zmdi zmdi-card"></i><span>나의 질문</span></a>
-                  <a class="dropdown-item" href="/forum/mypage?type=forum"><i class="dropdown-icon zmdi zmdi-email"></i><span>나의 포럼</span></a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="/forum/signout"><i class="dropdown-icon zmdi zmdi-power"></i><span>Log out</span></a>
-               </div>
-            </li>
-         </ul>
-      </nav>
-   </div>
-</div>
-
+      </div>
+   </nav>
+   <div id="hk_nav_backdrop" class="hk-nav-backdrop"></div>
 </html>
