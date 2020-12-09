@@ -14,7 +14,7 @@ Project:	Deepor
 	++Border++
 	++Colors++
 	++Shadow++
-	++Font Size++	
+	++Font Size++
 	++Font Weight++
 	++Text Case++
 	++Letter Spacing++
@@ -53,7 +53,7 @@ Project:	Deepor
 	++Morris Chart++
 	++Sparkline++
 	++Flot Chart++
-	++Peity chart++	
+	++Peity chart++
 	++Echats++
 	++Easy pie chart++
 	++Nestable++
@@ -61,7 +61,7 @@ Project:	Deepor
 	++Sweet-alert++
 	++Notification++
 	++Tooltop++
-	++Images++  
+	++Images++
 	++Icons++
 	++Checkbox++
 	++Radio++
@@ -93,7 +93,7 @@ Project:	Deepor
 /****************************/
 /** Imports **/
 /****************************/
-@import url(https://fonts.googleapis.com/icon?family=Material+Icons|Roboto:400,500,700);
+@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap);
 @import url(../../vendors/bootstrap/dist/css/bootstrap.min.css);
 @import url(font-awesome.min.css);
 @import url(ionicons.min.css);
@@ -137,13 +137,13 @@ body {
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
   line-height: 1.5;
   background: #acb0b1;
   overflow-x: hidden; }
 
 .main-font, .jq-toast-wrap .jq-toast-single, .jq-toast-wrap .jq-toast-single .jq-toast-heading {
-  font-family: "Roboto", sans-serif; }
+  font-family: "Noto Sans KR", sans-serif; }
 
 a:hover, a:active {
   outline: 0; }

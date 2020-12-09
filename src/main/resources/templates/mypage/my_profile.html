@@ -56,91 +56,14 @@
                                                          </tr>
                                                       </tbody>
                                                    </table>
-                                                   <button type="button" class="btn btn-success" style="margin-top:50px; float:right;" onclick="switchContent(this, 'editinfo_password')">개인정보 수정</button>
+                                                   <button type="button" class="btn btn-success" style="margin-top:50px; float:right;" onclick="switchContent('/forum/mypage/editinfo_password')">개인정보 수정</button>
                                                 </div>
                                              </div>
                                           </div>
                                        </div>
                                     </section>
                                  </div>
-                                 <div class="col-lg-3">
-                                    <div class="card card-profile-feed">
-                                       <div class="card-header card-header-action">
-                                          <div class="media align-items-center">
-                                             <div class="media-body">
-                                                <div class="text-capitalize font-weight-500 text-dark">Total Forums</div>
-                                                <div class="font-13">총 질문답변 수</div>
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <div class="row text-center">
-                                          <div class="col-4 border-right pr-0">
-                                             <div class="pa-15">
-                                                <span class="d-block display-6 text-dark mb-5" th:text="${questionCount}"></span>
-                                                <span class="d-block text-capitalize font-14">question</span>
-                                             </div>
-                                          </div>
-                                          <div class="col-4 border-right px-0">
-                                             <div class="pa-15">
-                                                <span class="d-block display-6 text-dark mb-5"  th:text="${answerCount}"></span>
-                                                <span class="d-block text-capitalize font-14">answer</span>
-                                             </div>
-                                          </div>
-                                          <div class="col-4 border-right px-0">
-                                             <div class="pa-15">
-                                                <span class="d-block display-6 text-dark mb-5" th:text="${recommendCount}"></span>
-                                                <span class="d-block text-capitalize font-14">Goods</span>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </div>
-
-                                    <div class="card card-profile-feed">
-                                       <div class="card-header card-header-action">
-                                          <h6><span>내 질문의 답변 <span class="badge badge-soft-success ml-5" th:text="${answerCount}"></span></span></h6>
-                                          <a href="#" class="font-14 ml-auto">View all</a>
-                                       </div>
-                                       <ul class="list-group list-group-flush" th:each="list : ${answerList}">
-                                          <li class="list-group-item border-0" data-id="${list?.idx}">
-                                             <div class="media align-items-center">
-                                                <div class="d-flex media-img-wrap mr-15">
-                                                   <div class="avatar avatar-sm">
-                                                      <img th:src="@{/dist/img/slide1.jpg}" alt="user" class="avatar-img rounded-circle">
-                                                   </div>
-                                                </div>
-                                                <div class="media-body">
-                                                   <span class="d-block text-dark text-capitalize" th:text="${list?.title}"></span>
-                                                   <span class="d-block font-13" th:text="${list?.content}"></span>
-                                                </div>
-                                             </div>
-                                          </li>
-                                       </ul>
-                                    </div>
-
-                                    <div class="card card-profile-feed">
-                                       <div class="card-header card-header-action">
-                                          <h6><span>나의 질문<span class="badge badge-soft-success ml-5" th:text="${questionCount}"></span></span></h6>
-                                          <a href="#" class="font-14 ml-auto">View all</a>
-                                       </div>
-                                       <ul class="list-group list-group-flush" th:each="list : ${questionList}" >
-                                          <li class="list-group-item border-0" th:data-id="${list?.idx}">
-                                             <div class="media align-items-center">
-                                                <div class="d-flex media-img-wrap mr-15">
-                                                   <div class="avatar avatar-sm">
-                                                      <img th:src="@{/dist/img/slide1.jpg}" alt="user" class="avatar-img rounded-circle">
-                                                   </div>
-                                                </div>
-                                                <div class="media-body">
-                                                   <span class="d-block text-dark text-capitalize" th:text="${list?.title}"></span>
-                                                   <span class="d-block font-13" th:text="${list?.content}"></span>
-                                                </div>
-                                             </div>
-                                          </li>
-                                       </ul>
-                                    </div>
-
-
-                                 </div>
+                                 <div th:replace="mypage/nav :: nav"></div>
                               </div>
                            </div>
                         </div>

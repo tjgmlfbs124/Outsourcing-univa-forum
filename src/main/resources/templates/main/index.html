@@ -23,10 +23,6 @@
      box-sizing: border-box;
    }
 
-   body {
-     font: 16px Arial;
-   }
-
    /*the container must be positioned relative:*/
    .autocomplete {
      position: relative;
@@ -105,8 +101,8 @@
                                           <a class="dropdown-item" onclick="setInput(this)">질문내용</a>
                                           </div> -->
                                     </div>
-                                    <input class="form-control form-control-lg filled-input bg-white" placeholder="키워드를 입력하세요" type="text" id="input-search">
-                                    <div class="input-group-append" style="cursor:pointer; z-index:999; pointer-events:all;" onclick="search()">
+                                    <input class="form-control form-control-lg filled-input bg-white" placeholder="키워드를 입력하세요" type="text" id="input-search" autofocus>
+                                    <div class="input-group-append" id="search" style="cursor:pointer; z-index:999; pointer-events:all;" onclick="search()">
                                        <span class="input-group-text" >
                                           <span class="feather-icon" >
                                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right">
@@ -124,9 +120,9 @@
                      <div class="tab-content mt-sm-60 mt-30" id="result-row" style="margin-top:0px !important;">
                        <section id="apps_sec" class="hk-landing-sec bg-white col-lg-12" style="padding-top:30px;">
                         <div class="container" style="max-width:1400px;">
-                           <h4 class="text-center" style="margin:70px 0px 100px 0px;">Univa는 모든 유저를 위한
+                           <h4 class="text-center" style="margin:70px 0px 100px 0px;">Univa는 모든 고객을 위한
                               <span class="text-warning">개방형 커뮤니티</span>입니다. <br>
-                              까다로운 질문에 대한 답변을 얻고, 지식을 공유하세요.
+                              질문에 대한 답변을 얻고, 지식을 공유하세요.
                            </h4>
                            <div class="card" style="width:100%;">
 
@@ -155,7 +151,11 @@
                                           </thead>
                                           <tbody th:each="list : ${questions}">
                                             <tr style="cursor:pointer;" th:id="'forum-idx-' + ${list.idx}" th:onclick="'switchContent(\'/forum/main/content?id=' + ${list.idx} + '\')'">
-                                               <td><img class="img-fluid rounded" th:src="@{/dist/img/logo1.jpg}" alt="icon"></td>
+                                               <td>
+                                                <img th:src="@{${list.user.image_url} != null ? '/forum/img?id=' + ${list.user.image_url} : '/dist/img/img-thumb.jpg'} "
+                                                      alt="user" class="avatar-img rounded-circle"
+                                                      style="width:56px; height:56px;">
+                                                </td>
                                                <td th:text="${list.user?.nickname}"></td>
                                                <td th:text="${list.title}"></td>
                                                <!-- <td th:Text="${list.childCount}">13 Nov 2018</td> -->
@@ -223,6 +223,14 @@
           };
        });
 
+
+      $(document).keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+          $("#search").click();
+        }
+      });
+
        // 하단 main Content 변경
        function switchContent(url){
          loadContent.push(url);
@@ -238,6 +246,12 @@
          }
          switchContent("/forum/main/board?title="+inputText+"&min=0&max=10&sort=date");
        }
+      </script>
+
+      <script th:inline="javascript">
+        var id = /*[[${param.id[0]}]]*/'default';
+        if(id)
+          switchContent("/forum/main/content?id="+id);
       </script>
    </body>
 </html>
