@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+ <body data-spy="scroll" data-target=".navbar" data-offset="60">
+    <div class="hk-wrapper">
+       <div class="hk-pg-wrapper px-0" style="padding-top:0px;">
+          <div class="container-fluid">
+             <!-- Row -->
+             <div class="row">
+                <div class="col-xl-12 pa-0">
+                  <div class="bg-white shadow-bottom">
+                      <div class="container" style="max-width:1600px;">
+                         <ul class="nav nav-light nav-tabs" role="tablist" id="menu-tab">
+                            <li class="nav-item">
+                               <a class="d-flex h-60p align-items-center nav-link" th:onclick="'switchContent(\'/forum/main/content?id=' + ${forum.idx} + '\')'" style="cursor:pointer;">게시물 정보</a>
+                            </li>
+                            <li class="nav-item">
+                               <a class="d-flex h-60p align-items-center nav-link" th:onclick="'switchContent(\'/forum/main/history?id=' + ${forum.idx} + '\')'" style="cursor:pointer;">게시물 이력</a>
+                            </li>
+                            <li class="nav-item">
+                               <a class="d-flex h-60p align-items-center nav-link active" th:onclick="'switchContent(\'/forum/main/profile?id=' + ${forum.user.idx} + '\')'" style="cursor:pointer;">게시자 정보</a>
+                            </li>
+                         </ul>
+                      </div>
+                   </div>
+                   <div class="tab-content mt-sm-60 mt-30">
+                      <div class="tab-pane fade show active" role="tabpanel">
+                         <div class="container"  style="max-width:1600px;">
+                            <div class="hk-row">
+                              <div class="col-lg-9">
+                              <section class="hk-sec-wrapper">
+                                    <h5 class="hk-sec-title">회원 정보</h5>
+                                    <p class="mb-40">"개인정보 수정"을 통해 정보를 변경할수 있습니다.</p>
+                                    <div class="row">
+                                       <div class="col-sm">
+                                          <div class="table-wrap">
+                                             <div class="table-responsive">
+                                                <table class="table table-sm mb-0">
+                                                   <tbody>
+                                                      <tr>
+                                                         <td>아이디</td>
+                                                     <td class="text-right" th:text="${session.ForumUserSession?.username}">-</td>
+                                                      </tr>
+                                                      <tr>
+                                                         <td>닉네임</td>
+                                                     <td class="text-right" th:text="${session.ForumUserSession?.nickname}">-</td>
+                                                      </tr>
+                                                      <tr>
+                                                     <td>이메일</td>
+                                                     <td class="text-right" th:text="${session.ForumUserSession?.email}">-</td>
+                                                      </tr>
+                                                      <tr >
+                                                     <td>국가</td>
+                                                     <td class="text-right" th:text="${session.ForumUserSession?.nation}">-</td>
+                                                      </tr>
+                                                   </tbody>
+                                                </table>
+                                                <button type="button" class="btn btn-success" style="margin-top:50px; float:right;" onclick="switchContent(this, 'editinfo_password')">개인정보 수정</button>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </section>
+                              </div>
+                              <div class="col-lg-3">
+                                 <div class="card card-profile-feed">
+                                    <div class="card-header card-header-action">
+                                       <div class="media align-items-center">
+                                          <div class="media-body">
+                                             <div class="text-capitalize font-weight-500 text-dark">Total Forums</div>
+                                             <div class="font-13">총 질문답변 수</div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="row text-center">
+                                       <div class="col-4 border-right pr-0">
+                                          <div class="pa-15">
+                                             <span class="d-block display-6 text-dark mb-5" th:text="${questionCount}"></span>
+                                             <span class="d-block text-capitalize font-14">question</span>
+                                          </div>
+                                       </div>
+                                       <div class="col-4 border-right px-0">
+                                          <div class="pa-15">
+                                             <span class="d-block display-6 text-dark mb-5"  th:text="${answerCount}"></span>
+                                             <span class="d-block text-capitalize font-14">answer</span>
+                                          </div>
+                                       </div>
+                                       <div class="col-4 border-right px-0">
+                                          <div class="pa-15">
+                                             <span class="d-block display-6 text-dark mb-5" th:text="${recommendCount}"></span>
+                                             <span class="d-block text-capitalize font-14">Goods</span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+
+                                 <div class="card card-profile-feed">
+                                    <div class="card-header card-header-action">
+                                       <h6><span>내 질문의 답변 <span class="badge badge-soft-success ml-5" th:text="${answerCount}"></span></span></h6>
+                                       <a href="#" class="font-14 ml-auto">View all</a>
+                                    </div>
+                                    <ul class="list-group list-group-flush" th:each="list : ${answerList}">
+                                       <li class="list-group-item border-0" data-id="${list?.idx}">
+                                          <div class="media align-items-center">
+                                             <div class="d-flex media-img-wrap mr-15">
+                                                <div class="avatar avatar-sm">
+                                                   <img th:src="@{/dist/img/slide1.jpg}" alt="user" class="avatar-img rounded-circle">
+                                                </div>
+                                             </div>
+                                             <div class="media-body">
+                                                <span class="d-block text-dark text-capitalize" th:text="${list?.title}"></span>
+                                                <span class="d-block font-13" th:text="${list?.content}"></span>
+                                             </div>
+                                          </div>
+                                       </li>
+                                    </ul>
+                                 </div>
+
+                                 <div class="card card-profile-feed">
+                                    <div class="card-header card-header-action">
+                                       <h6><span>나의 질문<span class="badge badge-soft-success ml-5" th:text="${questionCount}"></span></span></h6>
+                                       <a href="#" class="font-14 ml-auto">View all</a>
+                                    </div>
+                                    <ul class="list-group list-group-flush" th:each="list : ${questionList}" >
+                                       <li class="list-group-item border-0" th:data-id="${list?.idx}">
+                                          <div class="media align-items-center">
+                                             <div class="d-flex media-img-wrap mr-15">
+                                                <div class="avatar avatar-sm">
+                                                   <img th:src="@{/dist/img/slide1.jpg}" alt="user" class="avatar-img rounded-circle">
+                                                </div>
+                                             </div>
+                                             <div class="media-body">
+                                                <span class="d-block text-dark text-capitalize" th:text="${list?.title}"></span>
+                                                <span class="d-block font-13" th:text="${list?.content}"></span>
+                                             </div>
+                                          </div>
+                                       </li>
+                                    </ul>
+                                 </div>
+
+
+                              </div>
+
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <!-- /Row -->
+          </div>
+       </div>
+    </div>
+ </body>
+</html>
