@@ -45,7 +45,7 @@
                         </tr>
                      </thead>
                      <tbody th:each="list : ${question}">
-                       <tr style="cursor:pointer;" th:id="'forum-idx-' + ${list.idx}" onclick="location.href='/'">
+                       <tr style="cursor:pointer;" th:id="'forum-idx-' + ${list.idx}" th:onclick="'switchContent(\'/forum/main/content?id=' + ${list.idx} + '\')'">
                           <td><img class="img-fluid rounded" th:src="@{/dist/img/logo1.jpg}" alt="icon"></td>
                           <td th:text="${list.user?.nickname}"></td>
                           <td th:text="${list.title}"></td>
