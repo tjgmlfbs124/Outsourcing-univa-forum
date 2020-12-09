@@ -21,7 +21,7 @@
        <div class="collapse navbar-collapse" id="navbarCollapseAlt">
           <ul class="navbar-nav" style="height:80px;">
              <li class="nav-item dropdown show-on-hover active" >
-                  <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="line-height:80px; cursor:pointer;">
+                  <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="line-height:75px; cursor:pointer;">
                 	서비스소개
                   </a>
                   <div class="dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
@@ -30,11 +30,11 @@
                   </div>
                </li>
                <li class="nav-item dropdown show-on-hover" onclick="location.href='/forum/main'">
-                  <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="line-height:80px; cursor:pointer;">
+                  <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="line-height:75px; cursor:pointer;">
                   	Univa 포럼
                   </a>
                   <div class="dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                     <a class="dropdown-item" href="/forum/mypage">나의 질문</a>
+                     <a class="dropdown-item" href="/forum/mypage?type=question">나의 질문</a>
                      <a class="dropdown-item" href="/forum/main/write">질문 등록하기</a>
                   </div>
                </li>
@@ -63,10 +63,9 @@
                   </div>
                </a>
                <div class="dropdown-menu dropdown-menu-right" data-dropdown-in="flipInX" data-dropdown-out="flipOutX" th:if="${session.ForumUserSession?.username != null}">
-                  <a class="dropdown-item" href="/forum/mypage"><i class="dropdown-icon zmdi zmdi-account"></i><span>회원 정보</span></a>
-                  <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-card"></i><span>나의 질문</span></a>
-                  <a class="dropdown-item" href="inbox.html"><i class="dropdown-icon zmdi zmdi-email"></i><span>나의 답변</span></a>
-                  <a class="dropdown-item" href="#"><i class="dropdown-icon zmdi zmdi-settings"></i><span>Settings</span></a>
+                  <a class="dropdown-item" href="/forum/mypage?type=profile"><i class="dropdown-icon zmdi zmdi-account"></i><span>회원 정보</span></a>
+                  <a class="dropdown-item" href="/fourm/mypage?type=question"><i class="dropdown-icon zmdi zmdi-card"></i><span>나의 질문</span></a>
+                  <a class="dropdown-item" href="/forum/mypage?type=forum"><i class="dropdown-icon zmdi zmdi-email"></i><span>나의 포럼</span></a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="/forum/signout"><i class="dropdown-icon zmdi zmdi-power"></i><span>Log out</span></a>
                </div>
