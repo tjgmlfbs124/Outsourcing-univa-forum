@@ -49,22 +49,6 @@
                            </div>
                         </div>
                      </div>
-                     <div class="bg-white shadow-bottom">
-                        <div class="container"  style="max-width:1600px;">
-                           <ul class="nav nav-light nav-tabs" role="tablist" id="menu-tab">
-                              <li class="nav-item">
-                                 <a class="d-flex h-60p align-items-center nav-link active" onclick="switchContent(this, 'profile')" style="cursor:pointer;">회원정보</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="d-flex h-60p align-items-center nav-link" onclick="switchContent(this, 'question')" style="cursor:pointer;">나의 질문</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="d-flex h-60p align-items-center nav-link" onclick="switchContent(this, 'forum')" style="cursor:pointer;">나의 포럼</a>
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-
                      <div class="tab-content mt-sm-60 mt-30" id="content" style="margin-top:0px !important;">
 
                      </div>
@@ -105,17 +89,31 @@
       <script th:src="@{/vendors/lightgallery/dist/js/lightgallery-all.min.js}"></script>
       <script th:src="@{/dist/js/froogaloop2.min.js}"></script>
       <script>
-     	$("#content").load("/forum/mypage/profile");
-        function switchContent(target, content){
-        	var tabs = $("#menu-tab").children();
+        var loadContent = [];
 
-        	for(idx=0; idx<tabs.length; idx++){
-        		tabs[idx].children[0].classList.remove("active");
-        	}
+        // 뒤로가기시, 페이지 이동을 막는다.
+        $(document).ready(function() {
+          window.history.pushState(null, "", window.location.href);
+          window.onpopstate = function() {
+            window.history.pushState(null, "", window.location.href);
+            loadContent.pop();
+            if(loadContent.length > 0){
+              $("#content").load(loadContent[loadContent.length - 1]);
+            }
+            else{
+              location.href="/forum"
+            }
+          };
+        });
 
-        	target.className += " active";
-        	$("#content").load("/forum/mypage/"+content);
+        // 하단 main Content 변경
+        function switchContent(url){
+          loadContent.push(url);
+        	$("#content").load(url);
         }
+
+        switchContent("/forum/mypage/profile");
+
       </script>
    </body>
 </html>
