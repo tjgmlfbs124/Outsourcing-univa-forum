@@ -95,13 +95,12 @@ public class ForumController {
 	}
 	
 	/* 포럼 내용 보기 */
-	@GetMapping("/main/content")
-	@ResponseBody //TODO 컨텐트 보이기
+	@GetMapping("/main/content") //TODO 컨텐트 보이기, 조회수 올리기
 	public String ForumContent(@RequestParam("id") int id, Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		ForumPost forum = forumService.findOneForumPost(id, user.getIdx());
+		model.addAttribute("forum", forum);
 //		for(ForumPost cf : forum.getChildren()) {
-//			// TODO 지우기
 //			//System.out.println("child title : "+cf.getTitle());
 //		}
 //		System.out.println("reco : "+forum.getRecommended());
@@ -109,7 +108,25 @@ public class ForumController {
 //		for(ForumRecommend reco : forum.getForumRecommend()) {
 //			System.out.println("subs : "+ reco.getUser().getNickname());
 //		}
-		return "test";
+		return "/main/content";
+	}
+	
+	@GetMapping("/main/history") // TODO 히스토리
+	public String ForumhistoryPage(@RequestParam("id") int id, Model model, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		ForumPost forum = forumService.findOneForumPost(id, user.getIdx());
+		model.addAttribute("forum", forum);
+		
+		return "/main/history";
+	}
+	
+	@GetMapping("/main/profile") // TODO 프로필
+	public String ForumProfilePage(@RequestParam("id") int id, Model model, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		ForumPost forum = forumService.findOneForumPost(id, user.getIdx());
+		model.addAttribute("forum", forum);
+		
+		return "/main/profile";
 	}
 	
 	/* 글쓰기 페이지 */
@@ -134,16 +151,25 @@ public class ForumController {
 	
 	/* 포럼 수정 요청 */
 	@GetMapping("/main/edit")
-	public String ForumPostModifyPage() {
+	public String ForumPostModifyPage(@RequestParam("id") int idx, Model model, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO) session.getAttribute("ForumUserSession");
+		model.addAttribute(forumService.findOneForumPost(idx, user.getIdx()));
+		
 		return "test";
 	}
 	@PostMapping("/main/edit")
-	public String ForumPostModifyPost() {
+	@ResponseBody
+	public String ForumPostModifyPost(ForumPostDTO forum, HttpSession session) {
+		// TODO 포럼 수정 요청
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		
+		
 		return "test";
 	}
 	
 	/* 포럼 삭제요청 */
 	@PostMapping("/main/remove")
+	@ResponseBody
 	public String ForumPostRemoveRequestPost(@RequestParam("id")int idx, HttpSession session) {
 		// TODO 삭제 요청
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumSessionUser");
@@ -152,7 +178,7 @@ public class ForumController {
 			post.setState(20);
 		}
 		
-		return "test";
+		return "ok";
 	}
 	
 	/* 회원 가입 */
@@ -192,8 +218,7 @@ public class ForumController {
 	@GetMapping("/signout")
 	public String ForumSignoutPost(Model model, HttpSession session) {
 		session.removeAttribute("ForumUserSession");
-		// TODO 로그아웃 후처리
-		return "index";
+		return "redirect:/forum";
 	}
 	
 	/* 마이 페이지 */

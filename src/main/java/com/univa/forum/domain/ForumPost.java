@@ -57,6 +57,10 @@ public class ForumPost {
 	@Column(name = "hits")
 	private int hits;
 	
+	@ManyToOne(targetEntity=ForumPost.class, fetch=FetchType.LAZY)
+	@JoinColumn(name="modifying_parent_idx")
+	private ForumPost modifying_parent;
+	
 	@OneToMany(targetEntity=ForumFile.class, mappedBy="forum", cascade = CascadeType.PERSIST)
 	private List<ForumFile> files;
 	
@@ -65,6 +69,9 @@ public class ForumPost {
 	
 	@OneToMany(targetEntity=ForumRecommend.class, mappedBy="forum", cascade = CascadeType.PERSIST)
 	private Set<ForumRecommend> forumRecommend;
+	
+	@OneToMany(targetEntity=ForumModify.class, mappedBy="forum", cascade = CascadeType.PERSIST)
+	private Set<ForumModify> forumModify;
 	
 	/* 컬럼이 아닌 프로퍼티(리턴용 데이터?) */
 	@Transient
@@ -213,6 +220,14 @@ public class ForumPost {
 
 	public void setChildrenCount(int childrenCount) {
 		this.childrenCount = childrenCount;
+	}
+
+	public ForumPost getModifying_parent() {
+		return modifying_parent;
+	}
+
+	public void setModifying_parent(ForumPost modifying_parent) {
+		this.modifying_parent = modifying_parent;
 	}
 	
 }
