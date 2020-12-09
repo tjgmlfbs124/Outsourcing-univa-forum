@@ -3,6 +3,7 @@ package com.univa.forum.domain;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 @Entity(name="forum")
@@ -45,9 +47,12 @@ public class ForumPost {
 	
 	@Column(name = "content", columnDefinition = "TEXT")
 	private String content;
-	//private ForumPost history;
 	
-	@Column(name = "update_date", insertable = false, updatable=false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@OneToOne(targetEntity = ForumPost.class, fetch=FetchType.EAGER)
+	@JoinColumn(name="history_parent_idx")
+	private ForumPost history_parent;
+	
+	@Column(name = "update_date", updatable=false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	//@Column(name = "update_date", columnDefinition = "CURRENT_TIMESTAMP")
 	private LocalDateTime update_date;
 	
@@ -61,6 +66,9 @@ public class ForumPost {
 	@JoinColumn(name="modifying_parent_idx")
 	private ForumPost modifying_parent;
 	
+	@OneToMany(targetEntity=ForumPost.class, mappedBy = "modifying_parent", fetch=FetchType.EAGER)
+	private Set<ForumPost> modifyChildren;
+	
 	@OneToMany(targetEntity=ForumFile.class, mappedBy="forum", cascade = CascadeType.PERSIST)
 	private List<ForumFile> files;
 	
@@ -70,8 +78,8 @@ public class ForumPost {
 	@OneToMany(targetEntity=ForumRecommend.class, mappedBy="forum", cascade = CascadeType.PERSIST)
 	private Set<ForumRecommend> forumRecommend;
 	
-	@OneToMany(targetEntity=ForumModify.class, mappedBy="forum", cascade = CascadeType.PERSIST)
-	private Set<ForumModify> forumModify;
+	@OneToOne(targetEntity=ForumModify.class, mappedBy="forum", cascade = CascadeType.PERSIST)
+	private ForumModify forumModify;
 	
 	/* 컬럼이 아닌 프로퍼티(리턴용 데이터?) */
 	@Transient
@@ -228,6 +236,30 @@ public class ForumPost {
 
 	public void setModifying_parent(ForumPost modifying_parent) {
 		this.modifying_parent = modifying_parent;
+	}
+
+	public ForumPost getHistory_parent() {
+		return history_parent;
+	}
+
+	public void setHistory_parent(ForumPost history_parent) {
+		this.history_parent = history_parent;
+	}
+
+	public Set<ForumPost> getModifyChildren() {
+		return modifyChildren;
+	}
+
+	public void setModifyChildren(Set<ForumPost> modifyChildren) {
+		this.modifyChildren = modifyChildren;
+	}
+
+	public ForumModify getForumModify() {
+		return forumModify;
+	}
+
+	public void setForumModify(ForumModify forumModify) {
+		this.forumModify = forumModify;
 	}
 	
 }

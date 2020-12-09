@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -159,11 +162,29 @@ public class ForumController {
 	}
 	@PostMapping("/main/edit")
 	@ResponseBody
-	public String ForumPostModifyPost(ForumPostDTO forum, HttpSession session) {
-		// TODO 포럼 수정 요청
+	public String ForumPostModifyPost(HttpSession session) {
+		// TODO 포럼 수정 요청 테스트중
+		//ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		ForumPostDTO forum = new ForumPostDTO();
+		forum.setUser_idx(4);
+		forum.setType(0);
+		//forum.setParent_idx(parent_idx);
+		forum.setTitle("테스트 답변1+수정");
+		forum.setContent("1-2 +수정내용");
+		forum.setState(10);
+		forum.setSubjects(Arrays.asList(1,2));
+		forum.setModify_parent_idx(6);
+		forum.setUpdate_date(LocalDateTime.of(2020, 12, 04, 11, 22, 18));
+		forumService.modifyForum(forum);
+		return "test";
+	}
+	
+	@PostMapping("/main/modifyApply")
+	@ResponseBody
+	public String ForumPostModifySelectPost(@RequestParam("id") int modIdx, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		
-		
+		forumService.modifyForumApproval(20, user.getIdx());
 		return "test";
 	}
 	

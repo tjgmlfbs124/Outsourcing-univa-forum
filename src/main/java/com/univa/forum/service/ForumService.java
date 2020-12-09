@@ -1,6 +1,7 @@
 package com.univa.forum.service;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.univa.forum.domain.ForumFile;
+import com.univa.forum.domain.ForumModify;
 import com.univa.forum.domain.ForumPost;
 import com.univa.forum.domain.ForumRecommend;
 import com.univa.forum.domain.ForumSubject;
@@ -201,7 +203,6 @@ public class ForumService {
 		forumPost.setTitle(forum.getTitle());
 		forumPost.setContent(forum.getContent());
 		forumPost.setState(forum.getState());
-		System.out.println("what??");
 		for(int subs : forum.getSubjects() ) {
 			ForumSubject subject = forumRepository.findSubjectByIdx(subs).get();
 			if(subject != null) {
@@ -237,13 +238,18 @@ public class ForumService {
 	public String modifyForum(ForumPostDTO forum) {
 		// TODO 수정요청
 		ForumPost forumPost = new ForumPost();
-		ForumUser user = findUserByIdx(forum.getUser_idx());
+		
+		ForumPost prePost = this.findOneForumPost(forum.getModify_parent_idx());
+		
+		ForumUser user = this.findUserByIdx(prePost.getUser().getIdx());
+		
 		if(user == null) return "user error";
 		forumPost.setUser(user);
 		forumPost.setType(forum.getType());
 		forumPost.setTitle(forum.getTitle());
 		forumPost.setContent(forum.getContent());
 		forumPost.setState(forum.getState());
+		forumPost.setUpdate_date(forum.getUpdate_date());
 		for(int subs : forum.getSubjects() ) {
 			ForumSubject subject = forumRepository.findSubjectByIdx(subs).get();
 			if(subject != null) {
@@ -263,13 +269,50 @@ public class ForumService {
 		}
 		//TODO 수정부모 할당
 		forumPost.setModifying_parent(forumRepository.findForumByIdx(forum.getModify_parent_idx()).get());
+		// TODO 수정 이력
+		ForumModify forumModify = new ForumModify();
+		forumModify.setForum(forumPost);
+		forumModify.setUser( findUserByIdx(forum.getUser_idx()) );
+		
+		forumPost = forumRepository.save(forumPost);
+		forumPost.setForumModify(forumModify);
+		forumPost.setType(50);
 		forumRepository.save(forumPost);
 		
 		return "ok";
 	}
 	
-	public String modifyForumApproval(int idx) {
-		// TODO 수정 승인
+	/* 수정 승인 */
+	public String modifyForumApproval(int idx, int user_idx) {
+		// TODO 수정 승인 (제목, 내용, 주제, 파일, 조회수, 추천인)만?
+		ForumPost prePost = forumRepository.findForumByIdx(idx).get().getModifying_parent();
+		ForumPost modifyingPost = forumRepository.findForumByIdx(idx).get();
+		
+		Set<ForumPost> deletePost = prePost.getModifyChildren();
+		for(ForumPost forumModify : deletePost) {
+			forumModify.setState(30);
+		}
+		prePost.setState(20);
+		modifyingPost.setState(0);
+		
+		modifyingPost.getForumModify().setApproval_user(forumRepository.findUserByIdx(user_idx).get());
+		modifyingPost.getForumModify().setApproval_date(LocalDateTime.now());
+		
+		modifyingPost.setType(prePost.getType());
+		if ( prePost.getParent() != null ) modifyingPost.setParent(prePost.getParent());
+		modifyingPost.setHits(prePost.getHits()); //조회수
+		//modifyingPost.setChildren(prePost.getChildren()); //자식들
+		for (ForumPost child : prePost.getChildren() ) {
+			child.setParent(modifyingPost);
+		}
+		//modifyingPost.setForumRecommend(prePost.getForumRecommend()); // 추천인
+		for ( ForumRecommend reco : prePost.getForumRecommend() ) {
+			reco.setForum(modifyingPost);
+		}
+		modifyingPost.setHistory_parent(prePost);
+		forumRepository.save(prePost);
+		forumRepository.save(modifyingPost);
+		
 		return null;
 	}
 	

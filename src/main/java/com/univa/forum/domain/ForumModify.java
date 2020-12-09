@@ -23,7 +23,7 @@ public class ForumModify {
 	private ForumPost forum;
 	
 	@ManyToOne(targetEntity = ForumUser.class, fetch=FetchType.EAGER)
-	@JoinColumn(name = "forum_user")
+	@JoinColumn(name = "user_idx")
 	private ForumUser user;
 	
 	@Column(name = "update_date", insertable = false, updatable=false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

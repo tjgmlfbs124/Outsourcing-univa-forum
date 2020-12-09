@@ -23,7 +23,7 @@ public class ForumRepository {
 	}
 	
 	public ForumPost save(ForumPost forum) {
-		em.persist(forum);;
+		em.persist(forum);
 		return forum;
 	}
 	

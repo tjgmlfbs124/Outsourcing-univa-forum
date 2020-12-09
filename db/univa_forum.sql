@@ -202,3 +202,7 @@ CREATE TABLE IF NOT EXISTS `univa_forum`.`forum_modifiy` (
     ON DELETE SET NULL
     ON UPDATE SET NULL)
 ENGINE = InnoDB
+
+/* 수정이력 Auto increment 추가 */
+ALTER TABLE `univa_forum`.`forum_modify`
+ MODIFY `idx` INT UNSIGNED NOT NULL AUTO_INCREMENT;
