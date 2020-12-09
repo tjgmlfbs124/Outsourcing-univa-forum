@@ -124,7 +124,7 @@
                            </div>
                         </div>
                      </div>
-                     <div class="hk-row" id="result-row">
+                     <div class="hk-pg-wrapper" id="result-row">
                         <!-- /Preview Sec -->
                         <section id="apps_sec" class="hk-landing-sec bg-white col-lg-12" style="padding-top:30px;">
                            <div class="container" style="max-width:1400px;">
@@ -158,14 +158,14 @@
                                                 </tr>
                                              </thead>
                                              <tbody th:each="list : ${questions}">
-                                               <tr style="cursor:pointer;" th:id="'forum-idx-' + ${list.idx}" onclick="location.href='/'">
+                                               <tr style="cursor:pointer;" th:id="'forum-idx-' + ${list.idx}" th:onclick="'onClickRow(' + ${list.idx} + ')'">
                                                   <td><img class="img-fluid rounded" th:src="@{/dist/img/logo1.jpg}" alt="icon"></td>
                                                   <td th:text="${list.user?.nickname}"></td>
                                                   <td th:text="${list.title}"></td>
                                                   <!-- <td th:Text="${list.childCount}">13 Nov 2018</td> -->
                                                   <td>5</td>
                                                   <td th:text="${list.recommendedCount}"></td>
-                                                  <td th:text="${list.update_date}"></td>
+                                                  <td th:text="${#temporals.format(list.update_date, 'yyyy/MM/dd HH:mm')}"></td>
                                                   <td>
                                                     <span class="badge badge-soft-success" th:each="tags, num : ${list.subjects}" th:if="${num.index < 3}" th:text=${tags.subject.name} style="margin-right:10px;">Completed</span>
                                                   </td>
@@ -230,8 +230,8 @@
       <script th:src="@{/dist/js/auto-complete.js}"></script>
       <script>
 
-        function setInput(){
-
+        function onClickRow(idx){
+          $("#result-row").load("/forum/main/content?id="+idx);
         }
 
 
