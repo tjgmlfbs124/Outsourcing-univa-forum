@@ -135,7 +135,7 @@ public class ForumService {
 		return post;
 	}
 	
-	/** 가장 자식이 많은 게시물 역순 정렬 */
+	/** 가장 자식이 많은 게시물 정렬 */
 	public List<ForumPost> findHeaderForumOrderByChildCnt(int user_idx) {
 		List<ForumPost> posts = this.findHeaderForumList(user_idx);
 		posts = this.addChildCount(posts);
@@ -191,11 +191,6 @@ public class ForumService {
 		return !forumRepository.findUserByUsername(user.getUsername()).isPresent();
 	}
 	
-	/** 모든 주제 찾기 */
-	public List<ForumSubject> findAllSubject() {
-		return forumRepository.findAllSubject();
-	}
-	
 	/** 포럼 쓰기, 결과 리턴 */
 	public String writeForum(ForumPostDTO forum) {
 		ForumPost forumPost = new ForumPost();
@@ -228,6 +223,61 @@ public class ForumService {
 		
 		return "ok";
 	}
+	public String writeForum(ForumPost post) {
+		// TODO 포럼 쓰기
+		try {
+			forumRepository.save(post);
+		} catch ( Exception e) {
+			return "error";
+		}
+		
+		return "ok";
+	}
+	
+	public String modifyForum(ForumPostDTO forum) {
+		// TODO 수정요청
+		ForumPost forumPost = new ForumPost();
+		ForumUser user = findUserByIdx(forum.getUser_idx());
+		if(user == null) return "user error";
+		forumPost.setUser(user);
+		forumPost.setType(forum.getType());
+		forumPost.setTitle(forum.getTitle());
+		forumPost.setContent(forum.getContent());
+		forumPost.setState(forum.getState());
+		for(int subs : forum.getSubjects() ) {
+			ForumSubject subject = forumRepository.findSubjectByIdx(subs).get();
+			if(subject != null) {
+				ForumSubjectBridge subjectEnt = new ForumSubjectBridge();
+				subjectEnt.setSubject(subject);
+				subjectEnt.setForum(forumPost);
+				forumPost.addSubjects(subjectEnt);
+			}
+		}
+		if( forum.getFiles() != null && forum.getFiles().size() > 0) {
+			for (MultipartFile file : forum.getFiles() ) {
+				ForumFile mFile = new ForumFile();
+				mFile.setFile_url(writeFile(file));
+				mFile.setForum(forumPost);
+				forumPost.addFiles(mFile);
+			}
+		}
+		//TODO 수정부모 할당
+		forumPost.setModifying_parent(forumRepository.findForumByIdx(forum.getModify_parent_idx()).get());
+		forumRepository.save(forumPost);
+		
+		return "ok";
+	}
+	
+	public String modifyForumApproval(int idx) {
+		// TODO 수정 승인
+		return null;
+	}
+	
+	/** 모든 주제 찾기 */
+	public List<ForumSubject> findAllSubject() {
+		return forumRepository.findAllSubject();
+	}
+	
 	
 	/** 유저 찾기 */
 	public ForumUser findUserByIdx(int idx) {

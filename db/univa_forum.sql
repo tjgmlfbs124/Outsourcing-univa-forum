@@ -160,4 +160,45 @@ ENGINE = InnoDB
 /* 포럼 게시물 delete_request 컬럼 제거 */
 ALTER TABLE `univa_forum`.`forum` DROP `delete_request`;
 
-  
+/* 포럼신고 테이블 인덱스 타입 변경 */
+ALTER TABLE `forum_report` modify `idx` INT UNSIGNED;
+
+/* 포럼 게시물 수정요청 게시물 추가 */ 
+ALTER TABLE `univa_forum`.`forum` ADD `modifying_parent_idx` INT UNSIGNED;
+
+/* 수정요청 제약조건 추가 */
+ALTER TABLE `univa_forum`.`forum` 
+ADD CONSTRAINT `fk_forum_forum3`
+  FOREIGN KEY (`modifying_parent_idx`)
+  REFERENCES `univa_forum`.`forum` (`idx`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+/* 수정 이력 저장 */
+CREATE TABLE IF NOT EXISTS `univa_forum`.`forum_modifiy` (
+  `idx` INT UNSIGNED NOT NULL,
+  `forum_idx` INT UNSIGNED NOT NULL,
+  `user_idx` INT UNSIGNED NOT NULL,
+  `update_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `approval_user` INT UNSIGNED NULL,
+  `approval_date` DATETIME NULL,
+  PRIMARY KEY (`idx`),
+  INDEX `fk_forum_modifiy_forum1_idx` (`forum_idx` ASC) VISIBLE,
+  INDEX `fk_forum_modifiy_user1_idx` (`user_idx` ASC) VISIBLE,
+  INDEX `fk_forum_modifiy_user2_idx` (`approval_user` ASC) VISIBLE,
+  CONSTRAINT `fk_forum_modifiy_forum1`
+    FOREIGN KEY (`forum_idx`)
+    REFERENCES `univa_forum`.`forum` (`idx`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_forum_modifiy_user1`
+    FOREIGN KEY (`user_idx`)
+    REFERENCES `univa_forum`.`user` (`idx`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_forum_modifiy_user2`
+    FOREIGN KEY (`approval_user`)
+    REFERENCES `univa_forum`.`user` (`idx`)
+    ON DELETE SET NULL
+    ON UPDATE SET NULL)
+ENGINE = InnoDB
