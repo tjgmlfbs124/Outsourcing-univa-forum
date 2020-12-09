@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"><head>
-   <meta charset="UTF-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-   <title>Deepor I File Upload</title>
-   <meta name="description" content="A responsive bootstrap 4 admin dashboard template by hencework" />
-   <!-- Favicon -->
-   <link rel="shortcut icon" href="favicon.ico">
-   <link rel="icon" href="favicon.ico" type="image/x-icon">
-   <!-- Bootstrap Dropzone CSS -->
-   <link th:href="@{/vendors/dropzone/dist/dropzone.css}" rel="stylesheet" type="text/css"/>
-   <!-- Bootstrap Dropzone CSS -->
-   <link th:href="@{/vendors/dropify/dist/css/dropify.min.css}" rel="stylesheet" type="text/css"/>
-   <!-- Toggles CSS -->
-   <link th:href="@{/vendors/jquery-toggles/css/toggles.css}" rel="stylesheet" type="text/css">
-   <link th:href="@{/vendors/jquery-toggles/css/themes/toggles-light.css}" rel="stylesheet" type="text/css">
-   <!-- Custom CSS -->
-   <link th:href="@{/dist/css/style.css}" rel="stylesheet" type="text/css">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      <title>Deepor I File Upload</title>
+      <meta name="description" content="A responsive bootstrap 4 admin dashboard template by hencework" />
+      <!-- Favicon -->
+      <link rel="shortcut icon" href="favicon.ico">
+      <link rel="icon" href="favicon.ico" type="image/x-icon">
+      <!-- Bootstrap Dropzone CSS -->
+      <link th:href="@{/vendors/dropzone/dist/dropzone.css}" rel="stylesheet" type="text/css"/>
+      <!-- Bootstrap Dropzone CSS -->
+      <link th:href="@{/vendors/dropify/dist/css/dropify.min.css}" rel="stylesheet" type="text/css"/>
+      <!-- Toggles CSS -->
+      <link th:href="@{/vendors/jquery-toggles/css/toggles.css}" rel="stylesheet" type="text/css">
+      <link th:href="@{/vendors/jquery-toggles/css/themes/toggles-light.css}" rel="stylesheet" type="text/css">
+      <!-- Custom CSS -->
+      <link th:href="@{/dist/css/style.css}" rel="stylesheet" type="text/css">
+   </head>
    <style>
    * {
      box-sizing: border-box;
@@ -78,139 +80,114 @@
      color: #ffffff;
    }
    </style>
-</head>
    <body data-spy="scroll" data-target=".navbar" data-offset="60">
-      <!-- Preloader -->
       <div class="preloader-it">
          <div class="loader-pendulums"></div>
       </div>
-      <!-- /Preloader -->
-      <!-- HK Wrapper -->
-      <div class="hk-wrapper hk-alt-nav hk-landing">
-         <!-- Header -->
+      <div class="hk-wrapper">
          <div th:replace="widget/menu :: menu"></div>
-         <!-- Main Content -->
          <div class="hk-pg-wrapper px-0">
             <div class="container-fluid">
                <!-- Row -->
                <div class="row">
                   <div class="col-xl-12 pa-0">
-                     <!-- Preview Sec -->
-                     <div class="faq-search-wrap bg-yellow-dark-5" style="padding:70px 0px 60px 0px">
-                        <div class="container">
-                           <h1 class="display-5 text-white mb-20"></h1>
-                           <div class="form-group w-100 mb-0">
-                              <div class="input-group">
-                                 <div class="input-group-prepend" style="background:#fff;">
-                                    <button class="btn btn-outline-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-value">전체</button>
-                                    <!-- <div class="dropdown-menu">
-                                       <a class="dropdown-item" onclick="setInput(this)">전체</a>
-                                       <a class="dropdown-item" onclick="setInput(this)">과목명</a>
-                                       <a class="dropdown-item" onclick="setInput(this)">질문내용</a>
-                                    </div> -->
-                                 </div>
-                                 <input class="form-control form-control-lg filled-input bg-white" placeholder="키워드를 입력하세요" type="text" id="input-search">
-                                 <div class="input-group-append" style="cursor:pointer; z-index:999; pointer-events:all;" onclick="search()">
-                                    <span class="input-group-text" >
-                                       <span class="feather-icon" >
-                                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right">
-                                             <line x1="5" y1="12" x2="19" y2="12"></line>
-                                             <polyline points="12 5 19 12 12 19"></polyline>
-                                          </svg>
+                     <div class="profile-cover-wrap overlay-wrap">
+                        <div class="faq-search-wrap bg-yellow-dark-5" style="padding:70px 0px 60px 0px">
+                           <div class="container">
+                              <h1 class="display-5 text-white mb-20"></h1>
+                              <div class="form-group w-100 mb-0">
+                                 <div class="input-group">
+                                    <div class="input-group-prepend" style="background:#fff;">
+                                       <button class="btn btn-outline-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-value">전체</button>
+                                       <!-- <div class="dropdown-menu">
+                                          <a class="dropdown-item" onclick="setInput(this)">전체</a>
+                                          <a class="dropdown-item" onclick="setInput(this)">과목명</a>
+                                          <a class="dropdown-item" onclick="setInput(this)">질문내용</a>
+                                          </div> -->
+                                    </div>
+                                    <input class="form-control form-control-lg filled-input bg-white" placeholder="키워드를 입력하세요" type="text" id="input-search">
+                                    <div class="input-group-append" style="cursor:pointer; z-index:999; pointer-events:all;" onclick="search()">
+                                       <span class="input-group-text" >
+                                          <span class="feather-icon" >
+                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right">
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                             </svg>
+                                          </span>
                                        </span>
-                                    </span>
+                                    </div>
                                  </div>
                               </div>
                            </div>
                         </div>
                      </div>
-                     <div class="hk-row" id="result-row">
-                        <!-- /Preview Sec -->
-                        <section id="apps_sec" class="hk-landing-sec bg-white col-lg-12" style="padding-top:30px;">
-                           <div class="container" style="max-width:1400px;">
-                              <h4 class="text-center" style="margin:70px 0px 100px 0px;">Univa는 모든 유저를 위한
-                                 <span class="text-warning">개방형 커뮤니티</span>입니다. <br>
-                                 까다로운 질문에 대한 답변을 얻고, 지식을 공유하세요.
-                              </h4>
-                              <div class="card" style="width:100%;">
+                     <div class="tab-content mt-sm-60 mt-30" id="result-row" style="margin-top:0px !important;">
+                       <section id="apps_sec" class="hk-landing-sec bg-white col-lg-12" style="padding-top:30px;">
+                        <div class="container" style="max-width:1400px;">
+                           <h4 class="text-center" style="margin:70px 0px 100px 0px;">Univa는 모든 유저를 위한
+                              <span class="text-warning">개방형 커뮤니티</span>입니다. <br>
+                              까다로운 질문에 대한 답변을 얻고, 지식을 공유하세요.
+                           </h4>
+                           <div class="card" style="width:100%;">
 
-                                  <div class="card-body" style="padding:0px 0px 10px 15px;">
-                                    <div class="w-100">
-                                    </div>
-                                  </div>
+                               <div class="card-body" style="padding:0px 0px 10px 15px;">
+                                 <div class="w-100">
+                                 </div>
+                               </div>
 
-                                <div class="border-bottom mb-5"></div>
+                             <div class="border-bottom mb-5"></div>
 
-                                 <div class="card-body pa-0">
-                                    <div class="table-wrap">
-                                       <div class="table-responsive">
-                                          <table class="table table-sm table-hover mb-0">
-                                             <thead>
-                                                <tr>
-                                                   <th></th>
-                                                   <th>닉네임</th>
-                                                   <th>제목</th>
-                                                   <th>답변수</th>
-                                                   <th>좋아요</th>
-                                                   <th>날짜</th>
-                                                   <th>과목</th>
-                                                   <th>조회수</th>
-                                                </tr>
-                                             </thead>
-                                             <tbody th:each="list : ${questions}">
-                                               <tr style="cursor:pointer;" th:id="'forum-idx-' + ${list.idx}" onclick="location.href='/'">
-                                                  <td><img class="img-fluid rounded" th:src="@{/dist/img/logo1.jpg}" alt="icon"></td>
-                                                  <td th:text="${list.user?.nickname}"></td>
-                                                  <td th:text="${list.title}"></td>
-                                                  <!-- <td th:Text="${list.childCount}">13 Nov 2018</td> -->
-                                                  <td>5</td>
-                                                  <td th:text="${list.recommendedCount}"></td>
-                                                  <td th:text="${list.update_date}"></td>
-                                                  <td>
-                                                    <span class="badge badge-soft-success" th:each="tags, num : ${list.subjects}" th:if="${num.index < 3}" th:text=${tags.subject.name} style="margin-right:10px;">Completed</span>
-                                                  </td>
-                                                  <td th:text="${list.hits}"></td>
-                                               </tr>
-                                             </tbody>
-                                          </table>
-                                          <button type="button" class="btn btn-success" style="margin:30px 0px 50px 0px; float:right;" onclick="location.href='/forum/main/write'">질문 등록하기</button>
-                                          <button type="button" class="btn btn-success" style="margin:30px 30px 50px 0px; float:right;" onclick="location.href='/forum/mypage'">나의 질문</button>
-                                       </div>
+                              <div class="card-body pa-0">
+                                 <div class="table-wrap">
+                                    <div class="table-responsive">
+                                       <table class="table table-sm table-hover mb-0">
+                                          <thead>
+                                             <tr>
+                                                <th></th>
+                                                <th>닉네임</th>
+                                                <th>제목</th>
+                                                <th>답변수</th>
+                                                <th>좋아요</th>
+                                                <th>날짜</th>
+                                                <th>과목</th>
+                                                <th>조회수</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody th:each="list : ${questions}">
+                                            <tr style="cursor:pointer;" th:id="'forum-idx-' + ${list.idx}" th:onclick="'switchContent(\'/forum/main/content?id=' + ${list.idx} + '\')'">
+                                               <td><img class="img-fluid rounded" th:src="@{/dist/img/logo1.jpg}" alt="icon"></td>
+                                               <td th:text="${list.user?.nickname}"></td>
+                                               <td th:text="${list.title}"></td>
+                                               <!-- <td th:Text="${list.childCount}">13 Nov 2018</td> -->
+                                               <td>5</td>
+                                               <td th:text="${list.recommendedCount}"></td>
+                                               <td th:text="${#temporals.format(list.update_date, 'yyyy/MM/dd HH:mm')}"></td>
+                                               <td>
+                                                 <span class="badge badge-soft-success" th:each="tags, num : ${list.subjects}" th:if="${num.index < 3}" th:text=${tags.subject.name} style="margin-right:10px;">Completed</span>
+                                               </td>
+                                               <td th:text="${list.hits}"></td>
+                                            </tr>
+                                          </tbody>
+                                       </table>
+                                       <button type="button" class="btn btn-success" style="margin:30px 0px 50px 0px; float:right;" onclick="location.href='/forum/main/write'">질문 등록하기</button>
+                                       <button type="button" class="btn btn-success" style="margin:30px 30px 50px 0px; float:right;" onclick="location.href='/forum/mypage'">나의 질문</button>
                                     </div>
                                  </div>
                               </div>
                            </div>
+                        </div>
 
 
-                        </section>
+                     </section>
                      </div>
                   </div>
                </div>
                <!-- /Row -->
-               <!-- Footer -->
-               <div class="hk-footer-wrap container px-15">
-                  <footer class="footer">
-                     <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                           <p>Pampered by<a href="https://hencework.com/" class="text-dark" target="_blank">Hencework</a> © 2019</p>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                           <p class="d-inline-block">Follow us</p>
-                           <a href="#" class="d-inline-block btn btn-icon btn-icon-only btn-indigo btn-icon-style-4"><span class="btn-icon-wrap"><i class="fa fa-facebook"></i></span></a>
-                           <a href="#" class="d-inline-block btn btn-icon btn-icon-only btn-indigo btn-icon-style-4"><span class="btn-icon-wrap"><i class="fa fa-twitter"></i></span></a>
-                           <a href="#" class="d-inline-block btn btn-icon btn-icon-only btn-indigo btn-icon-style-4"><span class="btn-icon-wrap"><i class="fa fa-google-plus"></i></span></a>
-                        </div>
-                     </div>
-                  </footer>
-               </div>
-               <!-- /Footer -->
             </div>
-            <!-- /Main Content -->
          </div>
       </div>
-      <!-- /HK Wrapper -->
-      <!-- jQuery -->
       <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+      <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
       <!-- Bootstrap Core JavaScript -->
       <script th:src="@{/vendors/popper.js/dist/umd/popper.min.js}"></script>
       <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
@@ -229,22 +206,38 @@
       <script th:src="@{/dist/js/ajax.js}"></script>
       <script th:src="@{/dist/js/auto-complete.js}"></script>
       <script>
+        var loadContent = [];
 
-        function setInput(){
+        // 뒤로가기시, 페이지 이동을 막는다.
+        $(document).ready(function() {
+          window.history.pushState(null, "", window.location.href);
+          window.onpopstate = function() {
+            window.history.pushState(null, "", window.location.href);
+            loadContent.pop();
+            if(loadContent.length > 0){
+              $("#result-row").load(loadContent[loadContent.length - 1]);
+            }
+            else{
+              location.href="/forum/main"
+            }
+          };
+       });
 
-        }
+       // 하단 main Content 변경
+       function switchContent(url){
+         loadContent.push(url);
+         $("#result-row").load(url);
+       }
 
-
-        // 검색결과를 가지고 restful api
-        function search(){
-          var inputText = $("#input-search").val();
-          var subjects = [];
-          if(inputText=="") {
-            alert("키워드를 입력해주세요."); return;
-          }
-
-          $("#result-row").load("/forum/main/board?title="+inputText+"&min=0&max=10&sort=date");
-        }
+       // 검색결과를 가지고 restful api
+       function search(){
+         var inputText = $("#input-search").val();
+         var subjects = [];
+         if(inputText=="") {
+           alert("키워드를 입력해주세요."); return;
+         }
+         switchContent("/forum/main/board?title="+inputText+"&min=0&max=10&sort=date");
+       }
       </script>
    </body>
 </html>

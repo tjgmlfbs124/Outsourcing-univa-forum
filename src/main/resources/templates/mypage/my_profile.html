@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
    <body data-spy="scroll" data-target=".navbar" data-offset="60">
+
+     <div class="bg-white shadow-bottom">
+        <div class="container"  style="max-width:1600px;">
+           <ul class="nav nav-light nav-tabs" role="tablist" id="menu-tab">
+              <li class="nav-item">
+                 <a class="d-flex h-60p align-items-center nav-link active" onclick="switchContent('/forum/mypage/profile')" style="cursor:pointer;">회원정보</a>
+              </li>
+              <li class="nav-item">
+                 <a class="d-flex h-60p align-items-center nav-link" onclick="switchContent('/forum/mypage/question')" style="cursor:pointer;">나의 질문</a>
+              </li>
+              <li class="nav-item">
+                 <a class="d-flex h-60p align-items-center nav-link" onclick="switchContent('/forum/mypage/forum')" style="cursor:pointer;">나의 포럼</a>
+              </li>
+           </ul>
+        </div>
+     </div>
+
       <div class="hk-wrapper">
          <div class="hk-pg-wrapper px-0" style="padding-top:0px;">
             <div class="container-fluid">
