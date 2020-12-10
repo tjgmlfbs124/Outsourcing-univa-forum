@@ -179,8 +179,8 @@ public class ForumRepository {
 		return sortValue;
 	}
 	
-	public String findFileUrl(int idx) {
+	public ForumFile findFile(int idx) {
 		ForumFile file = em.find(ForumFile.class, idx);
-		return file.getFile_url();
+		return file;
 	}
 }

@@ -278,11 +278,15 @@ public class ForumService {
 				modifyForumPost.addFiles(mFile);
 			}
 		}
-		if( forum.getFile_url() != null && forum.getFile_url().size() > 0) {
-			for(String fileUrl : forum.getFile_url()) {
+		if( forum.getFile_idx() != null && forum.getFile_idx().size() > 0) {
+			for(int fileidx : forum.getFile_idx()) {
+				ForumFile preFile = this.getFile(fileidx);
 				ForumFile mFile = new ForumFile();
-				mFile.setFile_url(fileUrl);
+				mFile.setFile_url(preFile.getFile_url());
 				mFile.setForum(modifyForumPost);
+				mFile.setFile_size(preFile.getFile_size());
+				mFile.setName(preFile.getName());
+				
 				modifyForumPost.addFiles(mFile);
 			}
 		}
@@ -532,7 +536,12 @@ public class ForumService {
 	
 	/** 파일 url 받아오기 */
 	public String getFileUrl(int idx) {
-		return forumRepository.findFileUrl(idx);
+		return forumRepository.findFile(idx).getFile_url();
+	}
+	
+	/** 파일 받아오기 */
+	public ForumFile getFile(int idx) {
+		return forumRepository.findFile(idx);
 	}
 	
 }

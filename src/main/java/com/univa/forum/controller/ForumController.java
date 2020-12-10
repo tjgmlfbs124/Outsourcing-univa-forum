@@ -191,7 +191,7 @@ public class ForumController {
 		forum.setUser_idx(user.getIdx());
 		forumService.modifyForum(forum);
 		
-		return "test";
+		return "ok";
 	}
 	
 	@PostMapping("/main/modifyApply")
