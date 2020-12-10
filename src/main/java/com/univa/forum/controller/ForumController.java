@@ -378,7 +378,7 @@ public class ForumController {
 	public ResponseEntity<Resource> fileReceive(@RequestParam("id") int file_idx) throws IOException {
 		
 		String fileUrl = forumService.getFileUrl(file_idx);
-		Path path = Paths.get("uploads/imgs/" + fileUrl);
+		Path path = Paths.get("uploads/forum_files/" + fileUrl);
 		String contentType = Files.probeContentType(path);
 
 		HttpHeaders headers = new HttpHeaders();
