@@ -220,6 +220,8 @@ public class ForumService {
 				ForumFile mFile = new ForumFile();
 				mFile.setFile_url(writeFile(file));
 				mFile.setForum(forumPost);
+				mFile.setFile_size((int)file.getSize());
+				mFile.setName(file.getOriginalFilename());
 				forumPost.addFiles(mFile);
 			}
 		}
@@ -270,6 +272,9 @@ public class ForumService {
 				ForumFile mFile = new ForumFile();
 				mFile.setFile_url(writeFile(file));
 				mFile.setForum(modifyForumPost);
+				mFile.setFile_size((int)file.getSize());
+				mFile.setName(file.getOriginalFilename());
+				
 				modifyForumPost.addFiles(mFile);
 			}
 		}
@@ -503,6 +508,11 @@ public class ForumService {
 			post = post.getHistory_parent();
 		}
 		return history;
+	}
+	
+	/** 파일 url 받아오기 */
+	public String getFileUrl(int idx) {
+		return forumRepository.findFileUrl(idx);
 	}
 	
 }

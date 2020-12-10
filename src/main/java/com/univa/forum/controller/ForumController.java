@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.univa.forum.domain.ForumPost;
 import com.univa.forum.domain.ForumRecommend;
@@ -210,9 +211,10 @@ public class ForumController {
 		ForumPost post = forumService.findOneForumPost(idx);
 		if( post.getUser().getIdx() == user.getIdx() ) {
 			post.setState(60);
+			return "ok";
+		} else {
+			return "error";
 		}
-		
-		return "ok";
 	}
 	
 	/* 회원 가입 */
@@ -363,7 +365,26 @@ public class ForumController {
 		}
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
-	//TODO 파일 불러오기
+	
+	@GetMapping("/getfile")
+	public ResponseEntity<Resource> fileReceive(@RequestParam("id") int file_idx) throws IOException {
+		
+		String fileUrl = forumService.getFileUrl(file_idx);
+		Path path = Paths.get("uploads/imgs/" + fileUrl);
+		String contentType = Files.probeContentType(path);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, contentType);
+		
+		Resource resource = null;
+		try {
+			resource = new InputStreamResource(Files.newInputStream(path));
+		} catch (Exception e) {
+			e.getStackTrace();
+			// 데이터가 없을 경우 발생
+		}
+		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+	}
 	
 	@GetMapping("/service/{path}")
 	public String serviceStaticPage(
@@ -371,4 +392,10 @@ public class ForumController {
 		return "/service/"+path;
 	}
 	
+	@PostMapping("/test/test")
+	@ResponseBody
+	public String testtest(MultipartFile file) {
+		//System.out.println(file.getOriginalFilename());
+		return "test";
+	}
 }
