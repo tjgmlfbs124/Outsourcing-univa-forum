@@ -117,7 +117,11 @@
         }
 
         switchContent("/forum/mypage/profile");
-
+      </script>
+      <script th:inline="javascript">
+        var type = /*[[${param.type[0]}]]*/'default';
+        if(type)
+          switchContent("/forum/mypage/" + type);
       </script>
    </body>
 </html>
