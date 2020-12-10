@@ -274,7 +274,6 @@ public class ForumService {
 				mFile.setForum(modifyForumPost);
 				mFile.setFile_size((int)file.getSize());
 				mFile.setName(file.getOriginalFilename());
-				
 				modifyForumPost.addFiles(mFile);
 			}
 		}
@@ -459,7 +458,8 @@ public class ForumService {
 		
 		List<ForumPost> requestedHeaderPosts = new ArrayList<ForumPost>();
 		for(ForumPost post : allPosts) {
-			if(post.getModifyChildren() != null) {
+			
+			if(post.getModifyChildren() != null && post.getModifyChildren().size() > 0) {
 				ForumPost rootPost = this.getRoot(post);
 				if(!requestedHeaderPosts.contains(rootPost)) {
 					requestedHeaderPosts.add(rootPost);
