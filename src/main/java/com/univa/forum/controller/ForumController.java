@@ -191,7 +191,7 @@ public class ForumController {
 		forum.setUser_idx(user.getIdx());
 		forumService.modifyForum(forum);
 		
-		return "test";
+		return "ok";
 	}
 	
 	@PostMapping("/main/modifyApply")
@@ -345,6 +345,14 @@ public class ForumController {
 			return "redirect:/mypage/editinfo_password";
 		}
 		return "/mypage/edit_profile";
+	}
+	
+	@GetMapping("/mypage/update_request")
+	public String forumUpdateRequestPage(Model model,HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO) session.getAttribute("ForumUserSession");
+		model.addAttribute("questions", forumService.findRequestedInvolvedHeaderList(user.getIdx()));
+		
+		return "/mypage/my_update_request";
 	}
 	
 	/* 이미지 뷰어 */
