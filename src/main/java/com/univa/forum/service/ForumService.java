@@ -60,7 +60,7 @@ public class ForumService {
 		}
 	}
 	
-	/** 이미지 저장, url 리턴 */
+	/** 이미지 저장, url 리턴 */ //TODO DB 에 원본 이름, 용량 추가
 	public String imageFileWrite(MultipartFile file) {
 		String dirPath = "uploads/imgs/";
 		String randomStr = StringUtil.RandomString(20)+"/";

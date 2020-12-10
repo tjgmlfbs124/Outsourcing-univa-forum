@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.univa.forum.domain.ForumPost;
 import com.univa.forum.domain.ForumRecommend;
 import com.univa.forum.domain.ForumSubjectBridge;
+import com.univa.forum.domain.ForumUser;
 import com.univa.forum.domain.ForumUserGrade;
 import com.univa.forum.dto.ForumPostDTO;
 import com.univa.forum.dto.ForumPostDTO;
@@ -104,10 +105,8 @@ public class ForumController {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		ForumPost forum;
 		
-		System.out.println(Optional.ofNullable(user).orElse(null));
-		
 		if(user != null) {
-			forum = forumService.findOneForumPost(id, Optional.ofNullable(user).orElse(null));
+			forum = forumService.findOneForumPost(id, user.getIdx());
 		} else {
 			forum = forumService.findOneForumPost(id);
 		}
@@ -131,13 +130,15 @@ public class ForumController {
 	@GetMapping("/main/profile") // TODO 프로필
 	public String ForumProfilePage(@RequestParam("id") int id, Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
-		ForumPost forum;
-		if(user != null) {
-			forum = forumService.findOneForumPost(id, user.getIdx());
-		} else {
-			forum = forumService.findOneForumPost(id, user.getIdx());
-		}
-		model.addAttribute("forum", forum);
+		
+		Long recommendCnt = forumService.findMyForumRecommendedCount(id);
+		model.addAttribute("recommendCount", recommendCnt);
+		model.addAttribute("questionCount", forumService.findMyForumCountSetType(id, 0));
+		model.addAttribute("answerCount", forumService.findMyForumCountSetType(id, 100));
+		List<ForumPost> questionList = forumService.findMyFormList(0, 5, id, 0);
+		model.addAttribute("questionList", questionList);
+		List<ForumPost> answerList = forumService.findMyFormList(0, 5, id, 100);
+		model.addAttribute("answerList", answerList);
 		
 		return "/main/profile";
 	}
@@ -357,6 +358,7 @@ public class ForumController {
 		}
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
 	}
+	//TODO 파일 불러오기
 	
 	@GetMapping("/service/{path}")
 	public String serviceStaticPage(
