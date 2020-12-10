@@ -120,9 +120,13 @@ public class ForumController {
 	
 	@GetMapping("/main/history") // TODO 히스토리
 	public String ForumhistoryPage(@RequestParam("id") int id, Model model, HttpSession session) {
-		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
-		ForumPost forum = forumService.findOneForumPost(id, user.getIdx());
-		model.addAttribute("forum", forum);
+		//ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		//ForumPost forum = forumService.findOneForumPost(id, user.getIdx());
+		//model.addAttribute("forum", forum);
+		ForumPost forum = forumService.findOneForumPost(id);
+		List<ForumPost> history = forumService.getHisotry(forum);
+		
+		model.addAttribute("history", history);
 		
 		return "/main/history";
 	}

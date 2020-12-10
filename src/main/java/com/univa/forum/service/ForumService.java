@@ -492,4 +492,14 @@ public class ForumService {
 		return post;
 	}
 	
+	/** 게시글 이력 불러오기 */
+	public List<ForumPost> getHisotry(ForumPost post) {
+		List<ForumPost> history = new ArrayList<ForumPost>();
+		while(post.getHistory_parent() != null) {
+			history.add(0, post.getHistory_parent());
+			post = post.getHistory_parent();
+		}
+		return history;
+	}
+	
 }
