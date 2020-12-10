@@ -203,6 +203,9 @@ public class ForumService {
 		forumPost.setTitle(forum.getTitle());
 		forumPost.setContent(forum.getContent());
 		forumPost.setState(forum.getState());
+		if( forum.getParent_idx() > 0 ) {
+			forumPost.setParent(forumRepository.findForumByIdx(forum.getParent_idx()).get());
+		}
 		for(int subs : forum.getSubjects() ) {
 			ForumSubject subject = forumRepository.findSubjectByIdx(subs).get();
 			if(subject != null) {
