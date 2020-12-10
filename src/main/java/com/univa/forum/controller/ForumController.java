@@ -171,10 +171,11 @@ public class ForumController {
 	@GetMapping("/main/edit")
 	public String ForumPostModifyPage(@RequestParam("id") int idx, Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO) session.getAttribute("ForumUserSession");
-		model.addAttribute(forumService.findOneForumPost(idx, user.getIdx()));
+		model.addAttribute("forum", forumService.findOneForumPost(idx, user.getIdx()));
 		
-		return "test";
+		return "/main/edit";
 	}
+	
 	@PostMapping("/main/edit")
 	@ResponseBody
 	public String ForumPostModifyPost(ForumPostDTO forum, HttpSession session) {
@@ -208,7 +209,7 @@ public class ForumController {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumSessionUser");
 		ForumPost post = forumService.findOneForumPost(idx);
 		if( post.getUser().getIdx() == user.getIdx() ) {
-			post.setState(20);
+			post.setState(60);
 		}
 		
 		return "ok";
