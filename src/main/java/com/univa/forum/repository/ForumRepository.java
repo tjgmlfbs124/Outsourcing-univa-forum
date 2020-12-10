@@ -65,11 +65,11 @@ public class ForumRepository {
 	}
 	
 	public List<ForumPost> findAllForumPost() {
-		return em.createQuery("select f from forum f order by f.idx desc", ForumPost.class).getResultList();
+		return em.createQuery("select f from forum f order by f.update_date desc", ForumPost.class).getResultList();
 	}
 	
 	public List<ForumPost> findForumPostByTypeSetLimit(int type, int firstIdx, int max, int user) {
-		return em.createQuery("select f from forum f where type = :type and user_idx = :user order by f.idx desc", ForumPost.class)
+		return em.createQuery("select f from forum f where type = :type and user_idx = :user and state = 0 order by f.update_date desc", ForumPost.class)
 				.setParameter("type", type)
 				.setParameter("user", user)
 				.setFirstResult(firstIdx)
@@ -77,26 +77,24 @@ public class ForumRepository {
 				.getResultList();
 	}
 	public List<ForumPost> findForumHeaderListSetLimit(int firstIdx, int max) {
-		return em.createQuery("select f from forum f where parent_idx is null order by f.idx desc",
+		return em.createQuery("select f from forum f where parent_idx is null and state = 0 order by f.update_date desc",
 				ForumPost.class)
 				.setFirstResult(firstIdx)
 				.setMaxResults(max)
 				.getResultList();
 	}
 	public List<ForumPost> findForumHeaderList(){
-		return em.createQuery("select f from forum f where parent_idx is null order by f.idx desc",
+		return em.createQuery("select f from forum f where parent_idx is null and state = 0 order by f.update_date desc",
 				ForumPost.class)
 				.getResultList();
 	}
-	
 	public List<ForumPost> findForumHeaderListSetLimitAndUser(int firstIdx, int max, int user) {
-		return em.createQuery("select f from forum f where user_idx = :user and parent_idx is null order by f.idx desc", ForumPost.class)
+		return em.createQuery("select f from forum f where user_idx = :user and parent_idx is null and state = 0 order by f.update_date desc", ForumPost.class)
 				.setParameter("user", user)
 				.setFirstResult(firstIdx)
 				.setMaxResults(max)
 				.getResultList();
 	}
-	
 	public List<ForumPost> findForumListBySubject(int firstIdx, int max, int[] subjects) {
 		String query = "select distinct f from forum f, forum_subject fs ";
 		if(subjects.length > 0) {
@@ -107,26 +105,24 @@ public class ForumRepository {
 			}
 			query += ") and fs.forum = f.idx ";
 		}
-		query += "and parent_idx is null "
-				+ "order by f.idx desc";
+		query += "and parent_idx is null and state = 0 "
+				+ "order by f.update_date desc";
 		return em.createQuery(query, ForumPost.class)
 				.setFirstResult(firstIdx)
 				.setMaxResults(max)
 				.getResultList();
 	}
-	
 	public List<ForumPost> findForumHeaderListByTitle(int firstIdx, int max, String title, String sort) {
 		String sortValue = "f."+this.ForumSortValueSet(sort);
 		title = "%"+title+"%";
 		return em.createQuery("select f "
 				+ "from forum f "
 				+ "where f.title like :title "
-				+ "and parent_idx is null "
+				+ "and parent_idx is null and state = 0 "
 				+ "order by "+sortValue+" desc", ForumPost.class)
 				.setParameter("title", title)
 				.getResultList();
 	}
-	
 	public List<ForumPost> findForumHeaderListByTitleAndSubject(int firstIdx, int max, int[] subjects, String title, String sort){
 		String sortValue = "f."+this.ForumSortValueSet(sort);
 		title = "%"+title+"%";
@@ -139,7 +135,7 @@ public class ForumRepository {
 			}
 			query += " ) and fs.forum = f.idx ";
 		}
-		query += "and title like :title and parent_idx is null "
+		query += "and title like :title and parent_idx is null and state = 0 "
 				+ "order by "+sortValue+" desc";
 		return em.createQuery(query, ForumPost.class)
 				.setParameter("title", title)
@@ -154,9 +150,8 @@ public class ForumRepository {
 				.setParameter("user_idx", user_idx)
 				.getSingleResult();
 	}
-	
 	public List<ForumPost> findForumByUserIdx(int user_idx) {
-		return em.createQuery("select f from forum f where user_idx = :user_idx order by f.idx desc", ForumPost.class)
+		return em.createQuery("select f from forum f where user_idx = :user_idx order by f.update_date desc", ForumPost.class)
 				.setParameter("user_idx", user_idx)
 				.getResultList();
 	}

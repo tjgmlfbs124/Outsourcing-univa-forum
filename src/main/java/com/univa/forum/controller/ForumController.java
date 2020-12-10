@@ -102,16 +102,20 @@ public class ForumController {
 	@GetMapping("/main/content") //TODO 컨텐트 보이기, 조회수 올리기
 	public String ForumContent(@RequestParam("id") int id, Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
-		ForumPost forum = forumService.findOneForumPost(id, user.getIdx());
+		ForumPost forum;
+		
+		System.out.println(Optional.ofNullable(user).orElse(null));
+		
+		if(user != null) {
+			forum = forumService.findOneForumPost(id, Optional.ofNullable(user).orElse(null));
+		} else {
+			forum = forumService.findOneForumPost(id);
+		}
+		
+		forum.setHits(forum.getHits()+1);
+		forumService.writeForum(forum);
 		model.addAttribute("forum", forum);
-//		for(ForumPost cf : forum.getChildren()) {
-//			//System.out.println("child title : "+cf.getTitle());
-//		}
-//		System.out.println("reco : "+forum.getRecommended());
-//		System.out.println("reco cnt :"+forum.getRecommendedCount());
-//		for(ForumRecommend reco : forum.getForumRecommend()) {
-//			System.out.println("subs : "+ reco.getUser().getNickname());
-//		}
+		
 		return "/main/content";
 	}
 	
@@ -127,7 +131,12 @@ public class ForumController {
 	@GetMapping("/main/profile") // TODO 프로필
 	public String ForumProfilePage(@RequestParam("id") int id, Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
-		ForumPost forum = forumService.findOneForumPost(id, user.getIdx());
+		ForumPost forum;
+		if(user != null) {
+			forum = forumService.findOneForumPost(id, user.getIdx());
+		} else {
+			forum = forumService.findOneForumPost(id, user.getIdx());
+		}
 		model.addAttribute("forum", forum);
 		
 		return "/main/profile";
