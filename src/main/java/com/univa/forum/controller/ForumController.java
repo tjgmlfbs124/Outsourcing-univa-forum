@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -346,6 +347,12 @@ public class ForumController {
 			// 이미지가 없을 경우 발생
 		}
 		return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+	}
+	
+	@GetMapping("/service/{path}")
+	public String serviceStaticPage(
+			@PathVariable(value="path") String path) {
+		return "/service/"+path;
 	}
 	
 }
