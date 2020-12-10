@@ -347,6 +347,14 @@ public class ForumController {
 		return "/mypage/edit_profile";
 	}
 	
+	@GetMapping("/mypage/update_request")
+	public String forumUpdateRequestPage(Model model,HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO) session.getAttribute("ForumUserSession");
+		model.addAttribute("questions", forumService.findRequestedInvolvedHeaderList(user.getIdx()));
+		
+		return "/mypage/my_update_request";
+	}
+	
 	/* 이미지 뷰어 */
 	@GetMapping("/img")
 	public ResponseEntity<Resource> imageView(@RequestParam("id") String img) throws IOException {

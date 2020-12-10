@@ -449,6 +449,26 @@ public class ForumService {
 		return involvedPosts;
 	}
 	
+	/** 내가 관여한 모든 포럼중 수정신청된 루트 질문 */
+	public List<ForumPost> findRequestedInvolvedHeaderList(int user_idx) {
+		List<ForumPost> allPosts = forumRepository.findForumByUserIdx(user_idx);
+		
+		List<ForumPost> requestedHeaderPosts = new ArrayList<ForumPost>();
+		for(ForumPost post : allPosts) {
+			if(post.getModifyChildren() != null) {
+				ForumPost rootPost = this.getRoot(post);
+				if(!requestedHeaderPosts.contains(rootPost)) {
+					requestedHeaderPosts.add(rootPost);
+				}
+			}
+		}
+		
+		requestedHeaderPosts = this.addRecommendCount(requestedHeaderPosts, user_idx);
+		requestedHeaderPosts = this.addChildCount(requestedHeaderPosts);
+		
+		return requestedHeaderPosts;
+	}
+	
 	/** 게시글 과 자식 모두 추천수 추가 */
 	public List<ForumPost> addRecommendCount(List<ForumPost> posts) {
 		for(ForumPost post: posts) {
