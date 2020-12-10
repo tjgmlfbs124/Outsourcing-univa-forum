@@ -19,6 +19,9 @@
                               <li class="nav-item">
                                  <a class="d-flex h-60p align-items-center nav-link" th:onclick="'switchContent(\'/forum/main/profile?id=' + ${forum.user.idx} + '\')'" style="cursor:pointer;">게시자 정보</a>
                               </li>
+                              <li class="nav-item">
+                                 <a class="d-flex h-60p align-items-center nav-link" th:onclick="'switchContent(\'/forum/main/edit?id=' + ${forum.idx} + '\')'" style="cursor:pointer;">수정요청</a>
+                              </li>
                            </ul>
                         </div>
                      </div>

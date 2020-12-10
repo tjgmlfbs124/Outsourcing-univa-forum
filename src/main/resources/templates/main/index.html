@@ -159,7 +159,7 @@
                                                <td th:text="${list.user?.nickname}"></td>
                                                <td th:text="${list.title}"></td>
                                                <!-- <td th:Text="${list.childCount}">13 Nov 2018</td> -->
-                                               <td>5</td>
+                                               <td th:text="${list.childrenCount}"></td>
                                                <td th:text="${list.recommendedCount}"></td>
                                                <td th:text="${#temporals.format(list.update_date, 'yyyy/MM/dd HH:mm')}"></td>
                                                <td>
