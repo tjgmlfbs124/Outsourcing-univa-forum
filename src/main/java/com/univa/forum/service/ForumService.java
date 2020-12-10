@@ -235,67 +235,84 @@ public class ForumService {
 		return "ok";
 	}
 	
+	/* 수정 요청 */
 	public String modifyForum(ForumPostDTO forum) {
-		// TODO 수정요청
-		ForumPost forumPost = new ForumPost();
+		ForumPost modifyForumPost = new ForumPost();
 		
 		ForumPost prePost = this.findOneForumPost(forum.getModify_parent_idx());
 		
 		ForumUser user = this.findUserByIdx(prePost.getUser().getIdx());
 		
 		if(user == null) return "user error";
-		forumPost.setUser(user);
-		forumPost.setType(forum.getType());
-		forumPost.setTitle(forum.getTitle());
-		forumPost.setContent(forum.getContent());
-		forumPost.setState(forum.getState());
-		forumPost.setUpdate_date(forum.getUpdate_date());
-		for(int subs : forum.getSubjects() ) {
-			ForumSubject subject = forumRepository.findSubjectByIdx(subs).get();
-			if(subject != null) {
-				ForumSubjectBridge subjectEnt = new ForumSubjectBridge();
-				subjectEnt.setSubject(subject);
-				subjectEnt.setForum(forumPost);
-				forumPost.addSubjects(subjectEnt);
+		modifyForumPost.setUser(user);
+		modifyForumPost.setTitle(forum.getTitle());
+		modifyForumPost.setContent(forum.getContent());
+		modifyForumPost.setType(50); // 수정 게시물 타입
+		modifyForumPost.setState(10); // 수정 요청 상태
+		modifyForumPost.setUpdate_date(prePost.getUpdate_date());
+		if(forum.getSubjects() != null) {
+			for(int subs : forum.getSubjects() ) {
+				ForumSubject subject = forumRepository.findSubjectByIdx(subs).get();
+				if(subject != null) {
+					ForumSubjectBridge subjectEnt = new ForumSubjectBridge();
+					subjectEnt.setSubject(subject);
+					subjectEnt.setForum(modifyForumPost);
+					modifyForumPost.addSubjects(subjectEnt);
+				}
 			}
 		}
+		
 		if( forum.getFiles() != null && forum.getFiles().size() > 0) {
 			for (MultipartFile file : forum.getFiles() ) {
 				ForumFile mFile = new ForumFile();
 				mFile.setFile_url(writeFile(file));
-				mFile.setForum(forumPost);
-				forumPost.addFiles(mFile);
+				mFile.setForum(modifyForumPost);
+				modifyForumPost.addFiles(mFile);
 			}
 		}
-		//TODO 수정부모 할당
-		forumPost.setModifying_parent(forumRepository.findForumByIdx(forum.getModify_parent_idx()).get());
-		// TODO 수정 이력
+		if( forum.getFile_url() != null && forum.getFile_url().size() > 0) {
+			for(String fileUrl : forum.getFile_url()) {
+				ForumFile mFile = new ForumFile();
+				mFile.setFile_url(fileUrl);
+				mFile.setForum(modifyForumPost);
+				modifyForumPost.addFiles(mFile);
+			}
+		}
+		
+		modifyForumPost.setModifying_parent(forumRepository.findForumByIdx(forum.getModify_parent_idx()).get());
 		ForumModify forumModify = new ForumModify();
-		forumModify.setForum(forumPost);
+		forumModify.setForum(modifyForumPost);
 		forumModify.setUser( findUserByIdx(forum.getUser_idx()) );
 		
-		forumPost = forumRepository.save(forumPost);
-		forumPost.setForumModify(forumModify);
-		forumPost.setType(50);
-		forumRepository.save(forumPost);
+		modifyForumPost = forumRepository.save(modifyForumPost);
+		modifyForumPost.setForumModify(forumModify);
+		modifyForumPost.setType(50);
+		forumRepository.save(modifyForumPost);
 		
 		return "ok";
 	}
 	
 	/* 수정 승인 */
 	public String modifyForumApproval(int idx, int user_idx) {
-		// TODO 수정 승인 (제목, 내용, 주제, 파일, 조회수, 추천인)만?
+		ForumUser user = forumRepository.findUserByIdx(user_idx).orElse(null);
 		ForumPost prePost = forumRepository.findForumByIdx(idx).get().getModifying_parent();
+		
+		if( user == null 
+				|| (user != null && !prePost.getUser().equals(user)) ) {
+			return "user approval error";
+		}
+		
 		ForumPost modifyingPost = forumRepository.findForumByIdx(idx).get();
 		
 		Set<ForumPost> deletePost = prePost.getModifyChildren();
 		for(ForumPost forumModify : deletePost) {
-			forumModify.setState(30);
+			forumModify.setState(30); // 선택되지 않은 수정요청 게시물
 		}
-		prePost.setState(20);
-		modifyingPost.setState(0);
+		prePost.setState(20); // 이력으로 남은 이전게시물
+		modifyingPost.setState(0); // 수정된 게시물
 		
-		modifyingPost.getForumModify().setApproval_user(forumRepository.findUserByIdx(user_idx).get());
+		// 승인자 
+		modifyingPost.getForumModify().setApproval_user(user);
 		modifyingPost.getForumModify().setApproval_date(LocalDateTime.now());
 		
 		modifyingPost.setType(prePost.getType());
@@ -305,7 +322,7 @@ public class ForumService {
 		for (ForumPost child : prePost.getChildren() ) {
 			child.setParent(modifyingPost);
 		}
-		//modifyingPost.setForumRecommend(prePost.getForumRecommend()); // 추천인
+		//modifyingPost.setForumRecommend(prePost.getForumRecommend()); // 추천한 유저들
 		for ( ForumRecommend reco : prePost.getForumRecommend() ) {
 			reco.setForum(modifyingPost);
 		}
@@ -313,7 +330,7 @@ public class ForumService {
 		forumRepository.save(prePost);
 		forumRepository.save(modifyingPost);
 		
-		return null;
+		return "ok";
 	}
 	
 	/** 모든 주제 찾기 */

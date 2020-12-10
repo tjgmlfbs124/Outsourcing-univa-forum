@@ -17,6 +17,7 @@ public class ForumPostDTO {
 	private int hits;
 	private List<Integer> subjects;
 	private List<MultipartFile> files;
+	private List<String> file_url;
 	private int modify_parent_idx;
 	
 	public int getUser_idx() {
@@ -90,5 +91,11 @@ public class ForumPostDTO {
 	}
 	public void setModify_parent_idx(int modify_parent_idx) {
 		this.modify_parent_idx = modify_parent_idx;
+	}
+	public List<String> getFile_url() {
+		return file_url;
+	}
+	public void setFile_url(List<String> file_url) {
+		this.file_url = file_url;
 	}
 }

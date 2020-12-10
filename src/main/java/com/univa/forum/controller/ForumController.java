@@ -162,20 +162,18 @@ public class ForumController {
 	}
 	@PostMapping("/main/edit")
 	@ResponseBody
-	public String ForumPostModifyPost(HttpSession session) {
+	public String ForumPostModifyPost(ForumPostDTO forum, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		// TODO 포럼 수정 요청 테스트중
-		//ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
-		ForumPostDTO forum = new ForumPostDTO();
-		forum.setUser_idx(4);
-		forum.setType(0);
-		//forum.setParent_idx(parent_idx);
-		forum.setTitle("테스트 답변1+수정");
-		forum.setContent("1-2 +수정내용");
-		forum.setState(10);
-		forum.setSubjects(Arrays.asList(1,2));
-		forum.setModify_parent_idx(6);
-		forum.setUpdate_date(LocalDateTime.of(2020, 12, 04, 11, 22, 18));
+//		ForumPostDTO testForum = new ForumPostDTO();
+//		testForum.setModify_parent_idx(2); // 수정 요청할 원본 게시물 번호
+//		testForum.setTitle("테스트 답변1+수정");
+//		testForum.setContent("1-2 +수정내용");
+//		testForum.setSubjects(Arrays.asList(1)); // 주제
+//		
+		forum.setUser_idx(user.getIdx());
 		forumService.modifyForum(forum);
+		
 		return "test";
 	}
 	
@@ -184,8 +182,7 @@ public class ForumController {
 	public String ForumPostModifySelectPost(@RequestParam("id") int modIdx, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		
-		forumService.modifyForumApproval(20, user.getIdx());
-		return "test";
+		return forumService.modifyForumApproval(modIdx, user.getIdx());
 	}
 	
 	/* 포럼 삭제요청 */
