@@ -249,9 +249,13 @@
       </script>
 
       <script th:inline="javascript">
-        var id = /*[[${param.id[0]}]]*/'default';
-        if(id)
-          switchContent("/forum/main/content?id="+id);
+        /*<![CDATA[*/
+          var id = [[${param.id} != null ? ${param.id}: null]];
+
+          if(id){
+            switchContent("/forum/main/content?id="+id);
+          }
+        /*]]>*/
       </script>
    </body>
 </html>
