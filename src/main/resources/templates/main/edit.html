@@ -245,38 +245,26 @@
             formData.append("file_idx",origin_files[idx].dataset.id);
           }
           for(var idx=0; idx<files.length; idx++){
-            formData.append("file",files[idx]);
+            formData.append("files",files[idx]);
           }
           for(var idx=0; idx<subjects.length; idx++){
             formData.append("subject",subjects[idx].dataset.id);
           }
           formData.append("title", title);
           formData.append("content", content);
-          formData.append("modify_paren_idx","[[${forum.idx}]]");
+          formData.append("modify_parent_idx","[[${forum.idx}]]");
 
-          for (var key of formData.keys()) {
-
-            console.log(key);
-
-            }
-
-            for (var value of formData.values()) {
-
-              console.log(value);
-
-          }
-
-          // postAPI("/forum/main/edit",formData, function(result){
-          //    switch(result){
-          //      case "ok":
-          //        alert("변경이 요청되었습니다.");
-          //        location.href="/forum/main"
-          //        break;
-          //      case "error" :
-          //        alert("오류가 발생하였습니다.");
-          //       break;
-          //    }
-          //  });
+          postAPI("/forum/main/edit",formData, function(result){
+             switch(result){
+               case "ok":
+                 alert("변경이 요청되었습니다.");
+                 location.href="/forum/main"
+                 break;
+               case "error" :
+                 alert("오류가 발생하였습니다.");
+                break;
+             }
+           });
         }
 
         function removeFile(index){
