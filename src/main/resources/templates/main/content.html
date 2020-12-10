@@ -45,8 +45,8 @@
                                               <div class="inline-block dropdown">
                                                  <a class="dropdown-toggle no-caret" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="ion ion-ios-more"></i></a>
                                                  <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" th:href="'/forum/main/edit?id=' + ${forum.idx}">update</a>
-                                                    <a class="dropdown-item" th:href="'/forum/main/edit?id=' + ${forum.idx}">remove</a>
+                                                    <a class="dropdown-item" th:href="'/forum/main/edit?id=' + ${forum.idx}">수정 요청</a>
+                                                    <a class="dropdown-item" th:href="'/forum/main/edit?id=' + ${forum.idx}">삭제 요청</a>
                                                  </div>
                                               </div>
                                            </div>
@@ -67,9 +67,7 @@
                                               <a href="#"><i class="ion ion-md-heart text-primary"></i><span th:text="${forum.recommendedCount}"></span></a>
                                            </div>
                                            <div>
-                                              <a role="button" data-toggle="collapse" th:href="'#collapse_'+${forum.idx}" aria-expanded="false" class="collapsed">
-                                              18 reply
-                                              </a>
+                                              <a role="button" data-toggle="collapse" th:href="'#collapse_'+${forum.idx}" aria-expanded="false" class="collapsed" th:text="${forum.childrenCount} + ' reply'"></a>
                                            </div>
                                         </div>
                                      </div>

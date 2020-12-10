@@ -2,7 +2,7 @@
   <html lang="ko" xmlns:th="http://www.thymeleaf.org"><head>
      <meta charset="UTF-8" />
      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-     <title>Deepor I File Upload</title>
+     <title>Univa Community</title>
      <meta name="description" content="A responsive bootstrap 4 admin dashboard template by hencework" />
      <!-- Favicon -->
      <link rel="shortcut icon" href="favicon.ico">
@@ -37,7 +37,7 @@
                                  <div class="media align-items-center">
                                     <div class="media-img-wrap  d-flex">
                                        <div class="avatar">
-                                          <img th:src="@{session.ForumUserSession.image_url != null ? '/forum/img?id=' + ${session.ForumUserSession.image_url} : '/dist/img/img-thumb.jpg'} "
+                                          <img th:src="@{${session.ForumUserSession?.image_url} != null ? '/forum/img?id=' + ${session.ForumUserSession.image_url} : '/dist/img/img-thumb.jpg'} "
                                                 alt="user" class="avatar-img rounded-circle">
                                        </div>
                                     </div>
