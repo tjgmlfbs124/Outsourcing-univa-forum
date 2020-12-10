@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
+import com.univa.forum.domain.ForumFile;
 import com.univa.forum.domain.ForumPost;
 import com.univa.forum.domain.ForumSubject;
 import com.univa.forum.domain.ForumUser;
@@ -178,4 +179,8 @@ public class ForumRepository {
 		return sortValue;
 	}
 	
+	public String findFileUrl(int idx) {
+		ForumFile file = em.find(ForumFile.class, idx);
+		return file.getFile_url();
+	}
 }
