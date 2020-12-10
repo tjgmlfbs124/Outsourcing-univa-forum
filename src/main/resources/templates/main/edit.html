@@ -80,8 +80,8 @@
                                                                                 <div class="d-flex flex-wrap">
                                                                                  <a class="w-sm-150p w-80p mr-10 mb-10" th:each="files,num : ${forum.files}">
                                                                                    <img class="img-fluid rounded"
-                                                                                        th:if="${num.index < 6}"
-                                                                                        th:src="'/forum/img?id=' + ${files.file_url}"
+                                                                                        th:if="${num.index < 6 and (#strings.contains(#strings.toLowerCase(files.name),'jpg') or #strings.contains(#strings.toLowerCase(files.name),'png'))}"
+                                                                                        th:src="'/forum/getfile?id=' + ${files.idx}"
                                                                                         alt="Card image cap"
                                                                                         style="max-width:150px;">
                                                                                  </a>
@@ -92,11 +92,11 @@
                                                                                 <div class="email-attachment-block">
                                                                                    <a href="javascript:void(0)" th:each="files,num : ${forum.files}">
                                                                                       <div class="card card-sm w-200p">
-                                                                                         <div class="card-body d-flex align-items-center">
+                                                                                         <div class="card-body d-flex align-items-center" style="background:#f5f5f5;">
                                                                                             <img src="/dist/img/jpgicon.png" class="d-inline-block mr-10" alt="attachicon">
                                                                                             <span class="d-inline-block mnw-0">
-                                                                                            <span class="d-block file-name text-truncate">concept_design.jpg</span>
-                                                                                            <small class="d-block file-size text-truncate">5.78 MB</small>
+                                                                                            <span class="d-block file-name text-truncate" th:text="${files.name}"></span>
+                                                                                            <small class="d-block file-size text-truncate" th:text="${files.file_size} + ' Byte'"></small>
                                                                                             </span>
                                                                                          </div>
                                                                                       </div>
@@ -248,7 +248,7 @@
             formData.append("files",files[idx]);
           }
           for(var idx=0; idx<subjects.length; idx++){
-            formData.append("subject",subjects[idx].dataset.id);
+            formData.append("subjects",subjects[idx].dataset.id);
           }
           formData.append("title", title);
           formData.append("content", content);

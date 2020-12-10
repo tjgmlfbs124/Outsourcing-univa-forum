@@ -99,8 +99,8 @@
                                                                   <div class="email-attachment-block">
                                                                      <a href="javascript:void(0)" th:each="files,num : ${list.files}">
                                                                         <div class="card card-sm w-200p">
-                                                                           <div class="card-body d-flex align-items-center">
-                                                                              <img src="/dist/img/jpgicon.png" class="d-inline-block mr-10" alt="attachicon">
+                                                                           <div class="card-body d-flex align-items-center" style="background:#f5f5f5;">
+                                                                              <img src="/dist/img/jpgicon.png" class="d-inline-block mr-10" alt="attachicon" >
                                                                               <span class="d-inline-block mnw-0">
                                                                               <span class="d-block file-name text-truncate">concept_design.jpg</span>
                                                                               <small class="d-block file-size text-truncate">5.78 MB</small>
@@ -124,37 +124,35 @@
                                           </div>
 
 
-
                                           <!-- 수정요청 칸-->
                                           <div class="card-columns card-column-1" th:each="list, num : ${list.modifyChildren}" style="margin-bottom:10px;">
                                              <div class="card card-profile-feed mb-0 rounded-bottom-0">
                                                 <div class="emailapp-wrap">
                                                    <div class="email-box" style="margin-left:0px;">
-
                                                       <div class="emailapp-right" style="min-width:100%; flex:none; right:0%; position:unset;">
-                                                         <div class="email-body" style="background:#fff0f0;">
+                                                         <div class="email-body" style="background:#fff0f0; margin-left:10px; margin-right:10px;">
                                                             <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
                                                                <div class="nicescroll-bar" tabindex="-50" style="overflow: hidden; width: auto; height: 100%; outline: none;">
                                                                   <div>
                                                                      <div class="email-subject-head" >
                                                                         <h4 th:text="${list.title}"></h4>
-                                                                        <a href="#" class="text-success ml-auto"><i class="ion ion-md-checkmark font-20"></i></a>
-                                                                        <div class="d-flex align-items-center" style="margin-bottom:0px;">
-                                                                           <span class="badge badge-secondary mr-10" th:each="subjects : ${list.subjects}" th:text="${subjects.subject.name}"></span>
-                                                                        </div>
+                                                                        <a class="text-success ml-auto" style="float:left; cursor:pointer;" th:onclick="'modifyApply(' + ${list.idx} + ')'">
+                                                                          <span class="badge badge-secondary mr-10" th:each="subjects : ${list.subjects}" th:text="${subjects.subject.name}"></span>
+                                                                          <i class="ion ion-md-checkmark font-30" style="margin-left:20px;"></i>
+                                                                        </a>
                                                                      </div>
                                                                      <hr class="mt-10 mb-20">
                                                                      <div class="email-head">
                                                                         <div class="media">
                                                                            <div class="media-img-wrap">
                                                                               <div class="avatar">
-                                                                                 <img th:src="@{${list.user.image_url} != null ? '/forum/img?id=' + ${list.user.image_url} : '/dist/img/img-thumb.jpg'} "
+                                                                                 <img th:src="@{${list.forumModify.user.image_url} != null ? '/forum/img?id=' + ${list.forumModify.user.image_url} : '/dist/img/img-thumb.jpg'} "
                                                                                     alt="user" class="avatar-img rounded-circle">
                                                                               </div>
                                                                            </div>
                                                                            <div class="media-body">
-                                                                              <span class="text-capitalize sender-name d-inline-block" th:text="${list.user.nickname}"></span>
-                                                                              <span class="sender-email d-inline-block" th:text="'(' + ${list.user.username} + ')'"></span>
+                                                                              <span class="text-capitalize sender-name d-inline-block" th:text="${list.forumModify.user.nickname}"></span>
+                                                                              <span class="sender-email d-inline-block" th:text="'(' + ${list.forumModify.user.username} + ')'"></span>
                                                                               <span class="d-block">
 
                                                                                 <span th:text="${list.user.email} == null ? '이메일 미등록' : ${list.user.email}"></span>
@@ -163,15 +161,7 @@
                                                                         </div>
                                                                         <div class="head-other-wrap">
                                                                            <div class="d-inline-block mr-5">
-                                                                              <span class="d-inline-block" th:text="${#temporals.format(list.update_date, 'yyyy/MM/dd HH:mm')}"></span>
-                                                                           </div>
-                                                                           <div class="d-inline-block dropdown mr-5">
-                                                                              <a class="dropdown-toggle no-caret" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="ion ion-ios-more"></i></a>
-                                                                              <div class="dropdown-menu bullet dropdown-menu-right" role="menu">
-                                                                                 <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>수정요청</a>
-                                                                                 <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-share" aria-hidden="true"></i>삭제요청</a>
-                                                                                 <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-trash" aria-hidden="true"></i>게시물 신고</a>
-                                                                              </div>
+                                                                              <span class="d-inline-block" th:text="${#temporals.format(list.forumModify.update_date, 'yyyy/MM/dd HH:mm')}"></span>
                                                                            </div>
                                                                         </div>
                                                                      </div>
@@ -180,8 +170,8 @@
                                                                         <div class="d-flex flex-wrap">
                                                   												<a class="w-sm-150p w-80p mr-10 mb-10" th:each="files,num : ${list.files}">
                                                   													<img class="img-fluid rounded"
-                                                                                th:if="${num.index < 6}"
-                                                                                th:src="'/forum/img?id=' + ${files.file_url}"
+                                                                                th:if="${num.index < 6 and (#strings.contains(#strings.toLowerCase(files.name),'jpg') or #strings.contains(#strings.toLowerCase(files.name),'png'))}"
+                                                                                th:src="'/forum/getfile?id=' + ${files.idx}"
                                                                                 alt="Card image cap"
                                                                                 style="max-width:150px;">
                                                   												</a>
@@ -195,8 +185,8 @@
                                                                                  <div class="card-body d-flex align-items-center">
                                                                                     <img src="/dist/img/jpgicon.png" class="d-inline-block mr-10" alt="attachicon">
                                                                                     <span class="d-inline-block mnw-0">
-                                                                                    <span class="d-block file-name text-truncate">concept_design.jpg</span>
-                                                                                    <small class="d-block file-size text-truncate">5.78 MB</small>
+                                                                                    <span class="d-block file-name text-truncate" th:text="${files.name}"></span>
+                                                                                    <small class="d-block file-size text-truncate" th:text="${files.file_size} + ' Byte'"></small>
                                                                                     </span>
                                                                                  </div>
                                                                               </div>
@@ -217,9 +207,7 @@
                                                 </div>
                                              </div>
                                            </div>
-
-
-
+                                           
                                           <div class="card-footer justify-content-between">
                                              <div>
                                                 <a href="#"><i class="ion ion-md-heart text-primary"></i><span th:text="${list.recommendedCount}"></span></a>
@@ -364,5 +352,23 @@
             </div>
          </div>
       </div>
+
+      <script>
+        function modifyApply(idx){
+          var formData = new FormData();
+          formData.append("id",idx)
+          postAPI("/forum/main/modifyApply",formData, function(result){
+             switch(result){
+               case "ok":
+                 alert("변경되었습니다.");
+                 location.href="/forum/mypage?type=update_request"
+                 break;
+               case "error" :
+                alert("오류가 발생하였습니다.")
+                break;
+             }
+           });
+        }
+      </script>
    </body>
 </html>
