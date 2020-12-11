@@ -138,9 +138,12 @@ public class ForumController {
 		return "/main/history";
 	}
 	
-	@GetMapping("/main/profile") // TODO 프로필
+	@GetMapping("/main/profile")
 	public String ForumProfilePage(@RequestParam("id") int id, Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		
+		ForumPost post = forumService.findOneForumPost(id);
+		model.addAttribute("forum", post);
 		
 		Long recommendCnt = forumService.findMyForumRecommendedCount(id);
 		model.addAttribute("recommendCount", recommendCnt);
