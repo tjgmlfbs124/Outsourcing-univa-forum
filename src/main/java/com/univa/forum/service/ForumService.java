@@ -224,15 +224,18 @@ public class ForumService {
 		if( forum.getParent_idx() > 0 ) {
 			forumPost.setParent(forumRepository.findForumByIdx(forum.getParent_idx()).get());
 		}
-		for(int subs : forum.getSubjects() ) {
-			ForumSubject subject = forumRepository.findSubjectByIdx(subs).get();
-			if(subject != null) {
-				ForumSubjectBridge subjectEnt = new ForumSubjectBridge();
-				subjectEnt.setSubject(subject);
-				subjectEnt.setForum(forumPost);
-				forumPost.addSubjects(subjectEnt);
+		if ( forum.getSubjects() != null && forum.getSubjects().size() > 0) {
+			for(int subs : forum.getSubjects() ) {
+				ForumSubject subject = forumRepository.findSubjectByIdx(subs).get();
+				if(subject != null) {
+					ForumSubjectBridge subjectEnt = new ForumSubjectBridge();
+					subjectEnt.setSubject(subject);
+					subjectEnt.setForum(forumPost);
+					forumPost.addSubjects(subjectEnt);
+				}
 			}
 		}
+			
 		if( forum.getFiles() != null && forum.getFiles().size() > 0) {
 			for (MultipartFile file : forum.getFiles() ) {
 				ForumFile mFile = new ForumFile();
