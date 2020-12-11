@@ -59,6 +59,24 @@ public class ForumService {
 			return "duplicaiton"; //이미 있는 유저
 		}
 	}
+	/** 회원 업데이트 */
+	public String updateForumUser(ForumUserDTO user) {
+		
+		ForumUser originUser = this.findUserByIdx(user.getIdx());
+		originUser.setEmail(user.getEmail());
+		originUser.setNickname(user.getNickname());
+		originUser.setNation(user.getNation());
+		if(!user.getFile().isEmpty()) {
+			//mUser.setImage_url(userDto.getImage_url());
+			originUser.setImage_url(imageFileWrite(user.getFile()));
+		}
+		
+		if( forumRepository.save(originUser).getUsername().equals(user.getUsername())) {
+			return "ok";
+		} else {
+			return "error";
+		}
+	}
 	
 	/** 이미지 저장, url 리턴 */ //TODO DB 에 원본 이름, 용량 추가
 	public String imageFileWrite(MultipartFile file) {
@@ -548,5 +566,10 @@ public class ForumService {
 	public List<ForumPost> getDeleteRequestForumList(){
 		List<ForumPost> posts = forumRepository.findForumByState(60);
 		return posts;
+	}
+	
+	/** 유저 정보 업데이트 */
+	public ForumUser updateForumUser(ForumUser user) {
+		return forumRepository.save(user);
 	}
 }

@@ -353,6 +353,19 @@ public class ForumController {
 		return "/mypage/edit_profile";
 	}
 	
+	@PostMapping("/mypage/edit")
+	@ResponseBody
+	public String ForumUserEditPost(
+			ForumUserDTO userData,
+			HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		if(!user.getPass()) {
+			return "error";
+		}
+		
+		return forumService.updateForumUser(userData);
+	}
+	
 	@GetMapping("/mypage/update_request")
 	public String forumUpdateRequestPage(Model model,HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO) session.getAttribute("ForumUserSession");
