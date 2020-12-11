@@ -361,6 +361,37 @@ public class ForumController {
 		return "/mypage/my_update_request";
 	}
 	
+	@GetMapping("/main/delete_request")
+	public String forumDeleteRequestPage(Model model, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO) session.getAttribute("ForumUserSession");
+		
+		if(user.getGrade_idx() > 0) {
+			List<ForumPost> requestList = forumService.getDeleteRequestForumList();
+			for(ForumPost post : requestList) {
+				System.out.println("delete??"+post.getTitle());
+			}
+			model.addAttribute("questions", requestList);
+			return "/main/delete_request";
+		} else {
+			return "redirect:/error/404";
+		}
+	}
+	
+	@GetMapping("/main/deleteApply")
+	public String forumDeleteApply(@RequestParam("id") int del_idx, Model model, HttpSession session) {
+		ForumUserDTO user = (ForumUserDTO) session.getAttribute("ForumUserSession");
+		if(user.getGrade_idx() > 0) {
+			ForumPost post = forumService.findOneForumPost(del_idx);
+			if ( post.getState() == 60 ) {
+				post.setState(90);
+				forumService.writeForum(post);
+			} else {
+				return "error";
+			}
+		}
+		return "ok";
+	}
+	
 	/* 이미지 뷰어 */
 	@GetMapping("/img")
 	public ResponseEntity<Resource> imageView(@RequestParam("id") String img) throws IOException {

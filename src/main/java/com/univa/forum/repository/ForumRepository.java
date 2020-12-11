@@ -155,6 +155,11 @@ public class ForumRepository {
 				.setParameter("user_idx", user_idx)
 				.getResultList();
 	}
+	public List<ForumPost>findForumByState(int state) {
+		return em.createQuery("select f from forum f where state = :state order by f.update_date desc", ForumPost.class)
+				.setParameter("state", state)
+				.getResultList();
+	}
 	
 	public Long findAllMyForumRecommendedCount(int user_idx) {
 		String query = "select count(fr.forum)"

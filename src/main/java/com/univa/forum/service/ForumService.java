@@ -544,4 +544,9 @@ public class ForumService {
 		return forumRepository.findFile(idx);
 	}
 	
+	/** 삭제요청 게시물 리스트 */
+	public List<ForumPost> getDeleteRequestForumList(){
+		List<ForumPost> posts = forumRepository.findForumByState(60);
+		return posts;
+	}
 }
