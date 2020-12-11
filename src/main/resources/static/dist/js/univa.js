@@ -52,3 +52,24 @@ function search(){
      loadContent.push(url);
    });
 }
+
+// 댓글달기 전송
+function submitReply(id){
+  var formData = new FormData();
+  var files = document.getElementById('reply-uploads').files;
+
+  for(let i=0; i < files.length; i++) {
+     formData.append('files', files[i]);
+  }
+  formData.append("title", $("input[name=reply-title]").val());
+  formData.append("content", $("textarea[name=reply-content]").val());
+  formData.append("parent_id", id);
+  postAPI("/forum/main/reply",formData, function(result){
+     switch(result){
+       case "ok":
+         alert("댓글이 등록되었습니다.");
+         location.href="/forum/main?type=content?id="+id;
+         break;
+     }
+   });
+}

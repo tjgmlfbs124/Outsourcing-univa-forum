@@ -35,7 +35,7 @@
                                  <div class="col-lg-9" >
                                     <div class="card-columns card-column-1" th:each="list, num : ${questions}" style="margin-bottom:10px;">
                                        <div th:replace="/form/card :: forum(${list})"></div>
-                                       <div th:replace="/form/reply :: forum(${list})"></div>
+                                       <div th:replace="/form/reply_list :: forum(${list})"></div>
                                     </div>
                                  </div>
                                  <div th:replace="mypage/nav :: nav"></div>
