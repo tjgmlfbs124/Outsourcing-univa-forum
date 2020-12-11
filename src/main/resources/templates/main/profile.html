@@ -9,28 +9,44 @@
                 <div class="col-xl-12 pa-0">
                   <div class="bg-white shadow-bottom">
                       <div class="container" style="max-width:1600px;">
-                         <ul class="nav nav-light nav-tabs" role="tablist" id="menu-tab">
-                            <li class="nav-item">
-                               <a class="d-flex h-60p align-items-center nav-link" th:onclick="'onclickRow(\'content\', ' + ${forum.idx} + ')'" style="cursor:pointer;">게시물 정보</a>
-                            </li>
-                            <li class="nav-item">
-                               <a class="d-flex h-60p align-items-center nav-link" th:onclick="'onclickRow(\'history\', ' + ${forum.idx} + ')'" style="cursor:pointer;">게시물 이력</a>
-                            </li>
-                            <li class="nav-item">
-                               <a class="d-flex h-60p align-items-center nav-link active" th:onclick="'onclickRow(\'profile\', ' + ${forum.user.idx} + ')'" style="cursor:pointer;">게시자 정보</a>
-                            </li>
-                            <li class="nav-item">
-                               <a class="d-flex h-60p align-items-center nav-link" th:onclick="'onclickRow(\'edit\', ' + ${forum.idx} + ')'" style="cursor:pointer;">수정요청</a>
-                            </li>
-                         </ul>
+                        <div th:replace="main/nav :: nav(${forum})"></div>
                       </div>
                    </div>
                    <div class="tab-content mt-sm-60 mt-30">
                       <div class="tab-pane fade show active" role="tabpanel">
                          <div class="container"  style="max-width:1600px;">
                             <div class="hk-row">
-                              <div class="col-lg-9">
-                              <section class="hk-sec-wrapper">
+
+                                <div class="col-lg-12">
+                                  <div class="profile-cover-wrap overlay-wrap">
+                                     <div class="profile-cover-img" style="background:#ccc;"></div>
+                                     <div class="bg-overlay bg-trans-dark-60"></div>
+                                     <div class="container profile-cover-content py-50" style="max-width:1600px;">
+                                        <div class="hk-row">
+                                           <div class="col-lg-6">
+                                              <div class="media align-items-center">
+                                                 <div class="media-img-wrap  d-flex">
+                                                    <div class="avatar">
+                                                       <img th:src="@{${forum.user.image_url} != null ? '/forum/img?id=' + ${forum.user.image_url} : '/dist/img/img-thumb.jpg'} "
+                                                             alt="user" class="avatar-img rounded-circle">
+                                                    </div>
+                                                 </div>
+                                                 <div class="media-body">
+                                                    <div class="text-white text-capitalize display-6 mb-5 font-weight-400">
+                                                      <span th:text="${forum.user.nickname}"></span></div>
+                                                      <div class="font-14 text-white">
+                                                        <span class="mr-5" th:if="${forum.user.email != null}" th:text="${forum.user.email}"></span>
+                                                        <span class="mr-5" th:unless="${forum.user.email != null}">이메일 미등록</span>
+                                                      </div>
+                                                 </div>
+                                              </div>
+                                           </div>
+                                        </div>
+                                     </div>
+                                  </div>
+                                </div>
+                              <div class="col-lg-9" style="margin-top:20px;">
+                                <section class="hk-sec-wrapper">
                                     <h5 class="hk-sec-title">회원 정보</h5>
                                     <div class="row">
                                        <div class="col-sm">
@@ -40,19 +56,19 @@
                                                    <tbody>
                                                       <tr>
                                                          <td>아이디</td>
-                                                     <td class="text-right" th:text="${session.ForumUserSession?.username}">-</td>
+                                                         <td class="text-right" th:text="${forum.user.username}">-</td>
                                                       </tr>
                                                       <tr>
                                                          <td>닉네임</td>
-                                                     <td class="text-right" th:text="${session.ForumUserSession?.nickname}">-</td>
+                                                         <td class="text-right" th:text="${forum.user.nickname}">-</td>
                                                       </tr>
                                                       <tr>
-                                                     <td>이메일</td>
-                                                     <td class="text-right" th:text="${session.ForumUserSession?.email}">-</td>
+                                                         <td>이메일</td>
+                                                         <td class="text-right" th:text="${forum.user.email}">-</td>
                                                       </tr>
                                                       <tr >
-                                                     <td>국가</td>
-                                                     <td class="text-right" th:text="${session.ForumUserSession?.nation}">-</td>
+                                                         <td>국가</td>
+                                                         <td class="text-right" th:text="${forum.user.nation}">-</td>
                                                       </tr>
                                                    </tbody>
                                                 </table>
@@ -62,7 +78,7 @@
                                     </div>
                                  </section>
                               </div>
-                              <div class="col-lg-3">
+                              <div class="col-lg-3" style="margin-top:20px;">
                                  <div class="card card-profile-feed">
                                     <div class="card-header card-header-action">
                                        <div class="media align-items-center">
@@ -100,11 +116,13 @@
                                        <a href="#" class="font-14 ml-auto">View all</a>
                                     </div>
                                     <ul class="list-group list-group-flush" th:each="list : ${answerList}">
-                                       <li class="list-group-item border-0" data-id="${list?.idx}">
+                                       <li class="list-group-item border-0" data-id="${list?.idx}" style="cursor:pointer;" th:onclick="'location.href=\'/forum/main?id=' + ${list.idx} +'\''">
                                           <div class="media align-items-center">
                                              <div class="d-flex media-img-wrap mr-15">
                                                 <div class="avatar avatar-sm">
-                                                   <img th:src="@{/dist/img/slide1.jpg}" alt="user" class="avatar-img rounded-circle">
+
+                                                   <img th:src="@{${list.user.image_url} != null ? '/forum/img?id=' + ${list.user.image_url} : '/dist/img/img-thumb.jpg'} "
+                                                         alt="user" class="avatar-img rounded-circle">
                                                 </div>
                                              </div>
                                              <div class="media-body">
@@ -122,11 +140,13 @@
                                        <a href="#" class="font-14 ml-auto">View all</a>
                                     </div>
                                     <ul class="list-group list-group-flush" th:each="list : ${questionList}" >
-                                       <li class="list-group-item border-0" th:data-id="${list?.idx}">
+                                       <li class="list-group-item border-0" th:data-id="${list?.idx}" style="cursor:pointer;" th:onclick="'location.href=\'/forum/main?id=' + ${list.idx} +'\''">
                                           <div class="media align-items-center">
                                              <div class="d-flex media-img-wrap mr-15">
                                                 <div class="avatar avatar-sm">
-                                                   <img th:src="@{/dist/img/slide1.jpg}" alt="user" class="avatar-img rounded-circle">
+
+                                                   <img th:src="@{${list.user.image_url} != null ? '/forum/img?id=' + ${list.user.image_url} : '/dist/img/img-thumb.jpg'} "
+                                                         alt="user" class="avatar-img rounded-circle">
                                                 </div>
                                              </div>
                                              <div class="media-body">
