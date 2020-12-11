@@ -275,7 +275,7 @@ public class ForumService {
 		modifyForumPost.setContent(forum.getContent());
 		modifyForumPost.setType(50); // 수정 게시물 타입
 		modifyForumPost.setState(10); // 수정 요청 상태
-		modifyForumPost.setUpdate_date(prePost.getUpdate_date());
+		//modifyForumPost.setUpdate_date(prePost.getUpdate_date());
 		if(forum.getSubjects() != null) {
 			for(int subs : forum.getSubjects() ) {
 				ForumSubject subject = forumRepository.findSubjectByIdx(subs).get();

@@ -52,7 +52,7 @@ public class ForumPost {
 	@JoinColumn(name="history_parent_idx")
 	private ForumPost history_parent;
 	
-	@Column(name = "update_date", updatable=false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(name = "update_date", insertable=false, updatable=false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	//@Column(name = "update_date", columnDefinition = "CURRENT_TIMESTAMP")
 	private LocalDateTime update_date;
 	
