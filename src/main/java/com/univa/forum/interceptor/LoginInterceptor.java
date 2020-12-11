@@ -16,14 +16,18 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		HttpSession httpSession = request.getSession();
-		ForumUserDTO user = (ForumUserDTO) httpSession.getAttribute("ForumUser");
+		ForumUserDTO user = (ForumUserDTO) httpSession.getAttribute("ForumUserSession");
 		
+//		System.out.println("url path? "+request.getServletPath());
 		if(user == null) {
-			// TODO 세션 없을 경우 로그인 페이지
-			//response.sendRedirect("/forum/signin");
+			response.sendRedirect("/widget/warning.html");
 			//throw new Exception("로그인 필요!");
+			
+//			response.setContentType("text/html");
+//			response.setCharacterEncoding("UTF-8");
+//			response.getWriter().write("<html><script>alert('로그인이 필요합니다.'); location.href='/forum/signin';</script></html>");
+			return false;
 		}
-		
 		httpSession.setMaxInactiveInterval(60*60);
 		return true;
 	}
