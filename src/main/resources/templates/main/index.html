@@ -152,7 +152,7 @@
                                              </tr>
                                           </thead>
                                           <tbody th:each="list : ${questions}">
-                                            <tr style="cursor:pointer;" th:id="'forum-idx-' + ${list.idx}" th:onclick="'switchContent(\'/forum/main/content?id=' + ${list.idx} + '\')'">
+                                            <tr style="cursor:pointer;" th:id="'forum-idx-' + ${list.idx}" th:onclick="'onclickRow(\'content\', ' + ${list.idx} + ')'">
                                                <td>
                                                 <img th:src="@{${list.user.image_url} != null ? '/forum/img?id=' + ${list.user.image_url} : '/dist/img/img-thumb.jpg'} "
                                                       alt="user" class="avatar-img rounded-circle"
@@ -205,6 +205,7 @@
       <script th:src="@{/dist/js/init.js}"></script>
       <script th:src="@{/dist/js/jquery.slimscroll.js}"></script>
       <script th:src="@{/dist/js/ajax.js}"></script>
+      <script th:src="@{/dist/js/univa.js}"></script>
       <script th:src="@{/dist/js/auto-complete.js}"></script>
       <script>
         var loadContent = [];
@@ -222,39 +223,41 @@
               location.href="/forum/main"
             }
           };
-       });
+        });
 
+        $(document).keypress(function (event) {
+          var keycode = (event.keyCode ? event.keyCode : event.which);
+          if (keycode == '13') {
+            $("#search").click();
+          }
+        });
 
-      $(document).keypress(function (event) {
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if (keycode == '13') {
-          $("#search").click();
+        function onclickRow(target, id){
+          switchContent("result-row",
+          "/forum/main/" + target + "?id="+id,
+          function (url){
+            loadContent.push(url);
+          });
         }
-      });
-
-       // 하단 main Content 변경
-       function switchContent(url){
-         loadContent.push(url);
-         $("#result-row").load(url);
-       }
-
-       // 검색결과를 가지고 restful api
-       function search(){
-         var inputText = $("#input-search").val();
-         var subjects = [];
-         if(inputText=="") {
-           alert("키워드를 입력해주세요."); return;
-         }
-         switchContent("/forum/main/board?title="+inputText+"&min=0&max=10&sort=date");
-       }
       </script>
 
       <script th:inline="javascript">
         /*<![CDATA[*/
           var id = [[${param.id} != null ? ${param.id}: null]];
-
-          if(id){
-            switchContent("/forum/main/content?id="+id);
+          var type = [[${param.type} != null ? ${param.type}: null]];
+          if(type){
+            switchContent("result-row",
+            "/forum/main/" + type[0] + "?id="+id[0],
+            function (url){
+              loadContent.push(url);
+            });
+          }
+          else if(id){
+            switchContent("result-row",
+            "/forum/main/content?id="+id[0],
+            function (url){
+              loadContent.push(url);
+            });
           }
         /*]]>*/
       </script>
