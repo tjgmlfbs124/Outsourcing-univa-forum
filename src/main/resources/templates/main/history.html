@@ -11,242 +11,251 @@
                         <div class="container" style="max-width:1600px;">
                            <ul class="nav nav-light nav-tabs" role="tablist" id="menu-tab">
                               <li class="nav-item">
-                                 <a class="d-flex h-60p align-items-center nav-link"  style="cursor:pointer;">게시물 정보</a>
+                                 <a class="d-flex h-60p align-items-center nav-link" th:onclick="'switchContent(\'/forum/main/content?id=' + ${forum.idx} + '\')'" style="cursor:pointer;">게시물 정보</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="d-flex h-60p align-items-center nav-link active"  style="cursor:pointer;">게시물 이력</a>
+                                 <a class="d-flex h-60p align-items-center nav-link active" th:onclick="'switchContent(\'/forum/main/history?id=' + ${forum.idx} + '\')'" style="cursor:pointer;">게시물 이력</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="d-flex h-60p align-items-center nav-link"  style="cursor:pointer;">게시자 정보</a>
+                                 <a class="d-flex h-60p align-items-center nav-link" th:onclick="'switchContent(\'/forum/main/profile?id=' + ${forum.user.idx} + '\')'" style="cursor:pointer;">게시자 정보</a>
                               </li>
                               <li class="nav-item">
-                                 <a class="d-flex h-60p align-items-center nav-link"  style="cursor:pointer;">수정요청</a>
+                                 <a class="d-flex h-60p align-items-center nav-link"th:onclick="'switchContent(\'/forum/main/edit?id=' + ${forum.idx} + '\')'"  style="cursor:pointer;">수정요청</a>
                               </li>
                            </ul>
                         </div>
                      </div>
-                     <div class="tab-content mt-sm-60 mt-30">
+                     <div class="tab-content mt-sm-60">
                         <div class="tab-pane fade show active" role="tabpanel">
                            <div class="container"  style="max-width:1600px;">
-                             <div class="hk-row">
-                                <div class="col-lg-9" >
-                                   <div class="card-columns card-column-1" th:each="list, num : ${history}" style="margin-bottom:10px;">
-                                      <div class="card card-profile-feed mb-0 rounded-bottom-0">
-                                         <div class="emailapp-wrap">
-                                            <div class="email-box" style="margin-left:0px;">
+                              <div class="hk-row">
+                                <div class="col-xl-12 pa-0">
+                                   <div class="tab-content sm-60">
+                                      <div class="tab-pane fade show active" role="tabpanel">
+                                         <div class="container"  style="max-width:1600px;">
+                                            <div class="hk-row">
+                                               <div class="col-lg-12" >
+                                                  <div class="card-columns card-column-1" th:each="forum, num : ${history}" style="margin-bottom:10px;">
+                                                     <div class="card card-profile-feed mb-0 rounded-bottom-0">
+                                                        <div class="emailapp-wrap">
+                                                           <div class="email-box" style="margin-left:0px;">
+                                                              <div class="emailapp-right" style="min-width:100%; flex:none; right:0%; position:unset;">
+                                                                 <div class="email-body">
+                                                                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
+                                                                       <div class="nicescroll-bar" tabindex="-50" style="overflow: hidden; width: auto; height: 100%; outline: none;">
+                                                                          <div>
+                                                                             <div class="email-subject-head" >
+                                                                                <h4 th:text="${forum.title}"></h4>
+                                                                                <div class="d-flex align-items-center" style="margin-bottom:0px;">
+                                                                                   <span class="badge badge-secondary mr-10" th:each="subjects : ${forum.subjects}" th:text="${subjects.subject.name}"></span>
+                                                                                </div>
+                                                                             </div>
+                                                                             <hr class="mt-10 mb-20">
+                                                                             <div class="email-head">
+                                                                                <div class="media">
+                                                                                   <div class="media-img-wrap">
+                                                                                      <div class="avatar">
+                                                                                         <img th:src="@{${forum.user.image_url} != null ? '/forum/img?id=' + ${forum.user.image_url} : '/dist/img/img-thumb.jpg'} "
+                                                                                            alt="user" class="avatar-img rounded-circle">
+                                                                                      </div>
+                                                                                   </div>
+                                                                                   <div class="media-body">
+                                                                                      <span class="text-capitalize sender-name d-inline-block" th:text="${forum.user.nickname}"></span>
+                                                                                      <span class="sender-email d-inline-block" th:text="'(' + ${forum.user.username} + ')'"></span>
+                                                                                      <span class="d-block">
 
-                                               <div class="emailapp-right" style="min-width:100%; flex:none; right:0%; position:unset;">
-                                                  <div class="email-body">
-                                                     <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
-                                                        <div class="nicescroll-bar" tabindex="-50" style="overflow: hidden; width: auto; height: 100%; outline: none;">
-                                                           <div>
-                                                              <div class="email-subject-head" >
-                                                                 <h4 th:text="${list.title}"></h4>
-                                                                 <div class="d-flex align-items-center" style="margin-bottom:0px;">
-                                                                    <span class="badge badge-secondary mr-10" th:each="subjects : ${list.subjects}" th:text="${subjects.subject.name}"></span>
-                                                                 </div>
-                                                              </div>
-                                                              <hr class="mt-10 mb-20">
-                                                              <div class="email-head">
-                                                                 <div class="media">
-                                                                    <div class="media-img-wrap">
-                                                                       <div class="avatar">
-                                                                          <img th:src="@{${list.user.image_url} != null ? '/forum/img?id=' + ${list.user.image_url} : '/dist/img/img-thumb.jpg'} "
-                                                                             alt="user" class="avatar-img rounded-circle">
-                                                                       </div>
-                                                                    </div>
-                                                                    <div class="media-body">
-                                                                       <span class="text-capitalize sender-name d-inline-block" th:text="${list.user.nickname}"></span>
-                                                                       <span class="sender-email d-inline-block" th:text="'(' + ${list.user.username} + ')'"></span>
-                                                                       <span class="d-block">
+                                                                                        <span th:text="${forum.user.email} == null ? '이메일 미등록' : ${forum.user.email}"></span>
+                                                                                      </span>
+                                                                                   </div>
+                                                                                </div>
+                                                                                <div class="head-other-wrap">
+                                                                                   <div class="d-inline-block mr-5">
+                                                                                      <span class="d-inline-block" th:text="${#temporals.format(forum.update_date, 'yyyy/MM/dd HH:mm')}"></span>
+                                                                                   </div>
+                                                                                   <div class="d-inline-block dropdown mr-5">
+                                                                                      <a class="dropdown-toggle no-caret" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="ion ion-ios-more"></i></a>
+                                                                                      <div class="dropdown-menu bullet dropdown-menu-right" role="menu">
+                                                                                         <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>수정요청</a>
+                                                                                         <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-share" aria-hidden="true"></i>삭제요청</a>
+                                                                                         <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-trash" aria-hidden="true"></i>게시물 신고</a>
+                                                                                      </div>
+                                                                                   </div>
+                                                                                </div>
+                                                                             </div>
+                                                                             <div class="email-text-wrap mt-30">
+                                                                                <p class="mb-40" th:text="${forum.content}"></p>
+                                                                                <div class="d-flex flex-wrap">
+                                                                                 <a class="w-sm-150p w-80p mr-10 mb-10" th:each="files,num : ${forum.files}">
+                                                                                   <img class="img-fluid rounded"
+                                                                                      th:if="${num.index < 6 and (#strings.contains(#strings.toLowerCase(files.name),'jpg') or #strings.contains(#strings.toLowerCase(files.name),'png'))}"
+                                                                                     th:src="'/forum/getfile?id=' + ${files.idx}"
+                                                                                        alt="Card image cap"
+                                                                                        style="max-width:150px;">
+                                                                                 </a>
 
-                                                                         <span th:text="${list.user.email} == null ? '이메일 미등록' : ${list.user.email}"></span>
-                                                                       </span>
-                                                                    </div>
-                                                                 </div>
-                                                                 <div class="head-other-wrap">
-                                                                    <div class="d-inline-block mr-5">
-                                                                       <span class="d-inline-block" th:text="${#temporals.format(list.update_date, 'yyyy/MM/dd HH:mm')}"></span>
-                                                                    </div>
-                                                                    <div class="d-inline-block dropdown mr-5">
-                                                                       <a class="dropdown-toggle no-caret" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="ion ion-ios-more"></i></a>
-                                                                       <div class="dropdown-menu bullet dropdown-menu-right" role="menu">
-                                                                          <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>수정요청</a>
-                                                                          <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-share" aria-hidden="true"></i>삭제요청</a>
-                                                                          <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-trash" aria-hidden="true"></i>게시물 신고</a>
-                                                                       </div>
-                                                                    </div>
-                                                                 </div>
-                                                              </div>
-                                                              <div class="email-text-wrap mt-30">
-                                                                 <p class="mb-40" th:text="${list.content}"></p>
-                                                                 <div class="d-flex flex-wrap">
-                                                                   <a class="w-sm-150p w-80p mr-10 mb-10" th:each="files,num : ${list.files}">
-                                                                     <img class="img-fluid rounded"
-                                                                         th:if="${num.index < 6}"
-                                                                         th:src="'/forum/img?id=' + ${files.file_url}"
-                                                                         alt="Card image cap"
-                                                                         style="max-width:150px;">
-                                                                   </a>
-
-                                                                   <!-- th:onclick="'window.open(\'http://127.0.0.1:8080/forum/img?id= + ${files.file_url} + '\', \'_blank\');'" -->
-                                                                 </div>
-                                                              </div>
-                                                              <hr class="hr-light">
-                                                              <div class="email-attachment-wrap" th:if="${#lists.size(list.files)} > 0">
-                                                                 <div class="email-attachment-block">
-                                                                    <a href="javascript:void(0)" th:each="files,num : ${list.files}">
-                                                                       <div class="card card-sm w-200p">
-                                                                          <div class="card-body d-flex align-items-center">
-                                                                             <img src="/dist/img/jpgicon.png" class="d-inline-block mr-10" alt="attachicon">
-                                                                             <span class="d-inline-block mnw-0">
-                                                                             <span class="d-block file-name text-truncate">concept_design.jpg</span>
-                                                                             <small class="d-block file-size text-truncate">5.78 MB</small>
-                                                                             </span>
+                                                                                  <!-- th:onclick="'window.open(\'http://127.0.0.1:8080/forum/img?id= + ${files.file_url} + '\', \'_blank\');'" -->
+                                                                               </div>
+                                                                             </div>
+                                                                             <hr class="hr-light">
+                                                                             <div class="email-attachment-wrap" th:if="${#lists.size(forum.files)} > 0">
+                                                                                <div class="email-attachment-block">
+                                                                                   <a href="javascript:void(0)" th:each="files,num : ${forum.files}">
+                                                                                      <div class="card card-sm w-200p">
+                                                                                         <div class="card-body d-flex align-items-center" style="background:#f5f5f5;">
+                                                                                            <img src="/dist/img/jpgicon.png" class="d-inline-block mr-10" alt="attachicon" >
+                                                                                            <span class="d-inline-block mnw-0">
+                                                                                            <span class="d-block file-name text-truncate">concept_design.jpg</span>
+                                                                                            <small class="d-block file-size text-truncate">5.78 MB</small>
+                                                                                            </span>
+                                                                                         </div>
+                                                                                      </div>
+                                                                                   </a>
+                                                                                </div>
+                                                                                <div class="d-flex ml-auto">
+                                                                                   <a href="javascript:void(0)"><i class="zmdi zmdi-download"></i></a>
+                                                                                </div>
+                                                                             </div>
                                                                           </div>
                                                                        </div>
-                                                                    </a>
-                                                                 </div>
-                                                                 <div class="d-flex ml-auto">
-                                                                    <a href="javascript:void(0)"><i class="zmdi zmdi-download"></i></a>
+                                                                       <div class="slimScrollBar" tabindex="-50" style="background: rgb(214, 217, 218); width: 6px; position: absolute; top: 0px; opacity: 0.8; display: none; border-radius: 0px; z-index: 99; right: 1px; height: 808px; outline: none;"></div>
+                                                                       <div class="slimScrollRail" style="width: 6px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
+                                                                    </div>
                                                                  </div>
                                                               </div>
                                                            </div>
                                                         </div>
-                                                        <div class="slimScrollBar" tabindex="-50" style="background: rgb(214, 217, 218); width: 6px; position: absolute; top: 0px; opacity: 0.8; display: none; border-radius: 0px; z-index: 99; right: 1px; height: 808px; outline: none;"></div>
-                                                        <div class="slimScrollRail" style="width: 6px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
-                                                     </div>
-                                                  </div>
-                                               </div>
-                                            </div>
-                                         </div>
-                                         <div class="card-footer justify-content-between">
-                                            <div>
-                                               <a href="#"><i class="ion ion-md-heart text-primary"></i><span th:text="${list.recommendedCount}"></span></a>
-                                            </div>
-                                            <div>
-                                               <a role="button" data-toggle="collapse" th:href="'#collapse_'+${list.idx}" aria-expanded="false" class="collapsed" th:text="${list.childrenCount} + ' reply'"></a>
-                                            </div>
-                                         </div>
-                                      </div>
-                                      <div class="accordion accordion-type-2 accordion-flush">
-                                         <div class="card card-profile-feed border-top-0 rounded-top-0">
-                                            <div th:id="'collapse_'+${list.idx}" class="collapse" role="tabpanel" >
-                                               <div class="user-activity" th:if="${list.children != null}">
-                                                  <div class="card-body" >
-                                                     <span th:fragment="replyForm" th:remove="tag">
-                                                         <div class="media" th:each="replyList : ${list.children}">
-                                                           <div class="media-img-wrap">
-                                                              <div class="avatar avatar-sm">
-                                                                   <img th:src="@{${replyList.user.image_url} != null ? '/forum/img?id=' + ${replyList.user.image_url} : '/dist/img/img-thumb.jpg'} "
-                                                                      alt="user" class="avatar-img rounded-circle">
-                                                              </div>
+                                                        <div class="card-footer justify-content-between">
+                                                           <div>
+                                                              <a href="#"><i class="ion ion-md-heart text-primary"></i><span th:text="${forum.recommendedCount}"></span></a>
                                                            </div>
-                                                           <div class="media-body">
-                                                              <div class="mb-10">
-                                                                 <span class="d-block mb-20">
-                                                                    <span class="font-weight-500 text-dark text-capitalize" th:text="${replyList.user.username}"></span>
-                                                                    <div class="d-flex mb-10">
-                                                                       <span class="font-14 text-light mr-15" th:text="${#temporals.format(replyList.update_date, 'yyyy/MM/dd HH:mm')}"></span>
-                                                                       <a href="#" class="collapsed font-14 text-light text-capitalize font-weight-500" data-toggle="collapse" th:href="'#input_reply_'+${replyList.idx}" aria-expanded="false">reply</a>
-                                                                    </div>
-                                                                    <p class="mt-10" style="font-weight:bold; color:#324148; margin-bottom:10px !important;" th:text="${replyList.title}"></p>
-                                                                    <span class="mt-10" style="margin-bottom:10px !important;" th:utext="${#strings.replace( #strings.escapeXml( replyList.content ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></span>
-                                                                    <hr class="mt-20 mb-20" th:if="${#lists.size(replyList.files)} > 0">
-                                                                     <div class="d-flex flex-wrap mt-10 mb-10">
-                                                                       <a href="#" class="w-sm-150p w-80p mr-10 mb-10" th:each="files,num : ${replyList.files}">
-                                                                       <img class="img-fluid rounded"
-                                                                           th:if="${num.index < 6}"
-                                                                           th:src="'/forum/img?id=' + ${files.file_url}"
-                                                                           alt="Card image cap"
-                                                                           style="max-width:150px;">
-                                                                       </a>
-                                                                     </div>
-                                                                 </span>
-
-
-                                                                 <div class="accordion accordion-type-2 accordion-flush">
-                                                                    <div class="card card-profile-feed border-top-0 rounded-top-0">
-                                                                       <div th:id="'input_reply_'+${replyList.idx}" class="collapse" role="tabpanel" >
-                                                                          <section class="hk-sec-wrapper" style="background:#ddd;">
-                                                                             <div class="row">
-                                                                                <div class="col-sm">
-                                                                                   <div class="w-100" id="tag-list">
+                                                           <div>
+                                                              <a role="button" data-toggle="collapse" th:href="'#collapse_'+${forum.idx}" aria-expanded="false" class="collapsed" th:text="${forum.childrenCount} + ' reply'"></a>
+                                                           </div>
+                                                        </div>
+                                                     </div>
+                                                     <div class="accordion accordion-type-2 accordion-flush">
+                                                        <div class="card card-profile-feed border-top-0 rounded-top-0">
+                                                           <div th:id="'collapse_'+${forum.idx}" class="collapse" role="tabpanel" >
+                                                              <div class="user-activity" th:if="${forum.children != null}">
+                                                                 <div class="card-body" >
+                                                                    <span th:fragment="replyForm" th:remove="tag">
+                                                                        <div class="media" th:each="replyList : ${forum.children}">
+                                                                          <div class="media-img-wrap">
+                                                                             <div class="avatar avatar-sm">
+                                                                                  <img th:src="@{${replyforum.user.image_url} != null ? '/forum/img?id=' + ${replyforum.user.image_url} : '/dist/img/img-thumb.jpg'} "
+                                                                                     alt="user" class="avatar-img rounded-circle">
+                                                                             </div>
+                                                                          </div>
+                                                                          <div class="media-body">
+                                                                             <div class="mb-10">
+                                                                                <span class="d-block mb-20">
+                                                                                   <span class="font-weight-500 text-dark text-capitalize" th:text="${replyforum.user.username}"></span>
+                                                                                   <div class="d-flex mb-10">
+                                                                                      <span class="font-14 text-light mr-15" th:text="${#temporals.format(replyforum.update_date, 'yyyy/MM/dd HH:mm')}"></span>
+                                                                                      <a href="#" class="collapsed font-14 text-light text-capitalize font-weight-500" data-toggle="collapse" th:href="'#input_reply_'+${replyforum.idx}" aria-expanded="false">reply</a>
                                                                                    </div>
-                                                                                </div>
-                                                                             </div>
-                                                                             <div class="row">
-                                                                                <div class="col-sm">
-                                                                                   <form>
-                                                                                      <div class="form-group">
-                                                                                         <div class="input-group">
-                                                                                            <div class="input-group-prepend">
-                                                                                               <span class="input-group-text" id="inputGroup-sizing-default" style="padding:0px 30px 0px 30px">제 목</span>
-                                                                                            </div>
-                                                                                            <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="title">
-                                                                                         </div>
-                                                                                      </div>
-                                                                                      <div class="form-group mb-0">
-                                                                                         <div class="input-group">
-                                                                                            <div class="input-group-prepend">
-                                                                                               <span class="input-group-text" style="padding:0px 30px 0px 30px">내 용</span>
-                                                                                            </div>
-                                                                                            <textarea class="form-control" aria-label="With textarea" style="min-height:300px;" name="content"></textarea>
-                                                                                         </div>
-                                                                                      </div>
-                                                                                   </form>
-                                                                                </div>
-                                                                             </div>
-                                                                             <section class="hk-sec-wrapper">
-                                                                                <div class="card-body" style="padding:0px; margin:30px 0px 10px 0px;">
-                                                                                   <i class="glyphicon glyphicon-search"></i>
-                                                                                   첨부파일을 업로드 할수 있습니다 (최대 5개)
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                   <div class="col-sm">
-                                                                                      <div class="dropify-wrapper">
-                                                                                         <div class="dropify-message">
-                                                                                            <span class="file-icon"></span>
-                                                                                            <p>Drag and drop a file here or click</p>
-                                                                                            <p class="dropify-error">Ooops, something wrong appended.</p>
-                                                                                         </div>
-                                                                                         <div class="dropify-loader"></div>
-                                                                                         <div class="dropify-errors-container">
-                                                                                            <ul></ul>
-                                                                                         </div>
-                                                                                         <input type="file" class="dropify" name="files[]" id="uploadFiles" multiple=""><button type="button" class="dropify-clear">Remove</button>
-                                                                                         <div class="dropify-preview">
-                                                                                            <span class="dropify-render"></span>
-                                                                                            <div class="dropify-infos">
-                                                                                               <div class="dropify-infos-inner">
-                                                                                                  <p class="dropify-filename"><span class="file-icon"></span> <span class="dropify-filename-inner"></span></p>
-                                                                                                  <p class="dropify-infos-message">Drag and drop or click to replace</p>
+                                                                                   <p class="mt-10" style="font-weight:bold; color:#324148; margin-bottom:10px !important;" th:text="${replyforum.title}"></p>
+                                                                                   <span class="mt-10" style="margin-bottom:10px !important;" th:utext="${#strings.replace( #strings.escapeXml( replyforum.content ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></span>
+                                                                                   <hr class="mt-20 mb-20" th:if="${#lists.size(replyforum.files)} > 0">
+                                                                                    <div class="d-flex flex-wrap mt-10 mb-10">
+                                                                                      <a href="#" class="w-sm-150p w-80p mr-10 mb-10" th:each="files,num : ${replyforum.files}">
+                                                                                      <img class="img-fluid rounded"
+                                                                                          th:if="${num.index < 6}"
+                                                                                          th:src="'/forum/img?id=' + ${files.file_url}"
+                                                                                          alt="Card image cap"
+                                                                                          style="max-width:150px;">
+                                                                                      </a>
+                                                                                    </div>
+                                                                                </span>
+
+
+                                                                                <div class="accordion accordion-type-2 accordion-flush">
+                                                                                   <div class="card card-profile-feed border-top-0 rounded-top-0">
+                                                                                      <div th:id="'input_reply_'+${replyforum.idx}" class="collapse" role="tabpanel" >
+                                                                                         <section class="hk-sec-wrapper" style="background:#ddd;">
+                                                                                            <div class="row">
+                                                                                               <div class="col-sm">
+                                                                                                  <div class="w-100" id="tag-list">
+                                                                                                  </div>
                                                                                                </div>
                                                                                             </div>
-                                                                                         </div>
+                                                                                            <div class="row">
+                                                                                               <div class="col-sm">
+                                                                                                  <form>
+                                                                                                     <div class="form-group">
+                                                                                                        <div class="input-group">
+                                                                                                           <div class="input-group-prepend">
+                                                                                                              <span class="input-group-text" id="inputGroup-sizing-default" style="padding:0px 30px 0px 30px">제 목</span>
+                                                                                                           </div>
+                                                                                                           <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="title">
+                                                                                                        </div>
+                                                                                                     </div>
+                                                                                                     <div class="form-group mb-0">
+                                                                                                        <div class="input-group">
+                                                                                                           <div class="input-group-prepend">
+                                                                                                              <span class="input-group-text" style="padding:0px 30px 0px 30px">내 용</span>
+                                                                                                           </div>
+                                                                                                           <textarea class="form-control" aria-label="With textarea" style="min-height:300px;" name="content"></textarea>
+                                                                                                        </div>
+                                                                                                     </div>
+                                                                                                  </form>
+                                                                                               </div>
+                                                                                            </div>
+                                                                                            <section class="hk-sec-wrapper">
+                                                                                               <div class="card-body" style="padding:0px; margin:30px 0px 10px 0px;">
+                                                                                                  <i class="glyphicon glyphicon-search"></i>
+                                                                                                  첨부파일을 업로드 할수 있습니다 (최대 5개)
+                                                                                               </div>
+                                                                                               <div class="row">
+                                                                                                  <div class="col-sm">
+                                                                                                     <div class="dropify-wrapper">
+                                                                                                        <div class="dropify-message">
+                                                                                                           <span class="file-icon"></span>
+                                                                                                           <p>Drag and drop a file here or click</p>
+                                                                                                           <p class="dropify-error">Ooops, something wrong appended.</p>
+                                                                                                        </div>
+                                                                                                        <div class="dropify-loader"></div>
+                                                                                                        <div class="dropify-errors-container">
+                                                                                                           <ul></ul>
+                                                                                                        </div>
+                                                                                                        <input type="file" class="dropify" name="files[]" id="uploadFiles" multiple=""><button type="button" class="dropify-clear">Remove</button>
+                                                                                                        <div class="dropify-preview">
+                                                                                                           <span class="dropify-render"></span>
+                                                                                                           <div class="dropify-infos">
+                                                                                                              <div class="dropify-infos-inner">
+                                                                                                                 <p class="dropify-filename"><span class="file-icon"></span> <span class="dropify-filename-inner"></span></p>
+                                                                                                                 <p class="dropify-infos-message">Drag and drop or click to replace</p>
+                                                                                                              </div>
+                                                                                                           </div>
+                                                                                                        </div>
+                                                                                                     </div>
+                                                                                                  </div>
+                                                                                               </div>
+                                                                                            </section>
+                                                                                            <div class="row">
+                                                                                               <div class="col-sm">
+                                                                                                  <div class="card-body" style="padding:0px; margin-bottom:10px;">
+                                                                                                     <button type="button" class="btn btn-success" style="margin-top:30px; float:right;" onclick="submit()">등록하기</button>
+                                                                                                  </div>
+                                                                                               </div>
+                                                                                            </div>
+                                                                                         </section>
                                                                                       </div>
                                                                                    </div>
                                                                                 </div>
-                                                                             </section>
-                                                                             <div class="row">
-                                                                                <div class="col-sm">
-                                                                                   <div class="card-body" style="padding:0px; margin-bottom:10px;">
-                                                                                      <button type="button" class="btn btn-success" style="margin-top:30px; float:right;" onclick="submit()">등록하기</button>
-                                                                                   </div>
-                                                                                </div>
                                                                              </div>
-                                                                          </section>
+                                                                             <div
+                                                                                th:with="list = ${replyList}"
+                                                                                th:include="this :: replyForm" class="media"
+                                                                                th:remove="tag"></div>
+                                                                          </div>
                                                                        </div>
-                                                                    </div>
+                                                                    </span>
                                                                  </div>
                                                               </div>
-                                                              <div
-                                                                 th:with="list = ${replyList}"
-                                                                 th:include="this :: replyForm" class="media"
-                                                                 th:remove="tag"></div>
                                                            </div>
                                                         </div>
-                                                     </span>
+                                                     </div>
                                                   </div>
                                                </div>
                                             </div>
@@ -254,7 +263,8 @@
                                       </div>
                                    </div>
                                 </div>
-                             </div>
+
+                              </div>
                            </div>
                         </div>
                      </div>
