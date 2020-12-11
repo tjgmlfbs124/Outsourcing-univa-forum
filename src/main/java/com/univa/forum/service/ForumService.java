@@ -139,6 +139,7 @@ public class ForumService {
 	public ForumPost findOneForumPost(int idx) {
 		ForumPost post = forumRepository.findForumByIdx(idx).get();
 		post.setRecommendedCount(post.getForumRecommend().size());
+		post.setChildrenCount(this.findChildrenCount(post));
 		return post;
 	}
 	public ForumPost findOneForumPost(int idx, int userIdx) {
@@ -151,6 +152,7 @@ public class ForumService {
 				post.setRecommended(true);
 			}
 		}
+		post.setChildrenCount(this.findChildrenCount(post));
 		
 		return post;
 	}
