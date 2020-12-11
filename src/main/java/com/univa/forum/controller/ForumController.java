@@ -214,6 +214,7 @@ public class ForumController {
 	public String ForumPostRemoveRequestPost(@RequestParam("id")int idx, HttpSession session) {
 		// TODO 삭제 요청
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumSessionUser");
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		ForumPost post = forumService.findOneForumPost(idx);
 		if( post.getUser().getIdx() == user.getIdx() ) {
 			post.setState(60);
