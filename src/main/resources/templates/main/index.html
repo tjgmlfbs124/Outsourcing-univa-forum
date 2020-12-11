@@ -20,64 +20,7 @@
 
       <link th:href="@{/vendors/dropzone/dist/dropzone.css}" rel="stylesheet" type="text/css"/>
    </head>
-   <style>
-   * {
-     box-sizing: border-box;
-   }
-
-   /*the container must be positioned relative:*/
-   .autocomplete {
-     position: relative;
-     display: inline-block;
-   }
-
-   input {
-     border: 1px solid transparent;
-     background-color: #f1f1f1;
-     padding: 10px;
-     font-size: 16px;
-   }
-
-   input[type=text] {
-     background-color: #f1f1f1;
-     width: 100%;
-   }
-
-   input[type=submit] {
-     background-color: DodgerBlue;
-     color: #fff;
-     cursor: pointer;
-   }
-
-   .autocomplete-items {
-     position: absolute;
-     border: 1px solid #d4d4d4;
-     border-bottom: none;
-     border-top: none;
-     z-index: 99;
-     /*position the autocomplete items to be the same width as the container:*/
-     width:100%;
-     max-width:180px;
-   }
-
-   .autocomplete-items div {
-     padding: 10px;
-     cursor: pointer;
-     background-color: #fff;
-     border-bottom: 1px solid #d4d4d4;
-   }
-
-   /*when hovering an item:*/
-   .autocomplete-items div:hover {
-     background-color: #e9e9e9;
-   }
-
-   /*when navigating through the items using the arrow keys:*/
-   .autocomplete-active {
-     background-color: DodgerBlue !important;
-     color: #ffffff;
-   }
-   </style>
+   <style th:replace="widget/autoInputStyle :: style"></style>
    <body data-spy="scroll" data-target=".navbar" data-offset="60">
       <div class="preloader-it">
          <div class="loader-pendulums"></div>
