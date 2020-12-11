@@ -107,7 +107,7 @@ public class ForumService {
 			returnUserDto.setNickname(user.getNickname());
 			returnUserDto.setEmail(user.getEmail());
 			returnUserDto.setImage_url(user.getImage_url());
-			returnUserDto.setGrade_idx(user.getIdx());
+			returnUserDto.setGrade_idx(user.getGrade().getIdx());
 			returnUserDto.setNation(user.getNation());
 			returnUserDto.setState(user.getState());
 			returnUserDto.setDate(user.getDate());
