@@ -101,7 +101,7 @@ public class ForumController {
 	}
 	
 	/* 포럼 내용 보기 */
-	@GetMapping("/main/content") //TODO 컨텐트 보이기, 조회수 올리기
+	@GetMapping("/main/content")
 	public String ForumContent(@RequestParam("id") int id, Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		ForumPost forum;
@@ -119,7 +119,7 @@ public class ForumController {
 		return "/main/content";
 	}
 	
-	@GetMapping("/main/history") // TODO 히스토리
+	@GetMapping("/main/history")
 	public String ForumhistoryPage(@RequestParam("id") int id, Model model, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		ForumPost forum;
@@ -190,7 +190,6 @@ public class ForumController {
 	@ResponseBody
 	public String ForumPostModifyPost(ForumPostDTO forum, HttpSession session) {
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
-		// TODO 포럼 수정 요청 테스트중
 //		ForumPostDTO testForum = new ForumPostDTO();
 //		testForum.setModify_parent_idx(2); // 수정 요청할 원본 게시물 번호
 //		testForum.setTitle("테스트 답변1+수정");
@@ -215,7 +214,6 @@ public class ForumController {
 	@PostMapping("/main/remove")
 	@ResponseBody
 	public String ForumPostRemoveRequestPost(@RequestParam("id")int idx, HttpSession session) {
-		// TODO 삭제 요청
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		ForumPost post = forumService.findOneForumPost(idx);
 		if( post.getUser().getIdx() == user.getIdx() ) {

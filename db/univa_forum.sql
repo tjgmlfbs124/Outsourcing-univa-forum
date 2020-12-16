@@ -206,3 +206,10 @@ ENGINE = InnoDB
 /* 수정이력 Auto increment 추가 */
 ALTER TABLE `univa_forum`.`forum_modify`
  MODIFY `idx` INT UNSIGNED NOT NULL AUTO_INCREMENT;
+
+/* 파일 용량, 원본 파일 이름 테이블에 추가 */
+ALTER TABLE `forum_file`
+ADD (
+  `file_size` int unsigned null default 0,
+  `original_name` VARCHAR(255) null
+)
