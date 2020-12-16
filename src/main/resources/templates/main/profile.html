@@ -126,8 +126,8 @@
                                                 </div>
                                              </div>
                                              <div class="media-body">
-                                                <span class="d-block text-dark text-capitalize" th:text="${list?.title}"></span>
-                                                <span class="d-block font-13" th:text="${list?.content}"></span>
+                                                <span class="d-block text-dark text-capitalize" th:text="${#strings.abbreviate(list.title,20)}"></span>
+                                                <span class="d-block font-13" th:text="${#strings.abbreviate(list.content,20)}"></span>
                                              </div>
                                           </div>
                                        </li>
@@ -150,8 +150,8 @@
                                                 </div>
                                              </div>
                                              <div class="media-body">
-                                                <span class="d-block text-dark text-capitalize" th:text="${list?.title}"></span>
-                                                <span class="d-block font-13" th:text="${list?.content}"></span>
+                                                <span class="d-block text-dark text-capitalize" th:text="${#strings.abbreviate(list.title,20)}"></span>
+                                                <span class="d-block font-13" th:text="${#strings.abbreviate(list.content,20)}"></span>
                                              </div>
                                           </div>
                                        </li>

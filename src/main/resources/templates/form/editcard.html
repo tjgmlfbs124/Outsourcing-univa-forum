@@ -51,7 +51,8 @@
                                        <img src="/dist/img/jpgicon.png" class="d-inline-block mr-10" alt="attachicon">
                                        <span class="d-inline-block mnw-0">
                                          <span class="d-block file-name text-truncate" th:text="${files.name}"></span>
-                                         <small class="d-block file-size text-truncate" th:text="${files.file_size} + ' byte'"></small>
+                                         <small class="d-block file-size text-truncate"
+                                                th:text="${#numbers.formatDecimal((files.file_size)/2^10, 1, 'POINT', 1, 'POINT')} + ' KB'"></small>
                                        </span>
                                     </div>
                                  </div>

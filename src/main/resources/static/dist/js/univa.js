@@ -1,7 +1,8 @@
 // 수정요청중에 선택했을때,
 function modifyApply(idx){
   var formData = new FormData();
-  formData.append("id",idx)
+  formData.append("id",idx);
+
   postAPI("/forum/main/modifyApply",formData, function(result){
      switch(result){
        case "ok":
@@ -19,7 +20,9 @@ function modifyApply(idx){
 function requestRemove(idx){
   if(!idx) return;
   var formData = new FormData();
+
   formData.append("id",idx);
+
   postAPI("/forum/main/remove", formData , function(result){
      switch(result){
        case "ok":
@@ -43,9 +46,12 @@ function switchContent(target, url, callback){
 function search(){
   var inputText = $("#input-search").val();
   var subjects = [];
+
   if(inputText=="") {
-    alert("키워드를 입력해주세요."); return;
+    alert("키워드를 입력해주세요.");
+    return;
   }
+
   switchContent("result-row",
    "/forum/main/board?title="+inputText+"&min=0&max=10&sort=date",
    function (url){
@@ -61,9 +67,11 @@ function submitReply(id){
   for(let i=0; i < files.length; i++) {
      formData.append('files', files[i]);
   }
+
   formData.append("title", $("input[name=reply-title-" + id + "]").val());
   formData.append("content", $("textarea[name=reply-content-" + id + "]").val());
   formData.append("parent_idx", id);
+
   postAPI("/forum/main/reply",formData, function(result){
      switch(result){
        case "ok":
@@ -97,6 +105,22 @@ function allDownload(id){
 }
 
 function onclickRecommend(target, id){
-  console.log("target : " , target);
-  console.log("id : " , id);
+  var formData = new FormData();
+
+  if(target.dataset.enable == "true"){
+    target.className = "ion ion-md-heart-empty text-primary";
+    target.dataset.enable = "false";
+  }
+  else{
+    target.className = "ion ion-md-heart text-primary"
+    target.dataset.enable = "true";
+  }
+
+  formData.append("idx", id);
+  formData.append("like", target.dataset.enable);
+
+  postAPI("/forum/main/like",formData, function(result){
+    if(result)
+      $("#like-count").text(result);
+   });
 }

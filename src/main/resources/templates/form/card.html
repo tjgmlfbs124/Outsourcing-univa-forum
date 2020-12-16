@@ -69,7 +69,8 @@
                                        <img src="/dist/img/jpgicon.png" class="d-inline-block mr-10" alt="attachicon" >
                                        <span class="d-inline-block mnw-0">
                                        <span class="d-block file-name text-truncate" th:text="${files.name}"></span>
-                                       <small class="d-block file-size text-truncate" th:text="${files.file_size} + ' MB'"></small>
+                                       <small class="d-block file-size text-truncate"
+                                              th:text="${#numbers.formatDecimal((files.file_size)/2^10, 1, 'POINT', 1, 'POINT')} + ' KB'"></small>
                                        </span>
                                     </div>
                                  </div>
@@ -92,10 +93,12 @@
             <!-- 좋아요 개수, 댓글 개수 -->
             <div class="card-footer justify-content-between">
                <div>
-                  <a href="#">
+                  <a style="cursor:pointer;">
                     <!-- <i class="ion ion-md-heart-empty text-primary"></i> -->
-                    <i th:class="${forum.recommended} == 'true' ? 'ion ion-md-heart text-primary' : 'ion ion-md-heart-empty text-primary'" th:onclick="'onclickRecommend(this, ' + ${forum} + ')'"></i>
-                    <span th:text="${forum.recommendedCount}"></span>
+                    <i th:class="${forum.recommended} == 'true' ? 'ion ion-md-heart text-primary' : 'ion ion-md-heart-empty text-primary'"
+                        th:onclick="'onclickRecommend(this, ' + ${forum.idx} + ')'"
+                        th:data-enable="${forum.recommended}"></i>
+                    <span id="like-count" th:text="${forum.recommendedCount}"></span>
                   </a>
                </div>
                <div>
