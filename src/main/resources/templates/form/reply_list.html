@@ -25,95 +25,59 @@
                               </div>
                               <p class="mt-10" style="font-weight:bold; color:#324148; margin-bottom:10px !important;" th:text="${replyList.title}"></p>
                               <span class="mt-10" style="margin-bottom:10px !important;" th:utext="${#strings.replace( #strings.escapeXml( replyList.content ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></span>
-                              <hr class="mt-20 mb-20" th:if="${#lists.size(replyList.files)} > 0">
-                               <div class="d-flex flex-wrap mt-10 mb-10">
-                                 <a href="#" class="w-sm-150p w-80p mr-10 mb-10" th:each="files,num : ${replyList.files}">
-                                 <img class="img-fluid rounded"
-                                     th:if="${num.index < 6}"
-                                     th:src="'/forum/img?id=' + ${files.file_url}"
-                                     alt="Card image cap"
-                                     style="max-width:150px;">
-                                 </a>
-                               </div>
+
+                              <div class="emailapp-wrap">
+                                  <div class="email-box" style="margin-left:0px;">
+                                    <div class="emailapp-right" style="min-width:100%; flex:none; right:0%; position:unset;">
+                                      <div class="email-body">
+                                        <div class="email-text-wrap mt-30">
+                                           <div class="d-flex flex-wrap">
+                                            <a class="w-sm-150p w-80p mr-10 mb-10" th:each="files,num : ${replyList.files}">
+                                              <img class="img-fluid rounded"
+                                                 th:if="${num.index < 6 and (#strings.contains(#strings.toLowerCase(files.file_url),'.png') or (#strings.contains(#strings.toLowerCase(files.file_url),'.jpg')))}"
+                                                 th:src="'/forum/getfile?id=' + ${files.idx}"
+                                                 alt="Card image cap"
+                                                 style="max-width:150px;"/>
+                                            </a>
+                                          </div>
+                                        </div>
+
+                                        <!-- 파일정보 -->
+                                        <hr class="hr-light" th:if="${#lists.size(replyList.files)} > 0">
+                                        <div class="email-attachment-wrap" th:if="${#lists.size(replyList.files)} > 0">
+                                           <div class="email-attachment-block" th:id="'file-list-' + ${replyList.idx}">
+                                              <a th:href="'/forum/getfile?id=' + ${files.idx}" th:each="files,num : ${replyList.files}" th:download="${files.name}" th:data-url="'/forum/getfile?id=' + ${files.idx}" th:data-name="${files.name}">
+                                                 <div class="card card-sm w-200p">
+                                                    <div class="card-body d-flex align-items-center" style="background:#f5f5f5;">
+                                                       <img src="/dist/img/jpgicon.png" class="d-inline-block mr-10" alt="attachicon" >
+                                                       <span class="d-inline-block mnw-0">
+                                                       <span class="d-block file-name text-truncate" th:text="${files.name}"></span>
+                                                       <small class="d-block file-size text-truncate" th:text="${files.file_size} + ' MB'"></small>
+                                                       </span>
+                                                    </div>
+                                                 </div>
+                                              </a>
+                                           </div>
+                                           <div class="d-flex ml-auto">
+                                              <a th:onclick="'allDownload(' + ${replyList.idx} +')'" style="cursor:pointer;"><i class="zmdi zmdi-download"></i></a>
+                                           </div>
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                              </div>
+
                            </span>
 
                            <!-- 답글 달기-->
                           <div class="accordion accordion-type-2 accordion-flush">
                               <div class="card card-profile-feed border-top-0 rounded-top-0">
                                 <div th:id="'input_reply_'+${replyList.idx}" class="collapse" role="tabpanel" >
-                                  <section class="hk-sec-wrapper" style="background:#ddd;">
-                                       <div class="row">
-                                          <div class="col-sm">
-                                             <div class="w-100" id="tag-list">
-                                             </div>
-                                          </div>
-                                       </div>
-                                       <div class="row">
-                                          <div class="col-sm">
-                                             <form>
-                                                <div class="form-group">
-                                                   <div class="input-group">
-                                                      <div class="input-group-prepend">
-                                                         <span class="input-group-text" id="inputGroup-sizing-default" style="padding:0px 30px 0px 30px">제 목</span>
-                                                      </div>
-                                                      <input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="title">
-                                                   </div>
-                                                </div>
-                                                <div class="form-group mb-0">
-                                                   <div class="input-group">
-                                                      <div class="input-group-prepend">
-                                                         <span class="input-group-text" style="padding:0px 30px 0px 30px">내 용</span>
-                                                      </div>
-                                                      <textarea class="form-control" aria-label="With textarea" style="min-height:300px;" name="content"></textarea>
-                                                   </div>
-                                                </div>
-                                             </form>
-                                          </div>
-                                       </div>
-                                       <section class="hk-sec-wrapper">
-                                          <div class="card-body" style="padding:0px; margin:30px 0px 10px 0px;">
-                                             <i class="glyphicon glyphicon-search"></i>
-                                             첨부파일을 업로드 할수 있습니다 (최대 5개)
-                                          </div>
-                                          <div class="row">
-                                             <div class="col-sm">
-                                                <div class="dropify-wrapper">
-                                                   <div class="dropify-message">
-                                                      <span class="file-icon"></span>
-                                                      <p>Drag and drop a file here or click</p>
-                                                      <p class="dropify-error">Ooops, something wrong appended.</p>
-                                                   </div>
-                                                   <div class="dropify-loader"></div>
-                                                   <div class="dropify-errors-container">
-                                                      <ul></ul>
-                                                   </div>
-                                                   <input type="file" class="dropify" name="files[]" id="uploadFiles" multiple=""><button type="button" class="dropify-clear">Remove</button>
-                                                   <div class="dropify-preview">
-                                                      <span class="dropify-render"></span>
-                                                      <div class="dropify-infos">
-                                                         <div class="dropify-infos-inner">
-                                                            <p class="dropify-filename"><span class="file-icon"></span> <span class="dropify-filename-inner"></span></p>
-                                                            <p class="dropify-infos-message">Drag and drop or click to replace</p>
-                                                         </div>
-                                                      </div>
-                                                   </div>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </section>
-                                       <div class="row">
-                                          <div class="col-sm">
-                                             <div class="card-body" style="padding:0px; margin-bottom:10px;">
-                                                <button type="button" class="btn btn-success" style="margin-top:30px; float:right;" onclick="submit()">등록하기</button>
-                                             </div>
-                                          </div>
-                                       </div>
-                                    </section>
+                                      <div th:replace="/form/reply :: forum(${replyList})" ></div>
                                 </div>
                               </div>
                           </div>
-
-
                         </div>
                         <div
                            th:with="forum = ${replyList}"

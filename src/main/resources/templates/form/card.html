@@ -45,10 +45,12 @@
                               </div>
                            </div>
                         </div>
+
+                        <!-- 이미지인 파일들 -->
                         <div class="email-text-wrap mt-30">
                            <p class="mb-40" th:text="${forum.content}"></p>
                            <div class="d-flex flex-wrap">
-                            <a class="w-sm-150p w-80p mr-10 mb-10" th:each="files,num : ${forum.files}">
+                            <a class="w-sm-150p w-80p mr-10 mb-10" th:each="files,num : ${forum.files}" th:onclick="'newWindowImage(\'/forum/getfile?id=' + ${files.idx} + '\')'" style="cursor:pointer;">
                               <img class="img-fluid rounded"
                                  th:if="${num.index < 6 and (#strings.contains(#strings.toLowerCase(files.file_url),'.png') or (#strings.contains(#strings.toLowerCase(files.file_url),'.jpg')))}"
                                  th:src="'/forum/getfile?id=' + ${files.idx}"
@@ -57,12 +59,13 @@
                             </a>
                           </div>
                         </div>
-                        <hr class="hr-light">
+                        <!-- 파일정보 -->
+                        <hr class="hr-light" th:if="${#lists.size(forum.files)} > 0">
                         <div class="email-attachment-wrap" th:if="${#lists.size(forum.files)} > 0">
-                           <div class="email-attachment-block">
-                              <a href="javascript:void(0)" th:each="files,num : ${forum.files}">
+                           <div class="email-attachment-block" th:id="'file-list-' + ${forum.idx}">
+                              <a th:href="'/forum/getfile?id=' + ${files.idx}" th:each="files,num : ${forum.files}" th:download="${files.name}" th:data-url="'/forum/getfile?id=' + ${files.idx}" th:data-name="${files.name}">
                                  <div class="card card-sm w-200p">
-                                    <div class="card-body d-flex align-items-center" style="background:#f5f5f5;">
+                                    <div class="card-body d-flex align-items-center" style="background:#f5f5f5;" >
                                        <img src="/dist/img/jpgicon.png" class="d-inline-block mr-10" alt="attachicon" >
                                        <span class="d-inline-block mnw-0">
                                        <span class="d-block file-name text-truncate" th:text="${files.name}"></span>
@@ -72,8 +75,10 @@
                                  </div>
                               </a>
                            </div>
+
+                           <!-- 전체 다운로드 -->
                            <div class="d-flex ml-auto">
-                              <a href="javascript:void(0)"><i class="zmdi zmdi-download"></i></a>
+                              <a th:onclick="'allDownload(' + ${forum.idx} +')'" style="cursor:pointer;"><i class="zmdi zmdi-download"></i></a>
                            </div>
                         </div>
                      </div>
@@ -111,13 +116,14 @@
 								</div>
 							</div>
 						</div>
+
+            <!-- 댓글 입력 폼 -->
             <span class="collapse" role="tabpanel" th:id="'collapse_reply_'+${forum.idx}">
               <div class="card-footer" style="border-top:none;">
                 <div class="media w-100 align-items-center">
                     <div th:replace="/form/reply :: forum(${forum})"></div>
                 </div>
               </div>
-              <button type="button" class="btn btn-success" style="margin:0px 40px 40px 0px; float:right;" th:onclick="'submitReply(' + ${forum.idx} +')'">등록하기</button>
             </span>
          </div>
       </div>

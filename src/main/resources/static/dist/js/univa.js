@@ -56,20 +56,41 @@ function search(){
 // 댓글달기 전송
 function submitReply(id){
   var formData = new FormData();
-  var files = document.getElementById('reply-uploads').files;
+  var files = document.getElementById('reply-uploads-' + id).files;
 
   for(let i=0; i < files.length; i++) {
      formData.append('files', files[i]);
   }
-  formData.append("title", $("input[name=reply-title]").val());
-  formData.append("content", $("textarea[name=reply-content]").val());
-  formData.append("parent_id", id);
+  formData.append("title", $("input[name=reply-title-" + id + "]").val());
+  formData.append("content", $("textarea[name=reply-content-" + id + "]").val());
+  formData.append("parent_idx", id);
   postAPI("/forum/main/reply",formData, function(result){
      switch(result){
        case "ok":
          alert("댓글이 등록되었습니다.");
-         location.href="/forum/main?type=content?id="+id;
+         location.href="/forum/main?type=content&id="+id;
          break;
      }
    });
+}
+
+// 사진 클릭시 새창이동
+function newWindowImage(url){
+  window.open(url, '_black');
+}
+
+function allDownload(id){
+  var divs = $("#file-list-"+id).children();
+
+  for (var i = 0; i < divs.length; i++) {
+    var link = document.createElement('a');
+
+    link.setAttribute('href', divs[i].dataset.url);
+    link.setAttribute('download', divs[i].dataset.name);
+    link.style.display = 'none';
+    document.body.appendChild(link);
+
+    link.click();
+    document.body.removeChild(link);
+  }
 }
