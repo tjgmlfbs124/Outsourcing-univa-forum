@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.DynamicInsert;
+
+@DynamicInsert
 @Entity(name="forum_recommend")
 public class ForumRecommend {
 	@Id
@@ -24,7 +27,7 @@ public class ForumRecommend {
 	@JoinColumn(name = "user_idx")
 	private ForumUser user;
 	
-	@Column(name = "like")
+	@Column(name = "forum_like")
 	private int like;
 
 	public int getIdx() {

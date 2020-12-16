@@ -164,7 +164,7 @@ public class ForumRepository {
 	public Long findAllMyForumRecommendedCount(int user_idx) {
 		String query = "select count(fr.forum)"
 				+" from forum f, forum_recommend fr"
-				+" where f.user.idx = :user_idx and fr.forum = f.idx and fr.like >= 1";
+				+" where f.user.idx = :user_idx and fr.forum = f.idx and fr.forum_like >= 1";
 		return em.createQuery(query, Long.class)
 				.setParameter("user_idx", user_idx)
 				.getSingleResult();
