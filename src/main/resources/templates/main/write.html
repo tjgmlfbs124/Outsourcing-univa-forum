@@ -86,7 +86,7 @@
          <div class="loader-pendulums"></div>
       </div>
       <div class="hk-wrapper">
-         <div th:replace="widget/menu :: menu"></div>
+         <div th:replace="widget/menu :: menu('main')"></div>
          <div class="hk-pg-wrapper px-0">
             <div class="container-fluid">
                <div class="row">
@@ -235,7 +235,7 @@
              formData.append("title", $("input[name=title]").val());
              formData.append("content", $("textarea[name=content]").val());
              formData.append("subjects", tagForms);
-             
+
              for(let i=0; i < files.length; i++) {
                 formData.append('files', files[i]);
              }

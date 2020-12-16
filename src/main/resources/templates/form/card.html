@@ -48,7 +48,7 @@
 
                         <!-- 이미지인 파일들 -->
                         <div class="email-text-wrap mt-30">
-                           <p class="mb-40" th:text="${forum.content}"></p>
+                           <p class="mb-40" th:utext="${#strings.replace(#strings.escapeXml(forum.content),'&#10;','&lt;br&gt;')}"></p>
                            <div class="d-flex flex-wrap">
                             <a class="w-sm-150p w-80p mr-10 mb-10" th:each="files,num : ${forum.files}" th:onclick="'newWindowImage(\'/forum/getfile?id=' + ${files.idx} + '\')'" style="cursor:pointer;">
                               <img class="img-fluid rounded"
@@ -92,7 +92,11 @@
             <!-- 좋아요 개수, 댓글 개수 -->
             <div class="card-footer justify-content-between">
                <div>
-                  <a href="#"><i class="ion ion-md-heart text-primary"></i><span th:text="${forum.recommendedCount}"></span></a>
+                  <a href="#">
+                    <!-- <i class="ion ion-md-heart-empty text-primary"></i> -->
+                    <i th:class="${forum.recommended} == 'true' ? 'ion ion-md-heart text-primary' : 'ion ion-md-heart-empty text-primary'" th:onclick="'onclickRecommend(this, ' + ${forum} + ')'"></i>
+                    <span th:text="${forum.recommendedCount}"></span>
+                  </a>
                </div>
                <div>
                   <a role="button" data-toggle="collapse" th:href="'#collapse_'+${forum.idx}" aria-expanded="false" class="collapsed" th:text="${forum.childrenCount} + ' reply'"></a>

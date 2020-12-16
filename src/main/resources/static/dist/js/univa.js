@@ -79,6 +79,7 @@ function newWindowImage(url){
   window.open(url, '_black');
 }
 
+// 모든 파일 다운로드
 function allDownload(id){
   var divs = $("#file-list-"+id).children();
 
@@ -93,4 +94,9 @@ function allDownload(id){
     link.click();
     document.body.removeChild(link);
   }
+}
+
+function onclickRecommend(target, id){
+  console.log("target : " , target);
+  console.log("id : " , id);
 }

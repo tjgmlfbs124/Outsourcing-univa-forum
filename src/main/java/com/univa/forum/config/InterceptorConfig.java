@@ -27,9 +27,10 @@ public class InterceptorConfig implements WebMvcConfigurer {
 					"/forum/main/profile",
 					"/forum/signup",
 					"/forum/signin",
-					"/forum/service",
+					"/forum/service/**",
 					
-					"/forum/img"
+					"/forum/img",
+					"/forum/getfile"
 			); // rest api
 	}
 }

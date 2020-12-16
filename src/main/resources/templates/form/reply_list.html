@@ -24,7 +24,7 @@
                                  <a href="#" class="collapsed font-14 text-light text-capitalize font-weight-500" data-toggle="collapse" th:href="'#input_reply_'+${replyList.idx}" aria-expanded="false">reply</a>
                               </div>
                               <p class="mt-10" style="font-weight:bold; color:#324148; margin-bottom:10px !important;" th:text="${replyList.title}"></p>
-                              <span class="mt-10" style="margin-bottom:10px !important;" th:utext="${#strings.replace( #strings.escapeXml( replyList.content ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></span>
+                              <span class="mt-10" style="margin-bottom:10px !important;" th:utext="${#strings.replace(#strings.escapeXml(replyList.content),'&#10;','&lt;br&gt;')}"></span>
 
                               <div class="emailapp-wrap">
                                   <div class="email-box" style="margin-left:0px;">
