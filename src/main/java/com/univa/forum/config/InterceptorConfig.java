@@ -25,6 +25,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 					"/forum/main/content",
 					"/forum/main/history",
 					"/forum/main/profile",
+					"/forum/main/like",
 					"/forum/signup",
 					"/forum/signin",
 					"/forum/service/**",

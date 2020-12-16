@@ -573,6 +573,7 @@ public class ForumService {
 		for(ForumRecommend reco: recoList) {
 			if (reco.getUser().getIdx() == user.getIdx()) {
 				if(flag) reco.setLike(1);
+				else reco.setLike(0);
 				forumRepository.save(post);
 				return this.recommendedCount(post.getForumRecommend());
 			}

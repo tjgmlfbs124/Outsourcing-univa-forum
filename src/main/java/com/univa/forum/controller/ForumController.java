@@ -458,6 +458,7 @@ public class ForumController {
 		@RequestParam(value = "like") boolean like,
 		HttpSession session
 	) {
+		System.out.println("like?? "+like);
 		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
 		Integer recommendedCount = forumService.recommend(idx, user, like);
 		return recommendedCount.toString();
