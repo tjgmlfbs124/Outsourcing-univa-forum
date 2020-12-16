@@ -23,6 +23,9 @@ public class ForumRecommend {
 	@ManyToOne(targetEntity = ForumUser.class, fetch=FetchType.EAGER)
 	@JoinColumn(name = "user_idx")
 	private ForumUser user;
+	
+	@Column(name = "like")
+	private int like;
 
 	public int getIdx() {
 		return idx;
@@ -46,6 +49,14 @@ public class ForumRecommend {
 
 	public void setUser(ForumUser user) {
 		this.user = user;
+	}
+
+	public int getLike() {
+		return like;
+	}
+
+	public void setLike(int like) {
+		this.like = like;
 	}
 	
 	

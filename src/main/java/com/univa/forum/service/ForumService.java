@@ -138,18 +138,18 @@ public class ForumService {
 	/** 인덱스로 게시물 찾기 */
 	public ForumPost findOneForumPost(int idx) {
 		ForumPost post = forumRepository.findForumByIdx(idx).get();
-		post.setRecommendedCount(post.getForumRecommend().size());
+		post.setRecommendedCount(this.recommendedCount(post.getForumRecommend()));
 		post.setChildrenCount(this.findChildrenCount(post));
 		return post;
 	}
 	public ForumPost findOneForumPost(int idx, int userIdx) {
 		ForumPost post = forumRepository.findForumByIdx(idx).get();
 		
-		post.setRecommendedCount(post.getForumRecommend().size());
+		post.setRecommendedCount(this.recommendedCount(post.getForumRecommend()));
 		Set<ForumRecommend> recommend = post.getForumRecommend();
 		for (ForumRecommend reco : recommend ) {
-			if (reco.getUser().getIdx() == userIdx) { 
-				post.setRecommended(true);
+			if (reco.getUser().getIdx() == userIdx) {
+				if(reco.getLike() > 0) post.setRecommended(true);
 			}
 		}
 		post.setChildrenCount(this.findChildrenCount(post));
@@ -498,7 +498,7 @@ public class ForumService {
 	/** 게시글 과 자식 모두 추천수 추가 */
 	public List<ForumPost> addRecommendCount(List<ForumPost> posts) {
 		for(ForumPost post: posts) {
-			post.setRecommendedCount(post.getForumRecommend().size());
+			post.setRecommendedCount(this.recommendedCount(post.getForumRecommend()));
 			if(post.getChildren() != null) this.addRecommendCount(post.getChildren());
 		}
 		return posts;
@@ -507,11 +507,11 @@ public class ForumService {
 	/** 게시글 과 자식 모두 추천수, 내가 추천했는지 추가 */
 	public List<ForumPost> addRecommendCount(List<ForumPost> posts, int user_idx) {
 		for(ForumPost post: posts) {
-			post.setRecommendedCount(post.getForumRecommend().size());
+			post.setRecommendedCount(this.recommendedCount(post.getForumRecommend()));
 			if(user_idx > 0) {
 				for(ForumRecommend reco : post.getForumRecommend()) {
 					if(reco.getUser().getIdx() == user_idx) {
-						post.setRecommended(true);
+						if (reco.getLike() > 0) post.setRecommended(true); 
 					}
 				}
 			}
@@ -554,6 +554,40 @@ public class ForumService {
 			post = post.getHistory_parent();
 		}
 		return history;
+	}
+	
+	/** 게시글 좋아요 숫자 계산 */
+	public int recommendedCount(Set<ForumRecommend> list) {
+		int result = 0;
+		for(ForumRecommend reco : list) {
+			if(reco.getLike()>0) result++;
+		}
+		return result;
+	}
+	
+	/** 게시글 추천 */
+	public Integer recommend(int forum_idx, ForumUserDTO user, Boolean flag) {
+		ForumPost post = this.findOneForumPost(forum_idx);
+		Set<ForumRecommend> recoList = post.getForumRecommend();
+		
+		for(ForumRecommend reco: recoList) {
+			if (reco.getUser().getIdx() == user.getIdx()) {
+				if(flag) reco.setLike(1);
+				forumRepository.save(post);
+				return this.recommendedCount(post.getForumRecommend());
+			}
+		}
+		
+		ForumUser mUser = this.findUserByIdx(user.getIdx());
+		ForumRecommend reco = new ForumRecommend();
+		reco.setForum(post);
+		reco.setUser(mUser);
+		if(flag)reco.setLike(1);
+		else reco.setLike(0);
+		
+		post.addForumRecommend(reco);
+		forumRepository.save(post);
+		return this.recommendedCount(post.getForumRecommend());
 	}
 	
 	/** 파일 url 받아오기 */

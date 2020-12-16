@@ -451,6 +451,18 @@ public class ForumController {
 		return "/service/"+path;
 	}
 	
+	@PostMapping("/main/like")
+	@ResponseBody
+	public String forumLike(
+		@RequestParam(value="idx") int idx,
+		@RequestParam(value = "like") boolean like,
+		HttpSession session
+	) {
+		ForumUserDTO user = (ForumUserDTO)session.getAttribute("ForumUserSession");
+		Integer recommendedCount = forumService.recommend(idx, user, like);
+		return recommendedCount.toString();
+	}
+	
 	@PostMapping("/test/test")
 	@ResponseBody
 	public String testtest(MultipartFile file) {

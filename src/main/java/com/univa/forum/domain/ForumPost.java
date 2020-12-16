@@ -199,11 +199,19 @@ public class ForumPost {
 	}
 
 	public Set<ForumRecommend> getForumRecommend() {
+		if(forumRecommend == null) {
+			forumRecommend = new HashSet<ForumRecommend>();
+		}
 		return forumRecommend;
 	}
 
 	public void setForumRecommend(Set<ForumRecommend> forumRecommend) {
 		this.forumRecommend = forumRecommend;
+	}
+	
+	public void addForumRecommend(ForumRecommend forumRecommend) {
+		Set<ForumRecommend> recommends = getForumRecommend();
+		recommends.add(forumRecommend);
 	}
 
 	public int getRecommendedCount() {

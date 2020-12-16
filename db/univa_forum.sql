@@ -213,3 +213,13 @@ ADD (
   `file_size` int unsigned null default 0,
   `original_name` VARCHAR(255) null
 )
+
+/* 포럼 추천 여부 추가 */
+ALTER TABLE `forum_recommend`
+ADD (
+  `like` int unsigned not null default 1
+)
+
+select count(fr.forum_idx)
+from forum f, forum_recommend fr
+where f.user_idx = 4 and fr.forum_idx = f.idx and fr.like >= 1;
