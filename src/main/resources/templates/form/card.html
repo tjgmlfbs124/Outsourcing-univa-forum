@@ -66,7 +66,7 @@
                               <a th:href="'/forum/getfile?id=' + ${files.idx}" th:each="files,num : ${forum.files}" th:download="${files.name}" th:data-url="'/forum/getfile?id=' + ${files.idx}" th:data-name="${files.name}">
                                  <div class="card card-sm w-200p">
                                     <div class="card-body d-flex align-items-center" style="background:#f5f5f5;" >
-                                       <img src="/dist/img/jpgicon.png" class="d-inline-block mr-10" alt="attachicon" >
+                                       <img src="/dist/img/fileicon.png" class="d-inline-block mr-10" alt="attachicon" >
                                        <span class="d-inline-block mnw-0">
                                        <span class="d-block file-name text-truncate" th:text="${files.name}"></span>
                                        <small class="d-block file-size text-truncate"
@@ -95,10 +95,10 @@
                <div>
                   <a style="cursor:pointer;">
                     <!-- <i class="ion ion-md-heart-empty text-primary"></i> -->
-                    <i th:class="${forum.recommended} == 'true' ? 'ion ion-md-heart text-primary' : 'ion ion-md-heart-empty text-primary'"
-                        th:onclick="'onclickRecommend(this, ' + ${forum.idx} + ')'"
+                    <i th:class="${forum.recommended} == true ? 'ion ion-md-heart text-primary' : 'ion ion-md-heart-empty text-primary'"
+                        th:onclick="'onclickRecommend(this, ' + ${forum.idx} + ',' + ${session.ForumUserSession?.idx} + ')'"
                         th:data-enable="${forum.recommended}"></i>
-                    <span id="like-count" th:text="${forum.recommendedCount}"></span>
+                        <span id="like-count" th:text="${forum.recommendedCount}"></span>
                   </a>
                </div>
                <div>

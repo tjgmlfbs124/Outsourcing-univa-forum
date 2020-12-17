@@ -104,7 +104,12 @@ function allDownload(id){
   }
 }
 
-function onclickRecommend(target, id){
+function onclickRecommend(target, id, userIdx){
+  if(!userIdx){
+    alert("로그인이 필요합니다.");
+    return;
+  };
+
   var formData = new FormData();
 
   if(target.dataset.enable == "true"){
@@ -122,5 +127,5 @@ function onclickRecommend(target, id){
   postAPI("/forum/main/like",formData, function(result){
     if(result)
       $("#like-count").text(result);
-   });
+  });
 }
