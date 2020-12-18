@@ -6,14 +6,19 @@
                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
                   <div class="nicescroll-bar" tabindex="-50" style="overflow: hidden; width: auto; height: 100%; outline: none;">
                      <div>
+
+                        <!-- 게시물에 속한 과목 이름들 -->
                         <div class="email-subject-head" >
                            <h4 th:text="${forum.title}"></h4>
                            <div class="d-flex align-items-center" style="margin-bottom:0px;">
                               <span class="badge badge-secondary mr-10" th:each="subjects : ${forum.subjects}" th:text="${subjects.subject.name}"></span>
                            </div>
                         </div>
+
                         <hr class="mt-10 mb-20">
                         <div class="email-head">
+
+                           <!-- 게시자의 정보 -->
                            <div class="media">
                               <div class="media-img-wrap">
                                  <div class="avatar">
@@ -25,11 +30,12 @@
                                  <span class="text-capitalize sender-name d-inline-block" th:text="${forum.user.nickname}"></span>
                                  <span class="sender-email d-inline-block" th:text="'(' + ${forum.user.username} + ')'"></span>
                                  <span class="d-block">
-
                                    <span th:text="${forum.user.email} == null ? '이메일 미등록' : ${forum.user.email}"></span>
                                  </span>
                               </div>
                            </div>
+
+                           <!-- 게시물 옵션 -->
                            <div class="head-other-wrap">
                               <div class="d-inline-block mr-5">
                                  <span class="d-inline-block" th:text="${#temporals.format(forum.update_date, 'yyyy/MM/dd HH:mm')}"></span>
@@ -59,6 +65,7 @@
                             </a>
                           </div>
                         </div>
+                        
                         <!-- 파일정보 -->
                         <hr class="hr-light" th:if="${#lists.size(forum.files)} > 0">
                         <div class="email-attachment-wrap" th:if="${#lists.size(forum.files)} > 0">

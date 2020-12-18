@@ -16,35 +16,39 @@
                       <div class="tab-pane fade show active" role="tabpanel">
                          <div class="container"  style="max-width:1600px;">
                             <div class="hk-row">
+                              <div class="col-lg-12">
+                                <div class="profile-cover-wrap overlay-wrap">
+                                   <div class="profile-cover-img" style="background:#ccc;"></div>
+                                   <div class="bg-overlay bg-trans-dark-60"></div>
+                                   <div class="container profile-cover-content py-50" style="max-width:1600px;">
 
-                                <div class="col-lg-12">
-                                  <div class="profile-cover-wrap overlay-wrap">
-                                     <div class="profile-cover-img" style="background:#ccc;"></div>
-                                     <div class="bg-overlay bg-trans-dark-60"></div>
-                                     <div class="container profile-cover-content py-50" style="max-width:1600px;">
-                                        <div class="hk-row">
-                                           <div class="col-lg-6">
-                                              <div class="media align-items-center">
-                                                 <div class="media-img-wrap  d-flex">
-                                                    <div class="avatar">
-                                                       <img th:src="@{${forum.user.image_url} != null ? '/forum/img?id=' + ${forum.user.image_url} : '/dist/img/img-thumb.jpg'} "
-                                                             alt="user" class="avatar-img rounded-circle">
+                                      <!-- 상단 프로필 -->
+                                      <div class="hk-row">
+                                         <div class="col-lg-6">
+                                            <div class="media align-items-center">
+                                               <div class="media-img-wrap  d-flex">
+                                                  <div class="avatar">
+                                                     <img th:src="@{${forum.user.image_url} != null ? '/forum/img?id=' + ${forum.user.image_url} : '/dist/img/img-thumb.jpg'} "
+                                                           alt="user" class="avatar-img rounded-circle">
+                                                  </div>
+                                               </div>
+                                               <div class="media-body">
+                                                  <div class="text-white text-capitalize display-6 mb-5 font-weight-400">
+                                                    <span th:text="${forum.user.nickname}"></span></div>
+                                                    <div class="font-14 text-white">
+                                                      <span class="mr-5" th:if="${forum.user.email != null}" th:text="${forum.user.email}"></span>
+                                                      <span class="mr-5" th:unless="${forum.user.email != null}">이메일 미등록</span>
                                                     </div>
-                                                 </div>
-                                                 <div class="media-body">
-                                                    <div class="text-white text-capitalize display-6 mb-5 font-weight-400">
-                                                      <span th:text="${forum.user.nickname}"></span></div>
-                                                      <div class="font-14 text-white">
-                                                        <span class="mr-5" th:if="${forum.user.email != null}" th:text="${forum.user.email}"></span>
-                                                        <span class="mr-5" th:unless="${forum.user.email != null}">이메일 미등록</span>
-                                                      </div>
-                                                 </div>
-                                              </div>
-                                           </div>
-                                        </div>
-                                     </div>
-                                  </div>
+                                               </div>
+                                            </div>
+                                         </div>
+                                      </div>
+
+                                   </div>
                                 </div>
+                              </div>
+
+                                <!-- 회원정보 -->
                               <div class="col-lg-9" style="margin-top:20px;">
                                 <section class="hk-sec-wrapper">
                                     <h5 class="hk-sec-title">회원 정보</h5>
@@ -78,8 +82,12 @@
                                     </div>
                                  </section>
                               </div>
+
+                              <!-- 오른쪽 nav 바 -->
                               <div class="col-lg-3" style="margin-top:20px;">
-                                 <div class="card card-profile-feed">
+
+                                <!-- Total forums -->
+                                <div class="card card-profile-feed">
                                     <div class="card-header card-header-action">
                                        <div class="media align-items-center">
                                           <div class="media-body">
@@ -110,7 +118,8 @@
                                     </div>
                                  </div>
 
-                                 <div class="card card-profile-feed">
+                                <!-- 내 질문의 답변 -->
+                                <div class="card card-profile-feed">
                                     <div class="card-header card-header-action">
                                        <h6><span>내 질문의 답변 <span class="badge badge-soft-success ml-5" th:text="${answerCount}"></span></span></h6>
                                        <a href="#" class="font-14 ml-auto">View all</a>
@@ -134,7 +143,8 @@
                                     </ul>
                                  </div>
 
-                                 <div class="card card-profile-feed">
+                                <!-- 나의 질문 -->
+                                <div class="card card-profile-feed">
                                     <div class="card-header card-header-action">
                                        <h6><span>나의 질문<span class="badge badge-soft-success ml-5" th:text="${questionCount}"></span></span></h6>
                                        <a href="#" class="font-14 ml-auto">View all</a>
@@ -157,10 +167,8 @@
                                        </li>
                                     </ul>
                                  </div>
-
-
+                                 
                               </div>
-
                             </div>
                          </div>
                       </div>

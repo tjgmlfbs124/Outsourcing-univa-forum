@@ -34,14 +34,14 @@
                                       <div class="tab-pane fade show active" role="tabpanel">
                                          <div class="container"  style="max-width:1600px;">
                                             <div class="hk-row">
+                                              <!-- 수정하고자 하는 포럼 -->
                                                <div class="col-lg-6" >
                                                   <div class="card-columns card-column-1" style="margin-bottom:10px;">
                                                     <div th:replace="/form/card :: forum(${forum})"></div>
                                                   </div>
                                                </div>
 
-
-                                               <!-- 수정글 -->
+                                               <!-- 포럼을 수정할 폼-->
                                                <div class="col-lg-6" >
                                                   <div class="card-columns card-column-1" style="margin-bottom:10px;">
                                                       <div th:replace="/form/editcard :: forum(${forum})"></div>

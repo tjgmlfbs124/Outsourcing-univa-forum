@@ -44,12 +44,12 @@
                            <th>조회수</th>
                         </tr>
                      </thead>
+                     <!-- 검색결과 테이블  -->
                      <tbody th:each="list : ${question}">
                        <tr style="cursor:pointer;" th:id="'forum-idx-' + ${list.idx}" th:onclick="'onclickRow(\'content\', ' + ${list.idx} + ')'">
                           <td><img class="img-fluid rounded" th:src="@{/dist/img/logo1.jpg}" alt="icon"></td>
                           <td th:text="${list.user.nickname}"></td>
                           <td th:text="${#strings.abbreviate(list.title,20)}"></td>
-                          <!-- <td th:Text="${list.childCount}">13 Nov 2018</td> -->
                           <td>5</td>
                           <td th:text="${list.recommendedCount}"></td>
                           <td th:text="${list.update_date}"></td>

@@ -6,12 +6,16 @@
                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
                   <div class="nicescroll-bar" tabindex="-50" style="overflow: hidden; width: auto; height: 100%; outline: none;">
                      <div>
+
+                       <!-- 게시물에 속한 과목들 -->
                         <div class="email-subject-head" >
                            <input type="text" class="form-control" name="title" th:value="${forum.title}" style="background:#fff;">
                            <div class="d-flex align-items-center" style="margin-bottom:0px;" id="subjects-list">
                               <span class="badge badge-secondary ml-10" th:each="subjects : ${forum.subjects}" th:text="${subjects.subject.name}" th:data-id="${subjects.idx}"></span>
                            </div>
                         </div>
+
+                        <!-- 게시자의 정보 -->
                         <hr class="mt-10 mb-20">
                         <div class="email-head">
                            <div class="media">
@@ -39,6 +43,8 @@
                         <div class="email-text-wrap mt-30">
                            <textarea class="form-control" aria-label="With textarea" style="min-height:300px;" name="content" th:text="${forum.content}"></textarea>
                         </div>
+
+                        <!-- 게시물에 등록된 파일 정보들 -->
                         <hr class="hr-light">
                         <div class="email-attachment-wrap" th:if="${#lists.size(forum.files)} > 0">
                            <div class="email-attachment-block" id="'file-list-' + ${forum.idx}">
@@ -58,10 +64,14 @@
                                  </div>
                               </a>
                            </div>
+
+                           <!-- 파일 전체다운로드 -->
                            <div class="d-flex ml-auto">
                               <a th:onclick="'allDownload(' + ${forum.idx} +')'" style="cursor:pointer;"><i class="zmdi zmdi-download"></i></a>
                            </div>
                         </div>
+
+                        <!-- 파일 업로드 -->
                         <hr class="hr-light">
                           <section class="hk-sec-wrapper">
                                <div class="card-body" style="padding:0px; margin:30px 0px 10px 0px;">

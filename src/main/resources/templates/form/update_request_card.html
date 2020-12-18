@@ -6,6 +6,8 @@
                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 100%;">
                   <div class="nicescroll-bar" tabindex="-50" style="overflow: hidden; width: auto; height: 100%; outline: none;">
                      <div>
+
+                       <!-- 게시물에 속한 과목들 -->
                         <div class="email-subject-head" >
                            <h4 th:text="${list.title}"></h4>
                            <a class="text-success ml-auto" style="float:left; cursor:pointer;" th:onclick="'modifyApply(' + ${list.idx} + ')'">
@@ -13,8 +15,10 @@
                              <i class="ion ion-md-checkmark font-30" style="margin-left:20px;"></i>
                            </a>
                         </div>
+
                         <hr class="mt-10 mb-20">
                         <div class="email-head">
+                           <!-- 게시자의 정보 -->
                            <div class="media">
                               <div class="media-img-wrap">
                                  <div class="avatar">
@@ -31,12 +35,16 @@
                                  </span>
                               </div>
                            </div>
+
+                           <!-- 등록날짜 -->
                            <div class="head-other-wrap">
                               <div class="d-inline-block mr-5">
                                  <span class="d-inline-block" th:text="${#temporals.format(list.forumModify.update_date, 'yyyy/MM/dd HH:mm')}"></span>
                               </div>
                            </div>
                         </div>
+
+                        <!-- 게시물에 등록된 이미지 -->
                         <div class="email-text-wrap mt-30">
                            <p class="mb-40" th:utext="${#strings.replace(#strings.escapeXml(list.content),'&#10;','&lt;br&gt;')}"></p>
                            <div class="d-flex flex-wrap">
@@ -49,6 +57,8 @@
                              </a>
                            </div>
                         </div>
+
+                        <!-- 게시물에 등록된 파일들 -->
                         <hr class="hr-light">
                         <div class="email-attachment-wrap" th:if="${#lists.size(list.files)} > 0">
                            <div class="email-attachment-block">
