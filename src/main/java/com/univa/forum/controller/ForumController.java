@@ -147,11 +147,11 @@ public class ForumController {
 		
 		Long recommendCnt = forumService.findMyForumRecommendedCount(id);
 		model.addAttribute("recommendCount", recommendCnt);
-		model.addAttribute("questionCount", forumService.findMyForumCountSetType(id, 0));
-		model.addAttribute("answerCount", forumService.findMyForumCountSetType(id, 100));
-		List<ForumPost> questionList = forumService.findMyFormList(0, 5, id, 0);
+		model.addAttribute("questionCount", forumService.findMyForumCountSetType(post.getUser().getIdx(), 0));
+		model.addAttribute("answerCount", forumService.findMyForumCountSetType(post.getUser().getIdx(), 100));
+		List<ForumPost> questionList = forumService.findMyFormList(0, 5, post.getUser().getIdx(), 0);
 		model.addAttribute("questionList", questionList);
-		List<ForumPost> answerList = forumService.findMyFormList(0, 5, id, 100);
+		List<ForumPost> answerList = forumService.findMyFormList(0, 5, post.getUser().getIdx(), 100);
 		model.addAttribute("answerList", answerList);
 		
 		return "/main/profile";
